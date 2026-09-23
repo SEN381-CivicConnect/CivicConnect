@@ -55,3 +55,6 @@ TestResults/
 tmp/
 temp/
 scratch/
+
+# Local embedded sub-repository
+code/
