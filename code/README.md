@@ -2,7 +2,7 @@
 
 [![Module: SEN381](https://img.shields.io/badge/Module-SEN381--NQF8-blue.svg)](https://www.belgiumcampus.ac.za/)
 [![Milestone Gate](https://img.shields.io/badge/Milestone%202-Architecture%20Baseline%20Accepted-brightgreen.svg)](../docs/governance/Baseline_Sign_Off_Gate_M2.md)
-[![Governance](https://img.shields.io/badge/GitHub%20Governance-Two--Reviewer%20Enforced-orange.svg)](../docs/decisions/ADR-002_GitHub_Governance_and_Two_Reviewer_Policy.md)
+[![Governance](https://img.shields.io/badge/GitHub%20Governance-ADR--009%20Peer%20Review%20%2B%20CI-brightgreen.svg)](../docs/decisions/ADR-009_Governance_Adjustment_Two_Person_Team.md)
 [![Stack](https://img.shields.io/badge/Stack-TypeScript%20%7C%20Node.js%20%7C%20PostgreSQL%2016-blue.svg)](../docs/decisions/ADR-008_Technology_Stack_Commitment.md)
 [![Automated Tests](https://img.shields.io/badge/Tests-16%2F16%20Passing%20(Vitest)-brightgreen.svg)](#4-automated-testing--quality-verification)
 
