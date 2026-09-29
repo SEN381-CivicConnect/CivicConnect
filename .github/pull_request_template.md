@@ -28,21 +28,18 @@
 - [ ] **No Secrets:** Confirmed zero API keys, database credentials, or tokens committed.
 - [ ] **Code / Doc Standards:** Follows team conventions and avoids unnecessary complexity.
 - [ ] **Automated Tests:** Unit or integration tests added/updated where applicable.
-- [ ] **AI Usage Recorded:** If AI assistance was utilized, it has been logged in `AI_Usage_Register_v1.0.md` with human verification notes.
+- [ ] **AI Usage Recorded:** If AI assistance was utilized, it has been logged in `docs/governance/AI_Usage_Register_v2.0.md` (or `v1.0`) with human verification notes.
 
 ---
 
-## 4. Two-Reviewer Approval Verification (MANDATORY per SEN381 §9)
-*At least TWO independent team members (excluding the author) must review and approve this PR.*
+## 4. Peer Review Approval Verification (MANDATORY per SEN381 §9, ADR-002 & ADR-009)
+*In accordance with **ADR-009** (Two-Person Team Governance Charter), every PR entering `main` requires **100% independent peer review from the non-author team partner** plus passing the automated CI gate. Self-approval is strictly forbidden.*
 
-### Peer Reviewer 1
-- **Reviewer Name / ID:** ____________________
+### Independent Peer Reviewer (Non-Author Team Member)
+- **Reviewer Name / Student ID:** ____________________
 - **Date Reviewed:** ____________________
-- **Verification Summary:** <!-- e.g., Verified AC-001.1 and confirmed error handling for null payloads. -->
-- **Sign-Off:** [ ] Approved
+- **Traceability Verification:** <!-- Verified Requirement ID, Gherkin acceptance criteria AC-xxx, and ADR linkage -->
+- **Security & Quality Check:** <!-- Confirmed no committed secrets, verified test suite passes, inspected error handling -->
+- **Decision:** [ ] Approved  [ ] Changes Requested
 
-### Peer Reviewer 2
-- **Reviewer Name / ID:** ____________________
-- **Date Reviewed:** ____________________
-- **Verification Summary:** <!-- e.g., Verified security boundaries, confirmed no hardcoded credentials, tested edge cases. -->
-- **Sign-Off:** [ ] Approved
+*(Note: Supersedes original 3-person two-reviewer mandate of ADR-002 following formal institutional withdrawal of Pandora Greyling on 2026-09-29. Historical 3-member baseline recorded in ADR-002).*

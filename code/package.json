@@ -1,0 +1,39 @@
+{
+  "name": "civicconnect-backend",
+  "version": "1.0.0",
+  "description": "CivicConnect: Community Service Request Management Platform (SEN381)",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "civicconnect",
+    "sen381",
+    "clean-architecture",
+    "service-request-management"
+  ],
+  "author": "Group E (Chris Fourie, Pandora Greyling, Lisa Verson)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.30",
+    "@types/pg": "^8.11.4",
+    "@types/uuid": "^9.0.8",
+    "supertest": "^6.3.4",
+    "@types/supertest": "^6.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.4.0"
+  }
+}

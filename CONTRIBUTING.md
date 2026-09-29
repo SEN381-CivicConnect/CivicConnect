@@ -32,12 +32,11 @@ main (PROTECTED - Controlled Engineering Baseline)
 
 ## 3. Mandatory Main Branch Protection Rules
 
-In accordance with **Master Project Brief §9**:
+In accordance with **Master Project Brief §9**, **`ADR-002`**, and **`ADR-009`**:
 1. **Direct Commits Blocked:** Direct pushes to `main` are disabled via repository branch protection rules.
 2. **Pull Request Required:** Every modification entering `main` must originate from a dedicated branch and be submitted via a Pull Request.
-3. **Two-Reviewer Approval Rule:** Every PR requires formal, written approval from **minimum TWO team members** other than the PR author.
-4. **No Self-Approval:** Author self-approval is strictly forbidden and receives zero academic credit.
-5. **No Rubber-Stamping:** Approvals consisting solely of "LGTM" or empty checks without technical feedback are considered non-compliant.
+3. **Peer Review Approval Rule (ADR-009):** In accordance with ADR-009 (governing two-person team operation following Pandora Greyling's institutional withdrawal), every PR requires formal written approval from **100% of non-author team members (1 independent peer approval from the remaining partner)** plus automated CI gate passage. Author self-approval is strictly forbidden and receives zero academic credit. *(The original 3-person two-reviewer mandate is historically preserved in ADR-002).*
+4. **No Rubber-Stamping:** Approvals consisting solely of "LGTM" or empty checks without technical feedback are considered non-compliant.
 
 ---
 
@@ -47,11 +46,11 @@ Every Pull Request must follow this evidence path:
 
 ```mermaid
 flowchart LR
-    AuthorPR["Author Creates PR<br>(Fills PR Template)"] --> PeerReview["2 Independent Peer Reviews<br>(Inspect Criteria & Code/Docs)"]
+    AuthorPR["Author Creates PR<br>(Fills PR Template)"] --> PeerReview["Independent Peer Review<br>(Inspect Criteria & Code/Docs)"]
     PeerReview --> ReviewComments{"Issues / Gaps<br>Found?"}
     ReviewComments -- "Yes" --> AuthorFix["Author Implements Fixes<br>& Re-requests Review"]
     AuthorFix --> PeerReview
-    ReviewComments -- "No (Approved by 2 Peers)" --> MergeToMain["Squash & Merge to main<br>(Baseline Updated)"]
+    ReviewComments -- "No (Approved by Partner)" --> MergeToMain["Squash & Merge to main<br>(Baseline Updated)"]
 ```
 
 ### 4.1 Meaningful Review Checklist
