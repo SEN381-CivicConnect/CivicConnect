@@ -137,11 +137,19 @@ export class ServiceRequestFactoryRegistry {
   private factories: Map<string, IServiceRequestFactory> = new Map();
 
   private constructor() {
-    this.registerFactory(new FacilitiesRequestFactory());
-    this.registerFactory(new ITSupportRequestFactory());
-    this.registerFactory(new SecurityHazardRequestFactory());
-    this.registerFactory(new GeneralMaintenanceRequestFactory());
-    this.registerFactory(new LostPropertyRequestFactory());
+    const fac = new FacilitiesRequestFactory();
+    const it = new ITSupportRequestFactory();
+    const sec = new SecurityHazardRequestFactory();
+    const gm = new GeneralMaintenanceRequestFactory();
+    const lp = new LostPropertyRequestFactory();
+
+    this.registerFactory(fac);
+    this.registerFactory(it);
+    this.registerFactory(sec);
+    this.registerFactory(gm);
+    this.factories.set('GEN_MAINT', gm);
+    this.registerFactory(lp);
+    this.factories.set('LOST_PROP', lp);
   }
 
   public static getInstance(): ServiceRequestFactoryRegistry {

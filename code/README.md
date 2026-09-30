@@ -12,39 +12,39 @@ This repository contains the practical application codebase, clean-architecture 
 
 ## 1. Clean Layered Architecture Mapping
 
-In accordance with **Milestone 2 Brief §5.3, §7** and **`ADR-008`**, the application is structured with strict inward dependency inversion:
+In accordance with **Milestone 2 Brief Section 5.3, Section 7** and **`ADR-008`**, the application is structured with strict inward dependency inversion:
 
 ```
 code/
-├── database/                                  # Data tier & persistence scripts
-│   ├── migrations/                            # PostgreSQL 16 3NF DDL migration (V1__initial_schema.sql)
-│   └── seeds/                                 # Baseline taxonomy & FSM transition rules (01_baseline_seeds.sql)
-├── src/                                       # Clean Architecture Source Code
-│   ├── domain/                                # Enterprise Domain Core (Independent of frameworks)
-│   │   ├── entities/                          # ServiceRequest aggregate (enforcing FSM & OCC versioning)
-│   │   ├── enums/                             # RequestStatus, Role, PriorityLevel, SLA targets
-│   │   ├── events/                            # IDomainEvent, DomainEventDispatcher (Observer Pattern - ADR-004)
-│   │   ├── factories/                         # IServiceRequestFactory & Category Creators (Factory Method - ADR-005)
-│   │   └── repositories/                      # IServiceRequestRepository interface abstractions
-│   ├── application/                           # Application Services & Business Use Cases
-│   │   ├── dtos/                              # ServiceRequestDTOMapper (POPIA masking - NFR-005)
-│   │   ├── observers/                         # NotificationDispatchObserver, AuditLoggingObserver (ADR-004)
-│   │   └── use-cases/                         # CreateServiceRequest, AssignServiceRequest, UpdateServiceRequestStatus
-│   ├── infrastructure/                        # External adapters & persistence implementations
-│   │   ├── outbox/                            # TransactionalOutboxService (ADR-007)
-│   │   └── repositories/                      # InMemoryServiceRequestRepository, PostgresServiceRequestRepository
-│   ├── presentation/                          # HTTP controllers, Express routers, and middleware
-│   │   ├── controllers/                       # RequestController (handling OCC HTTP 409 responses)
-│   │   └── routes/                            # requestRoutes, healthRoutes (/health/live, /health/ready)
-│   ├── app.ts                                 # Express application factory & centralized error handling
-│   └── server.ts                              # Production bootstrap entry point
-├── tests/                                     # Automated Verification Suites (Vitest)
-│   ├── integration/                           # Supertest API tests (health probes, request CRUD, OCC conflict 409)
-│   └── unit/                                  # Unit tests for FSM, Factories, Observer, POPIA DTO, and OCC
-├── docker-compose.yml                         # PostgreSQL 16 Alpine container parity (DEC-005)
-├── package.json                               # Dependencies & npm scripts
-├── tsconfig.json                              # Strict TypeScript configuration
-└── .env.example                               # Environment secrets template
+|-- database/                                  # Data tier & persistence scripts
+|   |-- migrations/                            # PostgreSQL 16 3NF DDL migration (V1__initial_schema.sql)
+|   \-- seeds/                                 # Baseline taxonomy & FSM transition rules (01_baseline_seeds.sql)
+|-- src/                                       # Clean Architecture Source Code
+|   |-- domain/                                # Enterprise Domain Core (Independent of frameworks)
+|   |   |-- entities/                          # ServiceRequest aggregate (enforcing FSM & OCC versioning)
+|   |   |-- enums/                             # RequestStatus, Role, PriorityLevel, SLA targets
+|   |   |-- events/                            # IDomainEvent, DomainEventDispatcher (Observer Pattern - ADR-004)
+|   |   |-- factories/                         # IServiceRequestFactory & Category Creators (Factory Method - ADR-005)
+|   |   \-- repositories/                      # IServiceRequestRepository interface abstractions
+|   |-- application/                           # Application Services & Business Use Cases
+|   |   |-- dtos/                              # ServiceRequestDTOMapper (POPIA masking - NFR-005)
+|   |   |-- observers/                         # NotificationDispatchObserver, AuditLoggingObserver (ADR-004)
+|   |   \-- use-cases/                         # CreateServiceRequest, AssignServiceRequest, UpdateServiceRequestStatus
+|   |-- infrastructure/                        # External adapters & persistence implementations
+|   |   |-- outbox/                            # TransactionalOutboxService (ADR-007)
+|   |   \-- repositories/                      # InMemoryServiceRequestRepository, PostgresServiceRequestRepository
+|   |-- presentation/                          # HTTP controllers, Express routers, and middleware
+|   |   |-- controllers/                       # RequestController (handling OCC HTTP 409 responses)
+|   |   \-- routes/                            # requestRoutes, healthRoutes (/health/live, /health/ready)
+|   |-- app.ts                                 # Express application factory & centralized error handling
+|   \-- server.ts                              # Production bootstrap entry point
+|-- tests/                                     # Automated Verification Suites (Vitest)
+|   |-- integration/                           # Supertest API tests (health probes, request CRUD, OCC conflict 409)
+|   \-- unit/                                  # Unit tests for FSM, Factories, Observer, POPIA DTO, and OCC
+|-- docker-compose.yml                         # PostgreSQL 16 Alpine container parity (DEC-005)
+|-- package.json                               # Dependencies & npm scripts
+|-- tsconfig.json                              # Strict TypeScript configuration
+\-- .env.example                               # Environment secrets template
 ```
 
 ---
@@ -73,7 +73,7 @@ code/
    ```bash
    docker compose up -d
    ```
-   *Verify container status with `docker compose ps` — expected: `Up (healthy)`.*
+   *Verify container status with `docker compose ps` -- expected: `Up (healthy)`.*
 
 4. **Compile TypeScript Code:**
    ```bash
@@ -111,7 +111,7 @@ npm test
 ```
 
 ### Verified Test Suites (16/16 Tests Passing):
-1. **`ServiceRequestFSM.test.ts` (4 tests):** Asserts valid FSM transitions (`SUBMITTED` $\to$ `TRIAGED` $\to$ `ASSIGNED` $\to$ `IN_PROGRESS` $\to$ `RESOLVED` $\to$ `CLOSED`), verifies that invalid jumps throw `InvalidStateTransitionError`, and enforces `FR-011` resolution notes.
+1. **`ServiceRequestFSM.test.ts` (4 tests):** Asserts valid FSM transitions (`SUBMITTED` -> `TRIAGED` -> `ASSIGNED` -> `IN_PROGRESS` -> `RESOLVED` -> `CLOSED`), verifies that invalid jumps throw `InvalidStateTransitionError`, and enforces `FR-011` resolution notes.
 2. **`OptimisticConcurrency.test.ts` (2 tests):** Verifies version counter increments and asserts that updating with a stale version throws `ConcurrencyConflictError` (`ADR-006`).
 3. **`ServiceRequestFactory.test.ts` (4 tests):** Tests Factory Method pattern across `FAC_FAULT`, `IT_SUPPORT`, and `SECURITY_HAZARD`, validating category invariants and SLA defaults (`ADR-005`).
 4. **`ObserverPattern.test.ts` (1 test):** Verifies that status transitions automatically notify registered `NotificationDispatchObserver` and `AuditLoggingObserver` via `DomainEventDispatcher` (`ADR-004`).

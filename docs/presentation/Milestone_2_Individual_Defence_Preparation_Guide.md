@@ -2,8 +2,8 @@
 ## Comprehensive Examination Master Guide: 16 Indicative Defence Questions & High-Scoring Model Answers
 
 **Project:** CivicConnect (Community Service Request Management Platform)  
-**Academic Year:** 2026 | **Module:** Software Engineering 381 (SEN381) — NQF Level 8  
-**Governing Standard:** SEN381 Master Project Brief §19, §20.2 & Milestone 2 Brief §13.2, §15  
+**Academic Year:** 2026 | **Module:** Software Engineering 381 (SEN381) -- NQF Level 8  
+**Governing Standard:** SEN381 Master Project Brief Section 19, Section 20.2 & Milestone 2 Brief Section 13.2, Section 15  
 **Assessment Weight:** 15 Raw Marks (Individual Engineering Defence)  
 **Team Roster:**  
 * **Chris Fourie (602826):** Systems Architect, Persistence, Concurrency & Governance Lead (~80% Workload)  
@@ -73,7 +73,7 @@ In accordance with **Milestone 2 Brief Section 13.2**, assessors evaluate each s
 * **Model Answer:**
   > *"In `ADR-006` and our database migration `V1__initial_schema.sql`, we implemented **Optimistic Concurrency Control (OCC)** using an integer `version` column on the `service_requests` table to prevent the **Lost Update Problem**.  
   > In municipal service operations, multiple department supervisors triage open queues simultaneously, or two technicians may attempt to claim the same high-priority ticket at the same time (`FR-009`).  
-  > Instead of pessimistic row locking—which starves database connection pools and causes query deadlocks—our application executes updates using atomic version checks:
+  > Instead of pessimistic row locking -- which starves database connection pools and causes query deadlocks -- our application executes updates using atomic version checks:
   > `UPDATE service_requests SET assigned_staff_id = :staff_id, version = version + 1 WHERE request_id = :id AND version = :expected_version;`  
   > If zero rows are updated, another supervisor already modified the ticket. The transaction aborts cleanly, and our API returns an HTTP `409 Conflict` response with an explanatory message, prompting the client UI to refresh. This is verified by our automated test in `tests/unit/entities/OptimisticConcurrency.test.ts`."*
 
@@ -84,7 +84,7 @@ In accordance with **Milestone 2 Brief Section 13.2**, assessors evaluate each s
 * **Target Artefact to Open:** [`docs/decisions/ADR-008_Technology_Stack_Commitment.md`](../decisions/ADR-008_Technology_Stack_Commitment.md#4-empirical-weighted-decision-matrix)
 * **Model Answer:**
   > *"In `ADR-008`, we committed to **Node.js 20 LTS with TypeScript and Express** after evaluating it against **C# / ASP.NET Core 8 Web API** and **Python / FastAPI** using a formal Weighted Decision Matrix across 6 criteria.  
-  > The primary alternative considered was C# / ASP.NET Core 8. While .NET Core scored highest in built-in compile-time type safety and enterprise DI (9.5/10), it scored poorly on Free-Tier Memory Footprint (6.0/10). The .NET base container runtime idles at 240MB–350MB of RAM. Under concurrent requests, it risks hitting the hard 512MB RAM cap on free-tier cloud PaaS.  
+  > The primary alternative considered was C# / ASP.NET Core 8. While .NET Core scored highest in built-in compile-time type safety and enterprise DI (9.5/10), it scored poorly on Free-Tier Memory Footprint (6.0/10). The .NET base container runtime idles at 240MB - 350MB of RAM. Under concurrent requests, it risks hitting the hard 512MB RAM cap on free-tier cloud PaaS.  
   > Candidate Stack A (TypeScript / Node.js) scored **9.05 out of 10** overall. It idles at 45MB RAM, builds lightweight 110MB Alpine Docker containers, and shares DTO interfaces between frontend React and backend Express, dramatically boosting our delivery velocity."*
 
 ---
@@ -95,7 +95,7 @@ In accordance with **Milestone 2 Brief Section 13.2**, assessors evaluate each s
 * **Model Answer:**
   > *"In Assignment 2 Task 3, our research investigated external notification gateway integration (email/SMS) and identified the **Dual-Write Problem**.  
   > If a backend controller updates the database and then immediately invokes an external third-party API like SendGrid synchronously, two severe failure modes arise:
-  > 1. External network latency (often 800ms–2500ms) blocks the user's thread, violating `NFR-001` (p95 $\le 500\text{ms}$).
+  > 1. External network latency (often 800ms - 2500ms) blocks the user's thread, violating `NFR-001` (p95 <= 500ms).
   > 2. If the external API fails or the database crashes midway, the system enters an inconsistent dual-write state where an email is sent for a ticket that was never saved.  
   > This research finding directly informed **`ADR-007`**, where we adopted the **Transactional Outbox Pattern**. Outbox event records are committed inside the *same atomic ACID database transaction* as the ticket update, and a lightweight background worker dispatches them asynchronously with exponential backoff retries."*
 
@@ -130,7 +130,7 @@ In accordance with **Milestone 2 Brief Section 13.2**, assessors evaluate each s
   > *"The **Factory Method Pattern (`ADR-005`)** is implemented in `code/src/domain/factories/CategoryFactories.ts`.  
   > The abstract creator interface is `IServiceRequestFactory`, and the specialized creators are `FacilitiesRequestFactory`, `ITSupportRequestFactory`, `SecurityHazardRequestFactory`, `GeneralMaintenanceRequestFactory`, and `LostPropertyRequestFactory`.  
   > In `CreateServiceRequestUseCase.ts`, the application queries `ServiceRequestFactoryRegistry.getInstance().getFactory(dto.categoryCode)`.  
-  > **Complexity Introduced:** The pattern introduces class proliferation—instead of a single 20-line switch-statement, we have an interface, a registry, and 5 distinct factory classes.  
+  > **Complexity Introduced:** The pattern introduces class proliferation -- instead of a single 20-line switch-statement, we have an interface, a registry, and 5 distinct factory classes.  
   > **Why It Was Accepted:** It strictly enforces the **Open/Closed Principle (OCP)**. If a new municipal category (e.g., Road Hazards) is added next month, we write a single new factory class and register it. The intake pipeline and existing factories remain 100% untouched and protected from regression bugs."*
 
 ---
@@ -140,7 +140,7 @@ In accordance with **Milestone 2 Brief Section 13.2**, assessors evaluate each s
 * **Target Artefact to Open:** [`docs/decisions/ADR-008_Technology_Stack_Commitment.md`](../decisions/ADR-008_Technology_Stack_Commitment.md)
 * **Model Answer:**
   > *"If we look at **`ADR-008`** (*Technology Stack Commitment*), where we committed to TypeScript/Node.js and PostgreSQL 16:  
-  > If this decision were changed—for instance, switching to C# / ASP.NET Core 8:
+  > If this decision were changed -- for instance, switching to C# / ASP.NET Core 8:
   > 1. **PED v2.0:** Section 8 (Tech Stack Matrix) would need a change rationale; Section 13 (Deployment) would need updated base Docker images (`mcr.microsoft.com/dotnet/aspnet:8.0`); Section 15 (Risk Register) would need to increase `RSK-008` (RAM limit) from Low to High.
   > 2. **RTM v2.0:** Column 8 (*Technology Decision*) across all 24 requirements would change from TypeScript/Express to C#/ASP.NET; Column 9 (*Implementation Evidence*) would point to `.cs` files instead of `.ts`.
   > 3. **Application Codebase:** `code/package.json` and `tsconfig.json` would be replaced with a `.csproj` solution; Express route handlers would be rewritten as ASP.NET API Controllers; Vitest test suites would be rewritten in xUnit/FluentAssertions.
@@ -170,7 +170,7 @@ In accordance with **Milestone 2 Brief Section 13.2**, assessors evaluate each s
 * **Model Answer:**
   > *"In RTM v2.0, **`FR-009`** (*Technician Assignment & Queue Ownership*) is marked **In Development**.  
   > Its repository and application evidence consists of:
-  > 1. **Domain Logic:** `ServiceRequest.assignTechnician()` in `code/src/domain/entities/ServiceRequest.ts` (lines 142–165), which enforces that only tickets in `SUBMITTED` or `TRIAGED` can be assigned, increments the OCC `version` counter, and emits a `ServiceRequestAssignedEvent`.
+  > 1. **Domain Logic:** `ServiceRequest.assignTechnician()` in `code/src/domain/entities/ServiceRequest.ts` (lines 142 - 165), which enforces that only tickets in `SUBMITTED` or `TRIAGED` can be assigned, increments the OCC `version` counter, and emits a `ServiceRequestAssignedEvent`.
   > 2. **Application Use Case:** `AssignServiceRequestUseCase` in `code/src/application/use-cases/AssignServiceRequest.ts`.
   > 3. **REST Controller:** `RequestController.assign` in `code/src/presentation/controllers/RequestController.ts`, mapped to `PATCH /api/v1/requests/:id/assign`.
   > 4. **Database Migration:** Table `service_requests` in `V1__initial_schema.sql` defining `assigned_staff_id UUID REFERENCES users(user_id)`.

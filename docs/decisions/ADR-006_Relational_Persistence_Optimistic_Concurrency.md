@@ -3,7 +3,7 @@
 **Status:** ACCEPTED  
 **Date:** 2026-09-18  
 **Deciders:** Quality Engineer & Risk Manager (Pandora Greyling), Systems Architect (Chris Fourie), Lead Requirements Analyst (Lisa Verson)  
-**Governing Standard:** SEN381 Master Project Brief §3, §16, §18.1; Assignment 2 Task 2 Research; `DOC-ARCH-DATA-001`  
+**Governing Standard:** SEN381 Master Project Brief Section 3, Section 16, Section 18.1; Assignment 2 Task 2 Research; `DOC-ARCH-DATA-001`  
 **Document Reference:** `DOC-ADR-006`  
 
 ---

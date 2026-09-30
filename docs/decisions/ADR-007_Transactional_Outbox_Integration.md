@@ -3,7 +3,7 @@
 **Status:** ACCEPTED  
 **Date:** 2026-09-19  
 **Deciders:** Lead Requirements & Design Analyst (Lisa Verson), Systems Architect (Chris Fourie), Quality Engineer (Pandora Greyling)  
-**Governing Standard:** SEN381 Master Project Brief §13, §16, §18.1; Assignment 2 Task 3 Research  
+**Governing Standard:** SEN381 Master Project Brief Section 13, Section 16, Section 18.1; Assignment 2 Task 3 Research  
 **Document Reference:** `DOC-ADR-007`  
 
 ---
@@ -22,7 +22,7 @@ Integrating with third-party web services across a public network introduces the
 ## 2. Decision Drivers & Quality Attributes
 
 * **Reliability & Guaranteed Delivery (`NFR-002`, `NFR-009`):** Zero notification loss; external gateway downtime must never compromise ticket persistence.
-* **Performance & Low Latency (`NFR-001`):** Client API requests must respond within $\le 500\text{ms}$; slow external gateways must not block internal state transitions.
+* **Performance & Low Latency (`NFR-001`):** Client API requests must respond within <= 500ms; slow external gateways must not block internal state transitions.
 * **Fault Tolerance & Resilience:** Transient network glitches must be automatically retried with exponential backoff and dead-letter handling.
 * **Cost & Free-Tier Quota Protection (`NFR-010`):** Must not require dedicated commercial message brokers (e.g. AWS SQS or RabbitMQ).
 
@@ -33,7 +33,7 @@ Integrating with third-party web services across a public network introduces the
 ### Alternative 1: Synchronous HTTP Calls Inside the Request Handler
 Execute `await httpClient.post('https://api.sendgrid.com/...', payload)` directly inside the `updateStatus` controller method.
 * *Pros:* Simple procedural code; no additional database tables or background jobs.
-* *Cons:* **Rejected.** Direct violation of `NFR-001`; third-party API latency (often 800ms–2500ms) is forced onto the user; third-party rate limits or outages cause user actions to crash; tight runtime coupling to external networks.
+* *Cons:* **Rejected.** Direct violation of `NFR-001`; third-party API latency (often 800ms - 2500ms) is forced onto the user; third-party rate limits or outages cause user actions to crash; tight runtime coupling to external networks.
 
 ### Alternative 2: In-Memory Fire-and-Forget Background Task
 Dispatch notifications asynchronously using Node.js `setImmediate()`, worker threads, or unmanaged task queues.
@@ -50,7 +50,7 @@ BEGIN;
 COMMIT;
 ```
 An internal scheduled worker process polls unprocessed outbox records, dispatches them to external notification providers, handles retries with exponential backoff, and updates the status to `PROCESSED` or `DEAD_LETTER`.
-* *Pros:* Guarantees atomicity between state transitions and message emission; 100% resilient to network drops and container restarts; keeps user API responses lightning fast ($<50\text{ms}$); zero additional cloud costs.
+* *Pros:* Guarantees atomicity between state transitions and message emission; 100% resilient to network drops and container restarts; keeps user API responses lightning fast ($<50ms$); zero additional cloud costs.
 * *Cons:* Introduced complexity: requires an outbox table, background polling loop, and idempotent consumer handling.
 
 ---
@@ -74,4 +74,4 @@ An internal scheduled worker process polls unprocessed outbox records, dispatche
 * **Persistence Table:** `outbox_messages` (defined in `DOC-ARCH-DATA-001` and `V1__initial_schema.sql`).
 * **Worker Service:** `TransactionalOutboxService` running on a configurable interval (default: 5 seconds).
 * **Gateway Interfaces:** `INotificationGateway` with implementations `EmailNotificationGateway`, `SmsNotificationGateway`, and `MockNotificationGateway` (for test suites).
-* **Traced Requirements:** `FR-005` (Citizen Feedback), `NFR-001` (Latency $\le 500\text{ms}$), `NFR-002` (Availability), `NFR-009` (Fault Tolerance).
+* **Traced Requirements:** `FR-005` (Citizen Feedback), `NFR-001` (Latency <= 500ms), `NFR-002` (Availability), `NFR-009` (Fault Tolerance).

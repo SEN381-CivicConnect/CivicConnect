@@ -3,7 +3,7 @@
 **Status:** ACCEPTED  
 **Date:** 2026-09-17  
 **Deciders:** Lead Requirements & Design Analyst (Lisa Verson), Systems Architect (Chris Fourie), Quality Engineer (Pandora Greyling)  
-**Governing Standard:** SEN381 Master Project Brief §13, §18.1; Milestone 2 Brief §5.6; Assignment 2 Task 1 Research  
+**Governing Standard:** SEN381 Master Project Brief Section 13, Section 18.1; Milestone 2 Brief Section 5.6; Assignment 2 Task 1 Research  
 **Document Reference:** `DOC-ADR-005`  
 
 ---
@@ -75,5 +75,5 @@ Define an abstract creator/factory interface `ServiceRequestFactory` declaring a
 
 * **Base Interfaces:** `IServiceRequestFactory`, `ServiceRequestFactoryRegistry`
 * **Concrete Implementations:** `FacilitiesRequestFactory`, `ITSupportRequestFactory`, `SecurityHazardRequestFactory`, `GeneralMaintenanceRequestFactory`, `LostPropertyRequestFactory`
-* **Affected Layers:** `Application Services Layer` (intake coordination) $\to$ `Domain Core Layer` (entity instantiation and validation).
+* **Affected Layers:** `Application Services Layer` (intake coordination) -> `Domain Core Layer` (entity instantiation and validation).
 * **Traced Requirements:** `FR-001` (Request Submission), `FR-002` (Categorization Taxonomy), `NFR-008` (Modularity), `NFR-009` (Data Correctness).
