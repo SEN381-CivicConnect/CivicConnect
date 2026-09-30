@@ -203,18 +203,15 @@ In accordance with **Milestone 2 Brief Section 5.3**, a distributed microservice
 ### 8.1 Resolution of ADR-003
 In `ADR-003`, Group E deliberately deferred technology stack commitments to Milestone 2. In `ADR-008`, this deferment is formally resolved using a 6-factor Weighted Decision Matrix:
 
-$$\begin{array}{l|c|c|c|c}
-\textbf{Evaluation Criterion} & \textbf{Weight} & \textbf{TypeScript / Node.js} & \textbf{C\# / ASP.NET 8} & \textbf{Python / FastAPI} \\
-\hline
-\text{Free-Tier Quota \& Memory Footprint (<= 512MB)} & 20\% & 9.0\text{ (1.80)} & 6.0\text{ (1.20)} & 7.5\text{ (1.50)} \\
-\text{Architecture \& NFR Fit (Modularity, Typing)} & 25\% & 9.0\text{ (2.25)} & 9.5\text{ (2.38)} & 8.0\text{ (2.00)} \\
-\text{Team Capability \& Velocity (3 Students)} & 20\% & 9.5\text{ (1.90)} & 7.0\text{ (1.40)} & 7.5\text{ (1.50)} \\
-\text{Automated Testing Tooling Maturity} & 15\% & 9.0\text{ (1.35)} & 9.0\text{ (1.35)} & 8.5\text{ (1.28)} \\
-\text{Docker Parity \& Build Efficiency} & 10\% & 9.0\text{ (0.90)} & 7.5\text{ (0.75)} & 8.0\text{ (0.80)} \\
-\text{Ecosystem \& Security Maintenance} & 10\% & 8.5\text{ (0.85)} & 9.0\text{ (0.90)} & 8.5\text{ (0.85)} \\
-\hline
-\textbf{TOTAL WEIGHTED SCORE} & \mathbf{100\%} & \mathbf{9.05 / 10\text{ (WINNER)}} & \mathbf{7.98 / 10} & \mathbf{7.93 / 10}
-\end{array}$$
+| Evaluation Criterion | Weight | Candidate A: TypeScript / Node.js | Candidate B: C# / ASP.NET Core 8 | Candidate C: Python / FastAPI |
+| :--- | :---: | :---: | :---: | :---: |
+| Free-Tier Quota & Memory Footprint (<= 512MB RAM) | 20% | 9.0 (1.80) | 6.0 (1.20) | 7.5 (1.50) |
+| Architecture & NFR Fit (Modularity, Typing, DTOs) | 25% | 9.0 (2.25) | 9.5 (2.38) | 8.0 (2.00) |
+| Team Capability & Velocity (Student Capacity) | 20% | 9.5 (1.90) | 7.0 (1.40) | 7.5 (1.50) |
+| Automated Testing & Mocking Tooling Maturity | 15% | 9.0 (1.35) | 9.0 (1.35) | 8.5 (1.28) |
+| Docker Parity & Build Efficiency (Image Size) | 10% | 9.0 (0.90) | 7.5 (0.75) | 8.0 (0.80) |
+| Ecosystem Stability & Security Maintenance | 10% | 8.5 (0.85) | 9.0 (0.90) | 8.5 (0.85) |
+| **TOTAL WEIGHTED SCORE** | **100%** | **9.05 / 10 (SELECTED)** | **7.98 / 10** | **7.93 / 10** |
 
 ### 8.2 Final Technology Baseline
 * **Language & Runtime:** TypeScript v5.3+ on Node.js v20 LTS.
