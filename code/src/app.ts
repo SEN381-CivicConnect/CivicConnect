@@ -1,4 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
+import path from 'path';
 import healthRoutes from './presentation/routes/healthRoutes.js';
 import { createRequestRouter } from './presentation/routes/requestRoutes.js';
 import { IServiceRequestRepository } from './domain/repositories/IServiceRequestRepository.js';
@@ -8,6 +9,10 @@ export function createApp(repository: IServiceRequestRepository = new InMemorySe
   const app = express();
 
   app.use(express.json());
+
+  // Serve static UI dashboard assets (public portal)
+  const publicDir = path.resolve(process.cwd(), 'public');
+  app.use(express.static(publicDir));
 
   // Health probes (NFR-002)
   app.use('/health', healthRoutes);

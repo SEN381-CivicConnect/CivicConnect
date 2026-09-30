@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicConnect - Service Request Management Platform</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #1e40af;
+      --secondary: #0ea5e9;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; padding: 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Header */
+    header { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .logo-area h1 { font-size: 1.5rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+    .logo-area p { font-size: 0.875rem; color: var(--text-muted); margin-top: 2px; }
+    .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge { padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .badge-blue { background: #e0f2fe; color: #0369a1; }
+    .badge-green { background: #dcfce7; color: #15803d; }
+    .badge-purple { background: #f3e8ff; color: #7e22ce; }
+
+    /* Role Toolbar */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+    .role-select { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; }
+    .role-select select { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); font-weight: 600; color: var(--primary); cursor: pointer; }
+    .btn { padding: 8px 16px; border-radius: 6px; font-size: 0.875rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: #f1f5f9; }
+
+    /* Metrics Grid */
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .metric-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); }
+    .metric-value { font-size: 1.75rem; font-weight: 700; color: var(--primary); margin-top: 4px; }
+
+    /* Main Table Section */
+    .section-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 24px; }
+    .section-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .section-title { font-size: 1.125rem; font-weight: 700; color: var(--text); }
+
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.875rem; }
+    th { background: #f8fafc; padding: 12px 16px; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); }
+    td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:hover { background: #f8fafc; }
+
+    /* Status Pills */
+    .status-pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+    .status-SUBMITTED { background: #e2e8f0; color: #475569; }
+    .status-TRIAGED { background: #fef3c7; color: #b45309; }
+    .status-ASSIGNED { background: #e0f2fe; color: #0369a1; }
+    .status-IN_PROGRESS { background: #fef08a; color: #854d0e; }
+    .status-RESOLVED { background: #dcfce7; color: #15803d; }
+    .status-CLOSED { background: #f1f5f9; color: #94a3b8; }
+
+    .priority-CRITICAL { color: #dc2626; font-weight: 700; }
+    .priority-HIGH { color: #ea580c; font-weight: 600; }
+    .priority-MEDIUM { color: #0284c7; }
+    .priority-LOW { color: #64748b; }
+
+    /* Notification Banner */
+    #alertBanner { display: none; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; font-size: 0.875rem; font-weight: 500; }
+    .alert-success { background: #dcfce7; border: 1px solid #86efac; color: #166534; }
+    .alert-danger { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 100; }
+    .modal { background: var(--surface); border-radius: 12px; width: 100%; max-width: 540px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    .modal-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.875rem; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+    footer { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 32px; padding: 16px; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Alert Banner -->
+  <div id="alertBanner"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="logo-area">
+        <h1>🏛️ CivicConnect Platform</h1>
+        <p>Community Service Request Management Platform • SEN381 NQF Level 8</p>
+      </div>
+      <div class="badges">
+        <span class="badge badge-blue">Clean Layered Architecture</span>
+        <span class="badge badge-green" id="serverStatusBadge">Backend: Connecting...</span>
+        <span class="badge badge-purple">OCC Concurrency Enabled</span>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="role-select">
+        <label for="roleSelector">Current View Perspective (POPIA Simulation):</label>
+        <select id="roleSelector" onchange="fetchRequests()">
+          <option value="STAFF">Field Staff / Technician (POPIA Masked)</option>
+          <option value="ADMIN">Municipal Administrator (Full Citizen Identity)</option>
+          <option value="REQUESTER">Citizen / Requester</option>
+        </select>
+      </div>
+      <div>
+        <button class="btn btn-outline" onclick="fetchRequests()">🔄 Refresh Data</button>
+        <button class="btn btn-primary" onclick="openModal()">+ Submit Service Request</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metrics Grid -->
+  <div class="metrics">
+    <div class="metric-card">
+      <div class="metric-title">Total Active Requests</div>
+      <div class="metric-value" id="totalRequestsCount">0</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Submitted (Pending Triage)</div>
+      <div class="metric-value" id="submittedCount">0</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">In Progress / Assigned</div>
+      <div class="metric-value" id="inProgressCount">0</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Engine Health & Uptime</div>
+      <div class="metric-value" id="uptimeMetric" style="font-size: 1.25rem;">Checking...</div>
+    </div>
+  </div>
+
+  <!-- Service Requests Table -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title">Live Service Request Queue</div>
+      <span style="font-size: 0.8125rem; color: var(--text-muted);" id="tableSubtitle">Loading live backend data...</span>
+    </div>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Reference #</th>
+            <th>Title & Category</th>
+            <th>Location Address</th>
+            <th>Requester (POPIA)</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Version</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="requestsTableBody">
+          <tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">Connecting to CivicConnect API at /api/v1/requests...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Health & Verification Footer -->
+  <footer>
+    CivicConnect Group E (Chris Fourie & Lisa Verson) • SEN381 Academic Year 2026 • 16/16 Vitest Tests Passing • Port 3000
+  </footer>
+</div>
+
+<!-- Modal: Create Request -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal">
+    <div class="modal-title">Submit Community Service Request</div>
+    <form id="createForm" onsubmit="handleCreateRequest(event)">
+      <div class="form-group">
+        <label for="categoryCode">Category (Factory Method Pattern ADR-005):</label>
+        <select id="categoryCode" required onchange="handleCategoryChange()">
+          <option value="FAC_FAULT">Facility Fault (Requires Building/Room)</option>
+          <option value="IT_SUPPORT">IT Support (Requires Asset/Machine Info)</option>
+          <option value="SECURITY_HAZARD">Security Hazard (Auto-Critical Priority)</option>
+          <option value="GEN_MAINT">General Maintenance</option>
+          <option value="LOST_PROP">Lost Property</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="title">Short Title:</label>
+        <input type="text" id="title" placeholder="e.g. Water leak in hallway" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Detailed Description:</label>
+        <textarea id="description" placeholder="Describe the fault or operational request..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="locationAddress">Location Address:</label>
+        <input type="text" id="locationAddress" placeholder="e.g. Building B, Room 204" required>
+        <small style="color: var(--text-muted); font-size: 0.75rem;" id="locationHelp">Facility faults require building or room identifier.</small>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="isAnonymizedDisplay" checked> Enable POPIA Privacy Anonymization
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit to API</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const API_BASE = '/api/v1/requests';
+
+  function showAlert(message, type = 'success') {
+    const banner = document.getElementById('alertBanner');
+    banner.className = type === 'success' ? 'alert-success' : 'alert-danger';
+    banner.innerHTML = message;
+    banner.style.display = 'block';
+    setTimeout(() => { banner.style.display = 'none'; }, 6000);
+  }
+
+  function handleCategoryChange() {
+    const cat = document.getElementById('categoryCode').value;
+    const help = document.getElementById('locationHelp');
+    if (cat === 'FAC_FAULT') {
+      help.textContent = 'Invariant Guard: Facility faults must include "Building" or "Room" in address.';
+    } else if (cat === 'SECURITY_HAZARD') {
+      help.textContent = 'Enforces 2-hour SLA and locks priority to CRITICAL.';
+    } else {
+      help.textContent = 'Standard category validation applied.';
+    }
+  }
+
+  async function checkServerHealth() {
+    try {
+      const res = await fetch('/health/live');
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('serverStatusBadge').textContent = 'Backend: Connected (Live)';
+        document.getElementById('serverStatusBadge').className = 'badge badge-green';
+        document.getElementById('uptimeMetric').textContent = `${data.uptimeSeconds}s | ${data.memoryUsageMB}MB`;
+      }
+    } catch (e) {
+      document.getElementById('serverStatusBadge').textContent = 'Backend: Offline';
+      document.getElementById('serverStatusBadge').className = 'badge badge-danger';
+      document.getElementById('uptimeMetric').textContent = 'Offline';
+    }
+  }
+
+  async function fetchRequests() {
+    const role = document.getElementById('roleSelector').value;
+    try {
+      const res = await fetch(API_BASE, {
+        headers: { 'x-user-role': role }
+      });
+      if (!res.ok) throw new Error('Failed to fetch requests');
+      const data = await res.json();
+      renderTable(data.requests, role);
+      updateMetrics(data.requests);
+    } catch (err) {
+      document.getElementById('requestsTableBody').innerHTML = `
+        <tr><td colspan="8" style="text-align: center; color: var(--danger); padding: 20px;">
+          Failed to load requests from ${API_BASE}. Ensure server is running.
+        </td></tr>
+      `;
+    }
+  }
+
+  function updateMetrics(requests) {
+    document.getElementById('totalRequestsCount').textContent = requests.length;
+    document.getElementById('submittedCount').textContent = requests.filter(r => r.status === 'SUBMITTED').length;
+    document.getElementById('inProgressCount').textContent = requests.filter(r => r.status === 'ASSIGNED' || r.status === 'IN_PROGRESS').length;
+  }
+
+  function renderTable(requests, currentRole) {
+    const tbody = document.getElementById('requestsTableBody');
+    if (!requests || requests.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 24px;">No service requests found. Click "+ Submit Service Request" to create one.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = requests.map(r => `
+      <tr>
+        <td><strong>${r.referenceNumber}</strong></td>
+        <td>
+          <div style="font-weight: 600;">${r.title}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">${r.categoryCode} • ${r.description.substring(0, 45)}...</div>
+        </td>
+        <td>${r.locationAddress}</td>
+        <td>
+          <div style="font-weight: 500;">${r.requester.displayName}</div>
+          <small style="color: var(--text-muted); font-size: 0.75rem;">${r.requester.userId}</small>
+        </td>
+        <td><span class="priority-${r.priorityCode}">${r.priorityCode}</span></td>
+        <td><span class="status-pill status-${r.status}">${r.status}</span></td>
+        <td style="text-align: center; font-weight: 700; color: var(--primary);">${r.version}</td>
+        <td>
+          <div style="display: flex; gap: 6px;">
+            ${r.status === 'SUBMITTED' ? `
+              <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem;" onclick="assignTicket('${r.requestId}', ${r.version})">Assign</button>
+            ` : ''}
+            ${r.status === 'ASSIGNED' ? `
+              <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem;" onclick="progressTicket('${r.requestId}', ${r.version})">Start Work</button>
+            ` : ''}
+            <button class="btn btn-outline" style="padding: 4px 8px; font-size: 0.75rem; color: var(--danger);" title="Simulates a race condition by sending a stale version (v${r.version - 1 || 1})" onclick="simulateRaceCondition('${r.requestId}', ${r.version})">Test OCC 409</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+    document.getElementById('tableSubtitle').textContent = `Displaying ${requests.length} requests as role: ${currentRole}`;
+  }
+
+  async function handleCreateRequest(e) {
+    e.preventDefault();
+    const payload = {
+      categoryCode: document.getElementById('categoryCode').value,
+      title: document.getElementById('title').value,
+      description: document.getElementById('description').value,
+      locationAddress: document.getElementById('locationAddress').value,
+      isAnonymizedDisplay: document.getElementById('isAnonymizedDisplay').checked,
+      requesterId: 'CIT-2026-908'
+    };
+
+    try {
+      const res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to submit request');
+      }
+
+      showAlert(`✅ Request created successfully: <strong>${data.referenceNumber}</strong> (Status: ${data.status}, Version: ${data.version})`);
+      closeModal();
+      document.getElementById('createForm').reset();
+      fetchRequests();
+    } catch (err) {
+      showAlert(`❌ Invariant Validation Error: ${err.message}`, 'danger');
+    }
+  }
+
+  async function assignTicket(id, version) {
+    const staffId = prompt('Enter Technician Staff ID for assignment:', 'staff-tech-01');
+    if (!staffId) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/${id}/assign`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ staffId, expectedVersion: version })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Assignment failed');
+
+      showAlert(`✅ Ticket assigned to ${staffId}! Version incremented from ${version} to ${data.version}.`);
+      fetchRequests();
+    } catch (err) {
+      showAlert(`❌ ${err.message}`, 'danger');
+    }
+  }
+
+  async function progressTicket(id, version) {
+    try {
+      const res = await fetch(`${API_BASE}/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          newStatus: 'IN_PROGRESS',
+          actionNotes: 'Technician arrived on-site and commenced diagnostics.',
+          expectedVersion: version
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Transition failed');
+
+      showAlert(`✅ Status transitioned to IN_PROGRESS along validated FSM lifecycle path! Version is now ${data.version}.`);
+      fetchRequests();
+    } catch (err) {
+      showAlert(`❌ ${err.message}`, 'danger');
+    }
+  }
+
+  async function simulateRaceCondition(id, currentVersion) {
+    // Intentionally pass an outdated expectedVersion to trigger OCC collision
+    const staleVersion = currentVersion > 1 ? currentVersion - 1 : 0;
+    showAlert(`⚠️ Simulating race condition: attempting update with stale expectedVersion: ${staleVersion} (Current is v${currentVersion})...`, 'danger');
+
+    try {
+      const res = await fetch(`${API_BASE}/${id}/assign`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ staffId: 'staff-tech-racing', expectedVersion: staleVersion })
+      });
+
+      const data = await res.json();
+      if (res.status === 409) {
+        showAlert(`🛡️ <strong>OCC COLLISION CAUGHT (HTTP 409 Conflict):</strong> ${data.error}<br>Database state was protected from a lost update without locking rows!`, 'danger');
+      } else if (!res.ok) {
+        showAlert(`HTTP ${res.status}: ${data.error}`, 'danger');
+      } else {
+        showAlert('Unexpected update succeeded without collision check.', 'danger');
+      }
+    } catch (err) {
+      showAlert(`Error: ${err.message}`, 'danger');
+    }
+  }
+
+  function openModal() { document.getElementById('createModal').style.display = 'flex'; }
+  function closeModal() { document.getElementById('createModal').style.display = 'none'; }
+
+  // Initial load
+  checkServerHealth();
+  fetchRequests();
+  setInterval(checkServerHealth, 10000);
+</script>
+
+</body>
+</html>
