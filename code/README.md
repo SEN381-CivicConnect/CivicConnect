@@ -16,35 +16,35 @@ In accordance with **Milestone 2 Brief Section 5.3, Section 7** and **`ADR-008`*
 
 ```
 code/
-├── database/                                  # Data tier & persistence scripts
-│   ├── migrations/                            # PostgreSQL 16 3NF DDL migration (V1__initial_schema.sql)
-│   └── seeds/                                 # Baseline taxonomy & FSM transition rules (01_baseline_seeds.sql)
-├── src/                                       # Clean Architecture Source Code
-│   ├── domain/                                # Enterprise Domain Core (Independent of frameworks)
-│   │   ├── entities/                          # ServiceRequest aggregate (enforcing FSM & OCC versioning)
-│   │   ├── enums/                             # RequestStatus, Role, PriorityLevel, SLA targets
-│   │   ├── events/                            # IDomainEvent, DomainEventDispatcher (Observer Pattern - ADR-004)
-│   │   ├── factories/                         # IServiceRequestFactory & Category Creators (Factory Method - ADR-005)
-│   │   └── repositories/                      # IServiceRequestRepository interface abstractions
-│   ├── application/                           # Application Services & Business Use Cases
-│   │   ├── dtos/                              # ServiceRequestDTOMapper (POPIA masking - NFR-005)
-│   │   ├── observers/                         # NotificationDispatchObserver, AuditLoggingObserver (ADR-004)
-│   │   └── use-cases/                         # CreateServiceRequest, AssignServiceRequest, UpdateServiceRequestStatus
-│   ├── infrastructure/                        # External adapters & persistence implementations
-│   │   ├── outbox/                            # TransactionalOutboxService (ADR-007)
-│   │   └── repositories/                      # InMemoryServiceRequestRepository, PostgresServiceRequestRepository
-│   ├── presentation/                          # HTTP controllers, Express routers, and middleware
-│   │   ├── controllers/                       # RequestController (handling OCC HTTP 409 responses)
-│   │   └── routes/                            # requestRoutes, healthRoutes (/health/live, /health/ready)
-│   ├── app.ts                                 # Express application factory & centralized error handling
-│   └── server.ts                              # Production bootstrap entry point
-├── tests/                                     # Automated Verification Suites (Vitest)
-│   ├── integration/                           # Supertest API tests (health probes, request CRUD, OCC conflict 409)
-│   └── unit/                                  # Unit tests for FSM, Factories, Observer, POPIA DTO, and OCC
-├── docker-compose.yml                         # PostgreSQL 16 Alpine container parity (DEC-005)
-├── package.json                               # Dependencies & npm scripts
-├── tsconfig.json                              # Strict TypeScript configuration
-└── .env.example                               # Environment secrets template
+|-- database/                                  # Data tier & persistence scripts
+|   |-- migrations/                            # PostgreSQL 16 3NF DDL migration (V1__initial_schema.sql)
+|   \-- seeds/                                 # Baseline taxonomy & FSM transition rules (01_baseline_seeds.sql)
+|-- src/                                       # Clean Architecture Source Code
+|   |-- domain/                                # Enterprise Domain Core (Independent of frameworks)
+|   |   |-- entities/                          # ServiceRequest aggregate (enforcing FSM & OCC versioning)
+|   |   |-- enums/                             # RequestStatus, Role, PriorityLevel, SLA targets
+|   |   |-- events/                            # IDomainEvent, DomainEventDispatcher (Observer Pattern - ADR-004)
+|   |   |-- factories/                         # IServiceRequestFactory & Category Creators (Factory Method - ADR-005)
+|   |   \-- repositories/                      # IServiceRequestRepository interface abstractions
+|   |-- application/                           # Application Services & Business Use Cases
+|   |   |-- dtos/                              # ServiceRequestDTOMapper (POPIA masking - NFR-005)
+|   |   |-- observers/                         # NotificationDispatchObserver, AuditLoggingObserver (ADR-004)
+|   |   \-- use-cases/                         # CreateServiceRequest, AssignServiceRequest, UpdateServiceRequestStatus
+|   |-- infrastructure/                        # External adapters & persistence implementations
+|   |   |-- outbox/                            # TransactionalOutboxService (ADR-007)
+|   |   \-- repositories/                      # InMemoryServiceRequestRepository, PostgresServiceRequestRepository
+|   |-- presentation/                          # HTTP controllers, Express routers, and middleware
+|   |   |-- controllers/                       # RequestController (handling OCC HTTP 409 responses)
+|   |   \-- routes/                            # requestRoutes, healthRoutes (/health/live, /health/ready)
+|   |-- app.ts                                 # Express application factory & centralized error handling
+|   \-- server.ts                              # Production bootstrap entry point
+|-- tests/                                     # Automated Verification Suites (Vitest)
+|   |-- integration/                           # Supertest API tests (health probes, request CRUD, OCC conflict 409)
+|   \-- unit/                                  # Unit tests for FSM, Factories, Observer, POPIA DTO, and OCC
+|-- docker-compose.yml                         # PostgreSQL 16 Alpine container parity (DEC-005)
+|-- package.json                               # Dependencies & npm scripts
+|-- tsconfig.json                              # Strict TypeScript configuration
+\-- .env.example                               # Environment secrets template
 ```
 
 ---

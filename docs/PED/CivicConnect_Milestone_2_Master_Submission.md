@@ -19,23 +19,23 @@
 * **Registered Engineering Team (Group E):**
   * **Chris Fourie (Student ID: 602826)** -- Systems Architect, Persistence & Governance Lead (~80% Workload Allocation)
   * **Lisa Verson (Student ID: 602006)** -- Lead Requirements, UI/UX & Design Analyst (~20% Workload Allocation)
-  * *(Former Member Note: Pandora Greyling [Student ID: 602369] formally withdrew from campus on 2026-09-29. All responsibilities, risks, and defence topics were formally absorbed and reallocated under ADR-009 and RSK-011).*
+  * *(Former Member Note: Pandora Greyling [Student ID: 602369] formally withdrew from campus on 2026-09-29 following 0% contribution in Assignment 3. All responsibilities, risks, and defence topics were formally absorbed and reallocated under ADR-009 and RSK-011).*
 
 ---
 
 ## EXECUTIVE SUMMARY & RUBRIC EVALUATION CROSS-REFERENCE
 
-Milestone 2 transitions CivicConnect from the initial requirements baseline established in Milestone 1 into a controlled, defensible, and verified architectural foundation. In strict compliance with the **SEN381 Master Project Brief (Sections 18, 20.2)** and the **Milestone 2 Brief (Sections 4 to 15)**, this document does not present a disconnected "report" or speculative code scaffolding. Instead, it evolves the single Project Engineering Document into **PED v2.0**, combining empirical research evidence from Assignment 2 with practical, test-verified software construction.
+Milestone 2 transitions CivicConnect from the initial requirements baseline established in Milestone 1 into a controlled, defensible, and verified architectural foundation. In strict compliance with the **SEN381 Master Project Brief (Sections 18, 20.2)** and the **Milestone 2 Brief (Sections 4 to 15)**, this document does not present a disconnected "report" or speculative code scaffolding. Instead, it evolves the single Project Engineering Document into **PED v2.0**, combining empirical research evidence from Assignment 1, Assignment 2, and Assignment 3 with practical, test-verified software construction.
 
 ### Assessor Marking Guide & Rubric Evidence Index
 
 | Assessment Criterion | Raw Marks | Evidence Focus & Primary Document Sections | Controlled Verification in Repository |
 | :--- | :---: | :--- | :--- |
-| **Criterion A: PED v2.0 continuity, RTM evolution & controlled M1 changes** | **5 Marks** | Document Control Record; Section 1 ("Apply, Do Not Repeat"); Sections 2-5 (Preserved M1 Baseline); Section 14 (RTM v2.0 Progression); Section 15 (Risk Register v2.0); Section 18 (Appendix D Gate Sign-Off). | Clean single-monorepo history; no disconnected M2 report; unbroken M1 preservation. |
-| **Criterion B: ASRs, architecture & Architecture/Technology baseline reasoning** | **5 Marks** | Section 6 (7 Quantified Architecturally Significant Requirements); Section 7 (Clean Layered Modular Architecture, Inward Dependency Inversion, Explicit Evidence-Based Rejection of Distributed Microservices). | Logical architectural layers cleanly separated in `code/src/domain`, `application`, `infrastructure`, and `presentation`. |
-| **Criterion C: Data/persistence engineering** | **4 Marks** | Section 9 (Strict 3NF Relational Model, 8 Normalized Tables, Entity-Relationship Diagram, Declarative Foreign Keys, Append-Only Audit Logging, ACID Boundaries, Optimistic Concurrency Control integer versioning). | `code/database/migrations/V1__initial_schema.sql`, `code/database/seeds/01_baseline_seeds.sql`, and `OptimisticConcurrency.test.ts`. |
-| **Criterion D: Technology selection & deployment compatibility** | **4 Marks** | Section 8 (Empirical 6-Factor Weighted Decision Matrix in ADR-008 resolving ADR-003: Node.js 20 LTS, TypeScript 5.3, Express, PostgreSQL 16, React 18); Section 13 (4-Tier Environment Parity, Zero-Cost Cloud Free-Tier <= 512MB RAM Cap). | Containerized local parity verified in `code/docker-compose.yml`; process memory verified <180MB RAM under test load. |
-| **Criterion E: Research-informed initial design & integration decisions** | **5 Marks** | Section 10 (Observer Pattern in ADR-004 for Multi-Channel Notifications; Factory Method Pattern in ADR-005 for Polymorphic Category Intake); Section 11 (WCAG 2.1 AA Accessible UI); Section 12 (Transactional Outbox Pattern in ADR-007). | Working implementations in `src/domain/factories/CategoryFactories.ts`, `src/domain/events/DomainEventDispatcher.ts`, and test suites. |
+| **Criterion A: PED v2.0 continuity, RTM evolution & controlled M1 changes** | **5 Marks** | Document Control Record; Section 1.1 (A1/A2/A3 Research Continuity); Section 2 ("Apply, Do Not Repeat"); Sections 3-5 (Preserved M1 Baseline); Section 14 (RTM v2.0 Progression); Section 15 (Risk Register v2.0); Section 18 (Appendix D Gate Sign-Off). | Clean single-monorepo history; no disconnected M2 report; unbroken M1 preservation. |
+| **Criterion B: ASRs, architecture & Architecture/Technology baseline reasoning** | **5 Marks** | Section 6 (7 Quantified Architecturally Significant Requirements); Section 7 (Clean Layered Modular Architecture, Inward Dependency Inversion, Explicit Evidence-Based Rejection of Distributed Microservices citing Deutsch's Fallacies). | Logical architectural layers cleanly separated in `code/src/domain`, `application`, `infrastructure`, and `presentation`. |
+| **Criterion C: Data/persistence engineering** | **4 Marks** | Section 9 (Strict 3NF Relational Model, 8 Normalized Tables, Entity-Relationship Diagram, Declarative Foreign Keys, Append-Only Audit Logging, ACID Boundaries resolving A2 Failure Modes, Optimistic Concurrency Control integer versioning). | `code/database/migrations/V1__initial_schema.sql`, `code/database/seeds/01_baseline_seeds.sql`, and `OptimisticConcurrency.test.ts`. |
+| **Criterion D: Technology selection & deployment compatibility** | **4 Marks** | Section 8 (Empirical 6-Factor Weighted Decision Matrix in ADR-008 resolving ADR-003 and evolving A1 Stack A [.NET 8 / SQL Server] to TypeScript 5.3 + PostgreSQL 16); Section 13 (4-Tier Environment Parity, Zero-Cost Cloud Free-Tier <= 512MB RAM Cap, overcoming Developer Machine Fallacy). | Containerized local parity verified in `code/docker-compose.yml`; process memory verified <180MB RAM under test load. |
+| **Criterion E: Research-informed initial design & integration decisions** | **5 Marks** | Section 10 (Observer Pattern in ADR-004 resolving A2 Problem 1; Factory Method Pattern in ADR-005 resolving A2 Problem 2); Section 11 (WCAG 2.1 AA Accessible UI); Section 12 (Transactional Outbox Pattern in ADR-007 resolving Dual-Write Hazard). | Working implementations in `src/domain/factories/CategoryFactories.ts`, `src/domain/events/DomainEventDispatcher.ts`, and test suites. |
 | **Criterion F: Meaningful development, application documentation & GitHub evidence** | **7 Marks** | Section 14.2 (End-to-End Deep Traces for FR-001 and FR-010); Section 19 (Codebase Architecture, Docker Onboarding, 16/16 Vitest Tests Passing in 1.01s, 0 Compiler Errors, GitHub Branch & PR History under ADR-009). | `code/README.md`, `code/src/`, `code/tests/`, and GitHub branch `feat/m2-architecture-and-codebase`. |
 | **Individual Examination: Presentation (5) & Oral Defence (15)** | **20 Marks** | Appendix 1 (11-Slide Presentation Deck & Script timed at 13:45); Appendix 2 (Model Answers for all 16 Indicative Defence Questions with exact code and line citations). | Chris Fourie (Slides 1, 3-6, 10, 11) & Lisa Verson (Slides 2, 7-9). |
 | **TOTAL RAW SCORE** | **50 Marks** | **Converted to 25 Project Marks (50% of Practical Component)** | **100% Fully Addressed & Verified** |
@@ -50,6 +50,12 @@ Milestone 2 transitions CivicConnect from the initial requirements baseline esta
 | **1.5** | 2026-09-18 | Lisa Verson, Pandora Greyling | Chris Fourie | Architecture Draft | Integrated empirical research findings from Assignment 2 (Tasks 1 to 5): Observer pattern, Factory Method pattern, relational 3NF draft, and optimistic concurrency comparison. |
 | **2.0** | 2026-09-30 | Chris Fourie, Lisa Verson *(with early M2 inputs from P. Greyling)* | Chris Fourie & Lisa Verson (`ADR-009` Ratified) | **CONTROLLED M2 BASELINE** | Formal M2 Baseline: 7 ASRs, Clean Layered Macro-Architecture, Weighted Tech Stack Matrix (`ADR-008`), Strict 3NF Relational Model (`ADR-006`), Design Patterns (`ADR-004`, `ADR-005`), Transactional Outbox (`ADR-007`), OpenAPI 3.0 specs, WCAG 2.1 AA UI specs, RTM v2.0, Risk Register v2.0, 2-Person Emergency Governance Restructuring (`ADR-009`), Working Codebase (16 passing tests), and Appendix D Sign-Off (**ACCEPTED**). |
 
+### 1.1 Provenance and Research Continuity Across A1, A2, and A3
+CivicConnect represents an unbroken chain of evidence-based engineering progression across three formal research deliverables:
+1. **Assignment 1 (Research Foundations):** Group E established the foundational principles of software engineering beyond programming, analyzing the six core engineering concerns (Stakeholder needs, Scope, Schedule, Cost/resources, Quality, Risk) and examining the Boeing 737 MAX MCAS failure (Johnston & Harris, 2019; Leveson, 2020) as an empirical warning against schedule-driven cutting of safety and documentation. A1 established Boehm's Cost of Change curve (Boehm, 1981) and evaluated initial candidate technology stacks (Stack A: .NET 8 / C# vs Stack B: MERN).
+2. **Assignment 2 (Research to Engineering Decisions):** Group E investigated concrete design patterns, persistence correctness, API integration, and collaborative CI controls. A2 evaluated the Observer pattern for status notifications (resolving Design Problem 1), the Factory Method pattern for polymorphic request intake (resolving Design Problem 2), Optimistic Concurrency Control (OCC) for multi-user ticket assignment, and the Transactional Outbox pattern for external citizen messaging.
+3. **Assignment 3 (Research for Quality, Security & Production Readiness Decisions):** Group E formulated the formal quality strategy (QA vs QC vs V&V under IEEE SWEBOK v3.0 and ISO/IEC 29119), threat modeling under STRIDE (Shostack, 2014), defense-in-depth security controls (defeating BOLA/IDOR and SQL injection), production environment parity (12-Factor App Factor X), and the Expand-Contract database migration pattern. A3 also formally registered the non-participation of Pandora Greyling (602369, 0%), establishing the empirical basis for our Milestone 2 emergency governance restructuring under `ADR-009`.
+
 ---
 
 ## 2. GOVERNING PRINCIPLES & RELATIONSHIP TO MASTER BRIEF
@@ -57,8 +63,12 @@ Milestone 2 transitions CivicConnect from the initial requirements baseline esta
 ### 2.1 Compliance with "Apply, Do Not Repeat" (Master Project Brief Section 1)
 In strict accordance with **SEN381 Master Project Brief Section 1**, this document deliberately refrains from reciting textbook definitions of design patterns, normal forms, or architectural styles. Instead, every section applies engineering standards (ISO/IEC/IEEE 29148 for requirements, ISO/IEC 25010 for software quality, IEEE 1016 for design descriptions) directly to CivicConnect's operational constraints, demonstrating *why* decisions were made, *what* trade-offs were accepted, and *how* verified code translates those decisions into practice.
 
-### 2.2 Compliance with "A2 Researches -- M2 Commits" (M2 Brief Section 2)
-Assignment 2 explored problem spaces, compared theoretical alternatives, and formulated recommendations. Milestone 2 evaluates those recommendations against CivicConnect's real-world constraints (e.g., zero cloud budget, 512MB RAM cap, 2-person team capacity). Where our final engineering decision diverged from early research drafts (such as rejecting Apache Kafka and pessimistic locking), the project-specific technical justification is formally defended in dedicated Architecture Decision Records (`ADR-004`, `ADR-006`).
+### 2.2 The Four Structural Failure Mechanisms of Deferring Decisions (A1 Synthesis)
+In software engineering economics (Boehm, 1981; Bass, Clements and Kazman, 2021), postponing foundational decisions until construction sprint coding triggers four catastrophic failure mechanisms:
+1. **Pre-Existing Architectural Lock-in and Structural Inertia:** Developers write code based on unexamined assumptions (e.g., embedding raw SQL queries directly in UI controllers). Dismantling this code late in the lifecycle creates immense friction, fatigue, and regression debt.
+2. **Combinatorial Rework and Interface Divergence (Parnas, 1972):** When module boundaries and interface contracts are undefined, parallel developers make conflicting technical assumptions. Integrating these mismatches later requires tearing down working code across multiple subsystems.
+3. **Deadline Pressure and the Technical Debt Trap:** Under tight milestone delivery schedules, engineers lack the time to execute clean architectural refactoring, resorting to fragile shortcuts (bypassing quality gates, disabling SSL, writing monolithic queries) that result in fragile, vulnerable software.
+4. **Empirical Software Economics (Boehm's 100x Multiplier):** Fixing an architectural omission during production or late staging costs 50x to 100x more than resolving it during the architecture baseline phase. Milestone 2 firmly establishes and bounds these decisions before construction expands.
 
 ---
 
@@ -136,7 +146,7 @@ In Milestone 2, architecture is shaped specifically by the quality attributes an
 | ASR Identifier | Driving NFR / FR | Quantitative Threshold / Target | Architectural Mechanism in Milestone 2 |
 | :--- | :--- | :--- | :--- |
 | **`ASR-001` (Latency & Throughput)** | `NFR-001`, `FR-001` | p95 server response time <= 500ms under 50 concurrent active users. | Relational B-Tree index optimization; asynchronous non-blocking Node.js event loop; in-memory caching of taxonomy tables. |
-| **`ASR-002` (Zero-Cost Sustainability)** | `NFR-010` | \$0.00/month operational spend; container memory <= 512MB RAM. | Selection of lightweight Node.js Alpine runtime (<180MB RAM peak in `ADR-008`); rejection of standalone JVM message brokers. |
+| **`ASR-002` (Zero-Cost Sustainability)** | `NFR-010` | $0.00/month operational spend; container memory <= 512MB RAM. | Selection of lightweight Node.js Alpine runtime (<180MB RAM peak in `ADR-008`); rejection of standalone JVM message brokers. |
 | **`ASR-003` (Integrity & Concurrency)** | `NFR-009`, `FR-009` | Zero lost updates during concurrent ticket claiming; 100% referential integrity. | Strict 3NF PostgreSQL schema with foreign key constraints; Optimistic Concurrency Control using integer `version` checking (`ADR-006`). |
 | **`ASR-004` (Lifecycle Non-Repudiation)**| `NFR-006`, `FR-010` | 100% immutable capture of actor ID, timestamp, old state, and new state. | Append-only `service_request_audit_logs` table written inside the same ACID database transaction as the status update. |
 | **`ASR-005` (POPIA Citizen Privacy)** | `NFR-005`, `FR-008` | Zero unauthorized citizen PII exposure; field-level privacy masking. | Database `is_anonymized_display` flag; application service DTO masks citizen contact details on operational technician screens. |
@@ -148,7 +158,7 @@ In Milestone 2, architecture is shaped specifically by the quality attributes an
 ## 7. MACRO-ARCHITECTURE & COMPONENT DECOMPOSITION
 
 ### 7.1 Clean Layered Modular Monolith Architecture
-CivicConnect implements a Clean Layered Architecture with strict inward dependency inversion:
+CivicConnect implements a Clean Layered Architecture with strict inward dependency inversion (Martin, 2018; Parnas, 1972):
 
 ```
 +-------------------------------------------------------------------------+
@@ -185,19 +195,27 @@ CivicConnect implements a Clean Layered Architecture with strict inward dependen
 ```
 
 ### 7.2 Proportional Architecture Defence: Explicit Rejection of Microservices
-In accordance with **Milestone 2 Brief Section 5.3**, a distributed microservices architecture was considered and explicitly rejected:
-1. **Distributed Transaction Tax:** Splitting CivicConnect into independent microservices (Auth, Intake, Queue, Notification, Analytics) would mandate distributed 2PC or Saga orchestrators to maintain consistency across requests, audit logs, and outbox tables.
-2. **Network Serialization Overhead:** Inter-service REST/gRPC calls introduce network latency hops, directly threatening our sub-500ms p95 response time target (`ASR-001`).
-3. **Severe Resource Breach:** Running 5 distinct microservice containers requires over 1.5GB of RAM, immediately breaching the free-tier 512MB RAM cap (`ASR-002`) and causing container Out-Of-Memory (OOM) crashes.
-4. **Team Capacity:** Building, testing, and operating a distributed service mesh in a 2-person student team within 7 weeks represents unwarranted over-engineering.
-* **Conclusion:** A **Clean Layered Modular Monolith** achieves identical logical decoupling and module testability while operating at <180MB RAM with zero distributed latency overhead.
+In accordance with **Milestone 2 Brief Section 5.3** and **Assignment 2 Task 3**, a distributed microservices architecture was evaluated and explicitly rejected based on L. Peter Deutsch's (1994) *Eight Fallacies of Distributed Computing*:
+1. **Fallacy 1 (The network is reliable) & Fallacy 2 (Latency is zero):** Splitting CivicConnect into independent microservices (Auth, Intake, Queue, Notification, Analytics) introduces 5ms to 50ms of network latency per hop and packet serialization tax, directly violating our sub-500ms p95 latency budget (`ASR-001`).
+2. **Fallacy 4 (The network is secure):** Distributing services forces mutual TLS authentication, complex API gateway routing, and distributed secret management across multiple process boundaries.
+3. **The Distributed Transaction Tax:** Microservices require complex distributed 2PC or Saga orchestrators to maintain consistency across requests, audit ledgers, and notification queues, introducing partial failure modes.
+4. **Severe Free-Tier Resource Breach (`ASR-002`):** Running 5 distinct microservice containers requires over 1.5GB of RAM, immediately breaching the free-tier 512MB RAM cap on cloud PaaS platforms and triggering Out-Of-Memory (OOM) termination.
+5. **Team Capacity:** Building, testing, and operating a distributed service mesh in a 2-person student team within 7 weeks represents unwarranted over-engineering.
+* **Conclusion:** A **Clean Layered Modular Monolith** achieves identical logical decoupling, strict information hiding (Parnas, 1972), and isolated unit testability while operating at <180MB RAM with zero distributed latency overhead.
 
 ---
 
 ## 8. TECHNOLOGY STACK COMMITMENT (RESOLVING ADR-003 VIA ADR-008)
 
-### 8.1 Empirical Weighted Decision Matrix
-In `ADR-003` (Milestone 1), technology selection was deliberately deferred. In `ADR-008`, this deferment was formally resolved by scoring three candidate stacks across 6 weighted criteria:
+### 8.1 Research Evolution from Assignment 1 to Milestone 2
+In Assignment 1 (Section 3), Group E evaluated candidate technology stacks, initially scoring Stack A (.NET 8 / C# / Microsoft SQL Server on Azure) at 8.48/10 and Stack B (MERN / MongoDB on AWS) at 7.15/10. Stack A was favored in A1 due to C#'s enterprise static typing, built-in security middleware, and long-term Microsoft support.
+
+However, when transitioning from conceptual research to concrete engineering in Milestone 2, the team evaluated candidate stacks against the hard operational constraint of **`NFR-010` (R0.00/month cloud hosting budget and the strict 512MB RAM container cap on free-tier cloud PaaS platforms)**. 
+* Under these binding constraints, ASP.NET Core 8 + SQL Server was disqualified because its base runtime idles at 250MB to 350MB of RAM, leaving negligible memory headroom under the 512MB container limit, and Microsoft SQL Server cannot run inside free-tier cloud containers.
+* MongoDB was disqualified because document stores provide BASE eventual consistency rather than the strict ACID guarantees mandated by `ASR-003` and `ASR-004`.
+* To capture the compile-time static type safety and OOP modularity of Stack A while adhering to the free-tier memory envelope, the team synthesized **TypeScript 5.3 + Node.js 20 LTS + PostgreSQL 16**. This achieved the static type guarantees of .NET, enforced strict 3NF relational data integrity, and operated inside an ultra-lightweight 45MB-180MB RAM footprint, scoring **9.05 / 10** in `ADR-008`.
+
+### 8.2 Empirical Weighted Decision Matrix (`ADR-008`)
 
 | Evaluation Criterion | Weight | Candidate A: TypeScript / Node.js | Candidate B: C# / ASP.NET Core 8 | Candidate C: Python / FastAPI |
 | :--- | :---: | :---: | :---: | :---: |
@@ -208,8 +226,6 @@ In `ADR-003` (Milestone 1), technology selection was deliberately deferred. In `
 | **Docker Parity & Build Efficiency (Image Size)** | 10% | **9.0** (0.90) | 7.5 (0.75) | 8.0 (0.80) |
 | **Ecosystem Stability & Security Maintenance** | 10% | **8.5** (0.85) | 9.0 (0.90) | 8.5 (0.85) |
 | **TOTAL WEIGHTED SCORE** | **100%** | **9.05 / 10 (SELECTED)** | **7.98 / 10** | **7.93 / 10** |
-
-* **Selection Rationale:** While ASP.NET Core 8 scored high in compile-time typing, its base runtime idles at 250MB-350MB of RAM, leaving negligible headroom under the 512MB container limit. Candidate Stack A (TypeScript / Node.js 20 LTS + PostgreSQL 16) won decisively with **9.05 / 10**. Node.js idles at ~45MB of RAM and peaks at <180MB under load, builds 110MB Alpine containers, and shares DTO interfaces between React and Express, maximizing delivery velocity.
 
 ---
 
@@ -228,23 +244,45 @@ The persistence model enforces strict Third Normal Form (3NF) across 8 normalize
 * `outbox_messages` (`message_id`, `event_type`, `aggregate_id`, `payload`, `status`, `retry_count`, `created_at`, `dispatched_at`) -- Transactional outbox.
 * `status_transition_rules` (`rule_id`, `from_status_id`, `to_status_id`, `allowed_role_id`) -- Database-enforced FSM matrix.
 
-### 9.2 ACID Boundaries & Optimistic Concurrency Control (OCC -- `ADR-006`)
-* **The Lost Update Risk (`RSK-002`):** When multiple supervisors triage open queues simultaneously, or two technicians attempt to claim the same unassigned ticket, concurrent updates can overwrite each other.
-* **Why Reject Pessimistic Locking:** Holding row-level locks (`SELECT FOR UPDATE`) causes database connection pool exhaustion and query deadlocks under concurrent traffic.
-* **Optimistic Locking Implementation:** The `service_requests` table incorporates an integer `version` column. Every state transition or assignment executes using atomic conditional updates:
+### 9.2 ACID Boundaries Resolving the Three A2 Failure Modes (`ADR-006`)
+In Assignment 2 (Task 2), Group E analyzed three concrete persistence failure modes that threaten municipal service operations:
+1. **Partial Write Failure (The Broken Ledger Anomaly):** The ticket update succeeds, but audit log insertion crashes midway, leaving an untraced assignment in violation of POPIA Act 4 of 2013 non-repudiation mandates.
+2. **Technician Workload Deadlock (Ghost Assignments):** Workload counters increment, but ticket saving aborts, stranding the technician at false maximum capacity.
+3. **State Machine Bypass and Illegal State Mutation:** Malformed API requests force tickets directly from `SUBMITTED` to `RESOLVED`, bypassing triage.
+
+CivicConnect eliminates these risks by encapsulating the entire mutation within an explicit **ACID Unit-of-Work transaction boundary**:
+* **Atomicity & Consistency:** The update to `service_requests`, insertion into `service_request_audit_logs`, and insertion into `outbox_messages` are bound into an indivisible database transaction (`BEGIN ... COMMIT`). If any operation fails, the database automatically triggers `ROLLBACK`.
+* **Isolation Level:** Configured to **Read Committed**, which prevents dirty reads while avoiding the heavy locking overhead and query serialisation latency of Serializable isolation.
+* **Durability:** Committed transactions are flushed to non-volatile storage via PostgreSQL's Write-Ahead Log (WAL), surviving power losses and container restarts.
+
+### 9.3 Optimistic Concurrency Control (OCC) vs Pessimistic Locking
+* **The Lost Update Risk (`RSK-002`):** Multiple supervisors triaging open tickets concurrently or two technicians claiming the same ticket create race conditions.
+* **Rejection of Pessimistic Locking (`SELECT FOR UPDATE`):** Holding row locks holds open database connection pool slots during client think-time, rapidly exhausting the 20-connection cap of cloud free-tier databases and triggering cascading deadlocks.
+* **Optimistic Locking Implementation:** `service_requests` includes an integer `version` column. Updates execute conditionally:
   ```sql
   UPDATE service_requests
   SET assigned_staff_id = $1, status_id = $2, version = version + 1, updated_at = NOW()
   WHERE request_id = $3 AND version = $expectedVersion;
   ```
-  If zero rows are updated, another user already modified the ticket. The database transaction rolls back, and the API returns **HTTP 409 Conflict** with an informative message, prompting the client UI to refresh.
+  If zero rows match, another transaction modified the ticket. The transaction aborts and emits **HTTP 409 Conflict**, prompting the client UI to refresh.
+
+### 9.4 Caching Correctness vs Staleness Trade-Off (A2 Synthesis)
+* **Active Ticket Operational Records (STRICTLY NEVER CACHED):** Ticket status, technician assignment, and resolution fields are highly volatile. Caching them in Redis or client memory creates a dangerous stale-read window where supervisors act on outdated data, causing duplicate dispatches.
+* **Static Reference Data (JUSTIFIED CACHING):** Service categories, department lookups, priority levels, and SLA targets change infrequently. Caching these tables in application memory with a Time-To-Live (TTL) of 60 minutes reduces database query load without compromising operational correctness.
+
+### 9.5 Schema Evolution Strategy: Expand-Contract Migration Pattern (A3 Synthesis)
+In accordance with Assignment 3 (Section 3.5.2), CivicConnect avoids destructive in-place schema migrations that cause downtime or block rollbacks. Future schema modifications follow the **Expand-Contract (Parallel Run) Pattern**:
+1. **Expand Phase:** Add new columns as nullable or with defaults (e.g., adding `requester_uuid` alongside `requester_id`) without modifying existing columns.
+2. **Parallel Run Phase:** Application v2.0 dual-writes to both columns, reading from the old column. Rolling back to v1.0 remains 100% safe.
+3. **Backfill & Swap:** Asynchronous background tasks copy legacy data to the new structure; application v2.1 reads exclusively from the new column.
+4. **Contract Phase:** Final migration drops obsolete legacy columns once v2.1 is fully stable.
 
 ---
 
 ## 10. RESEARCH-INFORMED INITIAL DESIGN PATTERNS
 
 ### 10.1 Design Problem 1: Decoupled Multi-Channel Notifications (Observer Pattern -- `ADR-004`)
-* **Problem & Context:** Modifying a ticket status must notify the citizen (`FR-005`), alert technicians (`FR-006`), log audit records (`NFR-006`), and calculate SLA timers (`FR-013`). Directly invoking email or SMS services inside the core `ServiceRequest` entity tightly couples domain logic to volatile third-party networks, causing tickets to fail if an external email gateway times out.
+* **Problem & Context:** Modifying a ticket status must notify the citizen (`FR-005`), alert technicians (`FR-006`), log audit records (`NFR-006`), and calculate SLA timers (`FR-013`). Directly invoking email or SMS services inside the core `ServiceRequest` entity tightly couples domain logic to volatile third-party networks, causing tickets to fail if an external email gateway times out (Saxena and Kumar, 2012; Sarcar, 2021).
 * **Research Evidence:** Assignment 2 Task 1 evaluated procedural calls vs in-memory Observer vs distributed message brokers (Kafka/RabbitMQ). Kafka was rejected due to 1GB+ RAM footprints violating `NFR-010`.
 * **Milestone 2 Decision:** Implemented the in-memory **Observer Pattern with Domain Event Dispatcher**. When a transition occurs, `ServiceRequest` publishes a `ServiceRequestStatusChangedEvent`. Registered observers (`NotificationDispatchObserver`, `AuditLoggingObserver`) process events independently.
 * **Trade-Off & Introduced Complexity:** Introduces indirect control flow. Mitigated by wrapping observer executions in isolated `try/catch` error containment blocks so that a failed email notification cannot corrupt the database transaction.
@@ -275,7 +313,7 @@ The persistence model enforces strict Third Normal Form (3NF) across 8 normalize
 ## 12. API CONTRACTS & TRANSACTIONAL OUTBOX INTEGRATION
 
 ### 12.1 Core RESTful Endpoints (OpenAPI 3.0 Contract)
-All API endpoints communicate via JSON over HTTPS, using standard HTTP status codes:
+All API endpoints communicate via JSON over HTTPS, using standard HTTP status codes (Fielding, 2000; Nottingham and Wilde, 2016):
 * `GET /health/live` -- Returns HTTP 200 `{ status: "UP", memoryUsageMB: 48, uptimeSeconds }` (`NFR-002`).
 * `GET /health/ready` -- Returns HTTP 200 `{ status: "READY", database: "CONNECTED" }`.
 * `POST /api/v1/requests` -- Citizen creates a service request; validates via Factory Method; returns HTTP 201 Created with tracking reference.
@@ -298,7 +336,13 @@ All API endpoints communicate via JSON over HTTPS, using standard HTTP status co
 3. **Staging / Demonstration (Cloud PaaS):** Deployed to Render / Vercel connected to a Neon PostgreSQL 16 free-tier database.
 4. **Production / Release Evaluation:** Controlled staging environment utilized for formal classroom academic defence.
 
-### 13.2 Zero-Cost Hosting & Resource Limits (`NFR-010`)
+### 13.2 Synthesis of the Three Industry Fallacies (A3 Synthesis)
+In Assignment 3, Group E analyzed three pervasive software engineering fallacies that CivicConnect proactively overcomes:
+1. **The Green Pipeline Fallacy (A3 Section 1.5):** A passing automated test suite is not definitive proof of quality; it proves only that the specific inputs and assertions anticipated by the engineer behaved as expected. Passing tests cannot expose semantic gaps, unmodeled business edge cases, or non-functional latency degradation. CivicConnect addresses this through strict human PR peer reviews, negative boundary testing, and realistic integration assertions.
+2. **The Clean Scanner Fallacy (A3 Section 2.6):** A security scanner reporting zero high-severity findings proves only that the code lacks known syntactic signatures. Scanners are completely blind to Broken Object-Level Authorization (BOLA / IDOR), session invalidation flaws, or POPIA data leakage. CivicConnect addresses this through tenant-enforced SQL predicates (`WHERE requester_id = :auth_user_id`) and negative authorization integration tests.
+3. **The Developer Machine Fallacy (A3 Section 3.8):** A system running cleanly on a local developer laptop provides zero empirical proof of production readiness. Developer machines mask concurrency race conditions, zero-latency loopback illusions, elevated local admin privileges, and environmental configuration drift. CivicConnect eliminates these blind spots using containerized Docker Compose parity (`docker-compose.yml`) and multi-threaded OCC concurrency test suites.
+
+### 13.3 Zero-Cost Hosting & Resource Limits (`NFR-010`)
 * Free-tier cloud PaaS platforms enforce strict container memory limits (512MB RAM cap).
 * Our TypeScript/Node.js runtime idles at ~45MB RAM and peaks at <180MB RAM under full test execution, guaranteeing zero Out-Of-Memory (OOM) container crashes without requiring paid cloud infrastructure.
 
@@ -342,32 +386,33 @@ The Requirements Traceability Matrix (`DOC-REQ-002`) has evolved from an M1 requ
 
 ## 15. UNCERTAINTY MANAGEMENT & PROJECT RISK REGISTER v2.0
 
-Risk Register v2.0 (`DOC-RSK-002`) tracks 11 project-specific risks evaluated using the quantitative formula $\text{Risk Exposure (RE)} = \text{Probability (P)} \times \text{Impact (I)}$ on a 1-to-5 scale:
+Risk Register v2.0 (`DOC-RSK-002`) tracks 11 project-specific risks evaluated using the quantitative formula Risk Exposure = Likelihood x Impact on a 1-to-5 scale:
 
 | Risk ID | Risk Description & Cause | Pre-RE | Proactive Architectural Mitigation | Reactive Contingency Plan | Post-RE | Status & Owner |
 | :--- | :--- | :---: | :--- | :--- | :---: | :--- |
-| **`RSK-001`** | **Container Out-Of-Memory Crashes:** Heavy runtimes or message brokers breach the free-tier 512MB RAM cap. | $4 \times 5 = \mathbf{20}$ | Committed to lightweight Node.js Alpine runtime (<180MB RAM) in `ADR-008`; rejected Kafka. | Configure Node.js `--max-old-space-size=256` memory throttle. | $1 \times 3 = \mathbf{3}$ | Controlled (Chris Fourie) |
-| **`RSK-002`** | **Concurrent Assignment Lost Updates:** Multiple supervisors assigning the same ticket overwrite changes. | $4 \times 4 = \mathbf{16}$ | Implemented Optimistic Concurrency Control with integer `version` checking in `ADR-006`. | Application catches collision and returns HTTP 409 Conflict, prompting UI refresh. | $1 \times 3 = \mathbf{3}$ | Controlled (Chris Fourie) |
-| **`RSK-003`** | **Cascading Gateway Outages:** External email/SMS timeouts cause ticket persistence transactions to fail. | $4 \times 4 = \mathbf{16}$ | Adopted Observer Pattern (`ADR-004`) and Transactional Outbox Pattern (`ADR-007`). | Outbox background worker retries asynchronously with exponential backoff. | $1 \times 3 = \mathbf{3}$ | Controlled (Lisa Verson) |
-| **`RSK-004`** | **Dual-Write Data Inconsistency:** Database commits ticket but external notification fails midway. | $3 \times 4 = \mathbf{12}$ | Transactional Outbox commits messages in the same ACID database transaction (`ADR-007`). | Poison-message dead letter queue for messages failing after 5 retries. | $1 \times 2 = \mathbf{2}$ | Controlled (Lisa Verson) |
-| **`RSK-005`** | **Class Proliferation / Indirection:** Design patterns introduce excessive classes and complex debugging. | $4 \times 3 = \mathbf{12}$ | Consolidated factory classes into a single cohesive domain module; registered in singleton map. | Comprehensive unit tests for factory registry and event dispatcher. | $2 \times 2 = \mathbf{4}$ | Controlled (Lisa Verson) |
-| **`RSK-006`** | **Unauthorized Citizen PII Leakage:** Operational staff view citizen phone numbers, violating POPIA. | $4 \times 4 = \mathbf{16}$ | Automated DTO masking in `ServiceRequestDTOMapper` intercepts technician views (`NFR-005`). | Field-level database encryption and immediate role revocation upon audit breach. | $1 \times 3 = \mathbf{3}$ | Controlled (Lisa Verson) |
-| **`RSK-007`** | **Premature Microservices Complexity:** Splitting into microservices causes network tax and schedule delay. | $4 \times 4 = \mathbf{16}$ | Explicitly rejected microservices in PED Section 7; built Clean Layered Modular Monolith. | Modular directory boundaries allow splitting into separate services post-M4 if load warrants. | $1 \times 3 = \mathbf{3}$ | Controlled (Chris Fourie) |
-| **`RSK-008`** | **Database Single Point of Failure:** Free-tier cloud database instance experiences downtime. | $3 \times 4 = \mathbf{12}$ | Fully reproducible containerized PostgreSQL 16 schema in `docker-compose.yml` (`DEC-005`). | Daily automated SQL logical backup dump to cloud object storage. | $1 \times 3 = \mathbf{3}$ | Controlled (Chris Fourie) |
-| **`RSK-009`** | **Non-Conforming AI Scaffolding:** Generative AI produces boilerplate violating project standards. | $4 \times 3 = \mathbf{12}$ | Enforced 5-stage human verification in `AI_Usage_Register_v2.0.md`; rejected AI suggestions. | Reject and rewrite unverified AI code during mandatory PR peer reviews. | $1 \times 2 = \mathbf{2}$ | Controlled (Chris Fourie) |
-| **`RSK-010`** | **Schedule Compression for M2:** Delaying decisions causes unverified development before deadline. | $4 \times 4 = \mathbf{16}$ | Resolved `ADR-003` early; executed concurrent documentation and construction work streams. | Scope triage reducing non-essential UI views while maintaining core domain logic. | $1 \times 3 = \mathbf{3}$ | Controlled (Chris Fourie) |
-| **`RSK-011`** | **Team Member Attrition (Capacity Loss):** Team member Pandora Greyling (602369) departed on 2026-09-29. | $5 \times 5 = \mathbf{25}$ | Enacted Emergency Governance Realignment (`ADR-009`); Chris Fourie absorbed ~80% workload; Lisa absorbed ~20%. | Adapted review threshold to Single Mandatory Independent Peer Review (100% partner sign-off) + CI Gate. | $1 \times 3 = \mathbf{3}$ | Controlled (Chris Fourie) |
+| **`RSK-001`** | **Container Out-Of-Memory Crashes:** Heavy runtimes or message brokers breach the free-tier 512MB RAM cap. | 4 x 5 = 20 | Committed to lightweight Node.js Alpine runtime (<180MB RAM) in `ADR-008`; rejected Kafka. | Configure Node.js `--max-old-space-size=256` memory throttle. | 1 x 3 = 3 | Controlled (Chris Fourie) |
+| **`RSK-002`** | **Concurrent Assignment Lost Updates:** Multiple supervisors assigning the same ticket overwrite changes. | 4 x 4 = 16 | Implemented Optimistic Concurrency Control with integer `version` checking in `ADR-006`. | Application catches collision and returns HTTP 409 Conflict, prompting UI refresh. | 1 x 3 = 3 | Controlled (Chris Fourie) |
+| **`RSK-003`** | **Cascading Gateway Outages:** External email/SMS timeouts cause ticket persistence transactions to fail. | 4 x 4 = 16 | Adopted Observer Pattern (`ADR-004`) and Transactional Outbox Pattern (`ADR-007`). | Outbox background worker retries asynchronously with exponential backoff. | 1 x 3 = 3 | Controlled (Lisa Verson) |
+| **`RSK-004`** | **Dual-Write Data Inconsistency:** Database commits ticket but external notification fails midway. | 3 x 4 = 12 | Transactional Outbox commits messages in the same ACID database transaction (`ADR-007`). | Poison-message dead letter queue for messages failing after 5 retries. | 1 x 2 = 2 | Controlled (Lisa Verson) |
+| **`RSK-005`** | **Class Proliferation / Indirection:** Design patterns introduce excessive classes and complex debugging. | 4 x 3 = 12 | Consolidated factory classes into a single cohesive domain module; registered in singleton map. | Comprehensive unit tests for factory registry and event dispatcher. | 2 x 2 = 4 | Controlled (Lisa Verson) |
+| **`RSK-006`** | **Unauthorized Citizen PII Leakage:** Operational staff view citizen phone numbers, violating POPIA. | 4 x 4 = 16 | Automated DTO masking in `ServiceRequestDTOMapper` intercepts technician views (`NFR-005`). | Field-level database encryption and immediate role revocation upon audit breach. | 1 x 3 = 3 | Controlled (Lisa Verson) |
+| **`RSK-007`** | **Premature Microservices Complexity:** Splitting into microservices causes network tax and schedule delay. | 4 x 4 = 16 | Explicitly rejected microservices in PED Section 7; built Clean Layered Modular Monolith. | Modular directory boundaries allow splitting into separate services post-M4 if load warrants. | 1 x 3 = 3 | Controlled (Chris Fourie) |
+| **`RSK-008`** | **Database Single Point of Failure:** Free-tier cloud database instance experiences downtime. | 3 x 4 = 12 | Fully reproducible containerized PostgreSQL 16 schema in `docker-compose.yml` (`DEC-005`). | Daily automated SQL logical backup dump to cloud object storage. | 1 x 3 = 3 | Controlled (Chris Fourie) |
+| **`RSK-009`** | **Non-Conforming AI Scaffolding:** Generative AI produces boilerplate violating project standards. | 4 x 3 = 12 | Enforced 5-stage human verification in `AI_Usage_Register_v2.0.md`; rejected AI suggestions. | Reject and rewrite unverified AI code during mandatory PR peer reviews. | 1 x 2 = 2 | Controlled (Chris Fourie) |
+| **`RSK-010`** | **Schedule Compression for M2:** Delaying decisions causes unverified development before deadline. | 4 x 4 = 16 | Resolved `ADR-003` early; executed concurrent documentation and construction work streams. | Scope triage reducing non-essential UI views while maintaining core domain logic. | 1 x 3 = 3 | Controlled (Chris Fourie) |
+| **`RSK-011`** | **Team Member Attrition (Capacity Loss):** Team member Pandora Greyling (602369) departed on 2026-09-29. | 5 x 5 = 25 | Enacted Emergency Governance Realignment (`ADR-009`); Chris Fourie absorbed ~80% workload; Lisa absorbed ~20%. | Adapted review threshold to Single Mandatory Independent Peer Review (100% partner sign-off) + CI Gate. | 1 x 3 = 3 | Controlled (Chris Fourie) |
 
 ---
 
 ## 16. FORWARD ENGINEERING CONSIDERATIONS REGISTER (M3 PREPARATION)
 
-* **`FEC-001` (Hardened Authentication):** Transitioning from basic JWT claims to secure refresh token rotation stored in HTTP-only, SameSite cookies in Milestone 3.
-* **`FEC-002` (Mutation & Integration Testing):** Expanding unit test suites to mutation testing (Stryker) and end-to-end Supertest integration coverage.
-* **`FEC-003` (Audit Log Partitioning):** Evaluating monthly PostgreSQL range partitioning for `service_request_audit_logs` before production volumes.
-* **`FEC-004` (Staging Parity):** Verifying cloud staging deployment parity against local Docker Compose configurations.
-* **`FEC-005` (Observability & Logging):** Integrating structured Winston JSON logging with unique correlation IDs (`X-Correlation-ID`) across asynchronous outbox lifecycles.
-* **`FEC-006` (Cloud Quota Guardrails):** Implementing automated query execution time budgets to ensure zero unexpected cloud cost spikes.
+In accordance with Assignment 3 (Section 4 Research-to-M3 Engineering Map), the forward engineering considerations directly bridge Milestone 2 architectural baselines into Milestone 3 quality, security, and production readiness activities:
+* **`FEC-001` (Hardened Authentication & Session Lifecycle):** Transitioning from basic JWT claims to secure refresh token rotation stored in HTTP-only, SameSite cookies in Milestone 3, preventing session hijacking.
+* **`FEC-002` (Multi-Tier Automated Verification & Mutation Testing):** Overcoming the Green Pipeline Fallacy by expanding unit test suites to mutation testing (Stryker) and end-to-end Supertest integration coverage.
+* **`FEC-003` (STRIDE Threat Realization & Negative BOLA Integration Tests):** Overcoming the Clean Scanner Fallacy by implementing explicit negative automated integration tests asserting HTTP 403 Forbidden across multi-tenant boundaries (`WHERE requester_id = :auth_user_id`).
+* **`FEC-004` (Pre-Commit Gitleaks Scanning & Dynamic Secret Injection):** Operationalizing pre-commit secret detection hooks to prevent accidental credential commits into Git repository history.
+* **`FEC-005` (Expand-Contract Schema Evolution):** Enforcing the 4-phase Expand-Contract pattern for all relational database schema modifications in Milestone 3.
+* **`FEC-006` (Three Pillars of Observability & Health Probes):** Integrating structured Winston JSON logging with unique correlation IDs (`X-Correlation-ID`) across asynchronous outbox lifecycles, and monitoring `/health/live` and `/health/ready` endpoints.
 
 ---
 
@@ -419,35 +464,35 @@ Risk Register v2.0 (`DOC-RSK-002`) tracks 11 project-specific risks evaluated us
 The practical codebase in `code/` strictly reflects Clean Architecture boundaries:
 ```
 code/
-├── database/                                  # Data tier & persistence scripts
-│   ├── migrations/                            # PostgreSQL 16 3NF DDL (V1__initial_schema.sql)
-│   └── seeds/                                 # Baseline taxonomy & FSM transition rules (01_baseline_seeds.sql)
-├── src/                                       # Clean Architecture Source Code
-│   ├── domain/                                # Enterprise Domain Core (Independent of frameworks)
-│   │   ├── entities/                          # ServiceRequest aggregate (enforcing FSM & OCC versioning)
-│   │   ├── enums/                             # RequestStatus, Role, PriorityLevel, SLA targets
-│   │   ├── events/                            # IDomainEvent, DomainEventDispatcher (Observer Pattern - ADR-004)
-│   │   ├── factories/                         # IServiceRequestFactory & Category Creators (Factory Method - ADR-005)
-│   │   └── repositories/                      # IServiceRequestRepository interface abstractions
-│   ├── application/                           # Application Services & Business Use Cases
-│   │   ├── dtos/                              # ServiceRequestDTOMapper (POPIA masking - NFR-005)
-│   │   ├── observers/                         # NotificationDispatchObserver, AuditLoggingObserver (ADR-004)
-│   │   └── use-cases/                         # CreateServiceRequest, AssignServiceRequest, UpdateServiceRequestStatus
-│   ├── infrastructure/                        # External adapters & persistence implementations
-│   │   ├── outbox/                            # TransactionalOutboxService (ADR-007)
-│   │   └── repositories/                      # InMemoryServiceRequestRepository, PostgresServiceRequestRepository
-│   ├── presentation/                          # HTTP controllers, Express routers, and middleware
-│   │   ├── controllers/                       # RequestController (handling OCC HTTP 409 responses)
-│   │   └── routes/                            # requestRoutes, healthRoutes (/health/live, /health/ready)
-│   ├── app.ts                                 # Express application factory & centralized error handling
-│   └── server.ts                              # Production bootstrap entry point
-├── tests/                                     # Automated Verification Suites (Vitest)
-│   ├── integration/                           # Supertest API tests (health probes, request CRUD, OCC conflict 409)
-│   └── unit/                                  # Unit tests for FSM, Factories, Observer, POPIA DTO, and OCC
-├── docker-compose.yml                         # PostgreSQL 16 Alpine container parity (DEC-005)
-├── package.json                               # Dependencies & npm scripts
-├── tsconfig.json                              # Strict TypeScript configuration
-└── .env.example                               # Environment secrets template
+|-- database/                                  # Data tier & persistence scripts
+|   |-- migrations/                            # PostgreSQL 16 3NF DDL (V1__initial_schema.sql)
+|   \-- seeds/                                 # Baseline taxonomy & FSM transition rules (01_baseline_seeds.sql)
+|-- src/                                       # Clean Architecture Source Code
+|   |-- domain/                                # Enterprise Domain Core (Independent of frameworks)
+|   |   |-- entities/                          # ServiceRequest aggregate (enforcing FSM & OCC versioning)
+|   |   |-- enums/                             # RequestStatus, Role, PriorityLevel, SLA targets
+|   |   |-- events/                            # IDomainEvent, DomainEventDispatcher (Observer Pattern - ADR-004)
+|   |   |-- factories/                         # IServiceRequestFactory & Category Creators (Factory Method - ADR-005)
+|   |   \-- repositories/                      # IServiceRequestRepository interface abstractions
+|   |-- application/                           # Application Services & Business Use Cases
+|   |   |-- dtos/                              # ServiceRequestDTOMapper (POPIA masking - NFR-005)
+|   |   |-- observers/                         # NotificationDispatchObserver, AuditLoggingObserver (ADR-004)
+|   |   \-- use-cases/                         # CreateServiceRequest, AssignServiceRequest, UpdateServiceRequestStatus
+|   |-- infrastructure/                        # External adapters & persistence implementations
+|   |   |-- outbox/                            # TransactionalOutboxService (ADR-007)
+|   |   \-- repositories/                      # InMemoryServiceRequestRepository, PostgresServiceRequestRepository
+|   |-- presentation/                          # HTTP controllers, Express routers, and middleware
+|   |   |-- controllers/                       # RequestController (handling OCC HTTP 409 responses)
+|   |   \-- routes/                            # requestRoutes, healthRoutes (/health/live, /health/ready)
+|   |-- app.ts                                 # Express application factory & centralized error handling
+|   \-- server.ts                              # Production bootstrap entry point
+|-- tests/                                     # Automated Verification Suites (Vitest)
+|   |-- integration/                           # Supertest API tests (health probes, request CRUD, OCC conflict 409)
+|   \-- unit/                                  # Unit tests for FSM, Factories, Observer, POPIA DTO, and OCC
+|-- docker-compose.yml                         # PostgreSQL 16 Alpine container parity (DEC-005)
+|-- package.json                               # Dependencies & npm scripts
+|-- tsconfig.json                              # Strict TypeScript configuration
+\-- .env.example                               # Environment secrets template
 ```
 
 ### 19.2 Automated Verification Results
@@ -472,16 +517,43 @@ Automated test suites executed via Vitest v1.6.1:
 
 ## 20. ACADEMIC REFERENCES & STANDARDS CITATIONS
 
-1. Gamma, E., Helm, R., Johnson, R. and Vlissides, J. (1994) *Design Patterns: Elements of Reusable Object-Oriented Software*. Boston, MA: Addison-Wesley.
-2. Fowler, M. (2002) *Patterns of Enterprise Application Architecture*. Boston, MA: Addison-Wesley.
-3. Martin, R.C. (2018) *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Boston, MA: Prentice Hall.
-4. Kleppmann, M. (2017) *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*. Sebastopol, CA: O'Reilly Media.
-5. ISO/IEC/IEEE (2018) *ISO/IEC/IEEE 29148:2018 Systems and software engineering -- Life cycle processes -- Requirements engineering*. Geneva: International Organization for Standardization.
-6. ISO/IEC (2023) *ISO/IEC 25010:2023 Systems and software engineering -- Systems and software Quality Requirements and Evaluation (SQuaRE) -- Product quality model*. Geneva: International Organization for Standardization.
-7. IEEE (2009) *IEEE Std 1016-2009 IEEE Standard for Information Technology -- Systems Design -- Software Design Descriptions*. New York: IEEE.
-8. W3C (2018) *Web Content Accessibility Guidelines (WCAG) 2.1*. W3C Recommendation. Available at: https://www.w3.org/TR/WCAG21/ (Accessed: 20 September 2026).
-9. OWASP Foundation (2021) *OWASP Top 10: 2021 -- The Ten Most Critical Web Application Security Risks*. Available at: https://owasp.org/Top10/ (Accessed: 20 September 2026).
-10. Richardson, C. (2018) *Microservices Patterns: With examples in Java*. Shelter Island, NY: Manning Publications.
+1. ACM / IEEE-CS Joint Task Force on Software Engineering Ethics (2020) *Software Engineering Code of Ethics and Professional Practice*. New York / Piscataway, NJ: ACM & IEEE.
+2. Al-Yozbaky, R.S., Taha, D.B. and Qasha, R. (2026) 'A stage-oriented attack taxonomy and threat analysis for CI/CD pipelines', *International Journal of Safety and Security Engineering*, 16(6), pp. 1399-1407.
+3. Bass, L., Clements, P. and Kazman, R. (2021) *Software Architecture in Practice*. 4th edn. Boston, MA: Addison-Wesley Professional.
+4. Bernstein, P.A., Hadzilacos, V. and Goodman, N. (1987) *Concurrency Control and Recovery in Database Systems*. Boston, MA: Addison-Wesley.
+5. Beyer, B., Jones, C., Petoff, J. and Murphy, N.R. (2016) *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol, CA: O'Reilly Media.
+6. Boehm, B.W. (1981) *Software Engineering Economics*. Englewood Cliffs, NJ: Prentice-Hall.
+7. Boehm, B. and Basili, V.R. (2001) 'Software Defect Reduction Top 10 List', *Computer*, 34(1), pp. 135-137.
+8. Bosu, A., Greiler, M. and Bird, C. (2015) 'Characteristics of Useful Code Reviews: An Empirical Study at Microsoft', *2015 IEEE/ACM 12th Working Conference on Mining Software Repositories*, pp. 146-156.
+9. Date, C.J. (2004) *An Introduction to Database Systems*. 8th edn. Boston, MA: Pearson / Addison-Wesley.
+10. Deutsch, L.P. (1994) *The Eight Fallacies of Distributed Computing*. Sun Microsystems Technical Report.
+11. Fielding, R.T. (2000) *Architectural Styles and the Design of Network-based Software Architectures*. Doctoral dissertation. University of California, Irvine.
+12. Fowler, M. (2002) *Patterns of Enterprise Application Architecture*. Boston, MA: Addison-Wesley.
+13. Fowler, M. (2018) *Refactoring: Improving the Design of Existing Code*. 2nd edn. Boston, MA: Addison-Wesley.
+14. Gamma, E., Helm, R., Johnson, R. and Vlissides, J. (1994) *Design Patterns: Elements of Reusable Object-Oriented Software*. Reading, MA: Addison-Wesley.
+15. Humble, J. and Farley, D. (2010) *Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation*. Upper Saddle River, NJ: Addison-Wesley.
+16. IEEE Computer Society (2014) *Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V3.0)*. Piscataway, NJ: IEEE Computer Society Press.
+17. IEEE Standards Association (2012) *IEEE Standard for Configuration Management in Systems and Software Engineering (IEEE Std 828-2012)*. New York: IEEE.
+18. ISO/IEC (2023) *ISO/IEC 25010:2023 Systems and software engineering -- Systems and software Quality Requirements and Evaluation (SQuaRE) -- Product quality model*. Geneva: International Organization for Standardization.
+19. ISO/IEC/IEEE (2018) *ISO/IEC/IEEE 29148:2018 Systems and software engineering -- Life cycle processes -- Requirements engineering*. Geneva: International Organization for Standardization.
+20. ISO/IEC/IEEE (2021) *ISO/IEC/IEEE 29119:2021 Systems and software engineering -- Software testing (Parts 1-4)*. Geneva: International Organization for Standardization.
+21. Johnston, P. and Harris, R. (2019) 'The Boeing 737 MAX saga: lessons for software organizations', *Software Quality Professional*, 21(3), pp. 4-12.
+22. Kleppmann, M. (2017) *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*. Sebastopol, CA: O'Reilly Media.
+23. Kung, H.T. and Robinson, J.T. (1981) 'On Optimistic Methods for Concurrency Control', *ACM Transactions on Database Systems (TODS)*, 6(2), pp. 213-226.
+24. Leveson, N.G. (2020) 'Are We Learning from Software Failures? The Boeing 737 MAX Crashes', *MIT Aeronautics and Astronautics Technical Report*. Cambridge, MA: MIT.
+25. Martin, R.C. (2000) 'Design Principles and Design Patterns', *Object Mentor*, 1(1), pp. 1-34.
+26. Martin, R.C. (2018) *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Boston, MA: Prentice Hall.
+27. Nelson, N., Brindescu, C., McKee, S., Sarma, A. and Dig, D. (2019) 'The life-cycle of merge conflicts: Processes, barriers, and strategies', *Empirical Software Engineering*, 24(5), pp. 2863-2906.
+28. NIST (2022) *Secure Software Development Framework (SSDF) Version 1.1*. NIST Special Publication 800-218. Gaithersburg, MD: U.S. Department of Commerce.
+29. Nottingham, M. and Wilde, E. (2016) *RFC 7807: Problem Details for HTTP APIs*. Internet Engineering Task Force (IETF).
+30. OWASP Foundation (2021) *OWASP Top 10: 2021 -- The Ten Most Critical Web Application Security Risks*. Available at: https://owasp.org/Top10/
+31. Parnas, D.L. (1972) 'On the criteria to be used in decomposing systems into modules', *Communications of the ACM*, 15(12), pp. 1053-1058.
+32. Republic of South Africa (2013) *Protection of Personal Information Act (Act No. 4 of 2013)*. Government Gazette, 581(37067). Cape Town: Government Printer.
+33. Richardson, C. (2018) *Microservices Patterns: With examples in Java*. Shelter Island, NY: Manning Publications.
+34. Sarcar, S. (2021) *Design Patterns in C#*. 2nd edn. New York: Apress.
+35. Saxena, V. and Kumar, P. (2012) 'Coupling & Cohesion Metrics for Object-Oriented Design', *International Journal of Computer Science*, 9(4), pp. 211-216.
+36. Shostack, A. (2014) *Threat Modeling: Designing for Security*. Indianapolis, IN: John Wiley & Sons.
+37. Wiggins, A. (2017) *The Twelve-Factor App*. Available at: https://12factor.net/
 
 ---
 
@@ -508,7 +580,7 @@ Automated test suites executed via Vitest v1.6.1:
 
 ### Summary of Model Answers for all 16 Indicative Examination Questions:
 * **Q1 (Trace M1 Requirement Progression):** Traces `FR-001` through `NFR-001`, Application layer, 3NF schema, Factory Method `ADR-005`, and passing Vitest test `api.test.ts`. (Respondent: Lisa Verson or Chris Fourie).
-* **Q2 (ASR Most Influencing Architecture):** Defends `ASR-002` (\$0 budget / 512MB RAM cap) eliminating microservices/Kafka and dictating a Clean Layered Monolith in Node.js (<180MB RAM). (Respondent: Chris Fourie).
+* **Q2 (ASR Most Influencing Architecture):** Defends `ASR-002` ($0 budget / 512MB RAM cap) eliminating microservices/Kafka and dictating a Clean Layered Monolith in Node.js (<180MB RAM). (Respondent: Chris Fourie).
 * **Q3 (Architecture Alternative Rejected):** Defends rejecting distributed microservices due to Saga overhead, network latency violating `ASR-001`, and 1.5GB RAM usage violating `ASR-002`. (Respondent: Chris Fourie).
 * **Q4 (Data Persistence Decision for Correctness):** Defends Optimistic Concurrency Control (`ADR-006`) with integer `version` checking preventing the Lost Update Problem during concurrent supervisor triage, verified in `OptimisticConcurrency.test.ts`. (Respondent: Chris Fourie).
 * **Q5 (Technology Stack Choice Evidence):** Defends Weighted Decision Matrix in `ADR-008` where TypeScript/Node.js won (9.05/10) over ASP.NET 8 (7.98) due to free-tier memory safety and team delivery velocity. (Respondent: Chris Fourie).
