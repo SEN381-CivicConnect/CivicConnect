@@ -3,7 +3,7 @@
 **Status:** ACCEPTED (Emergency Governance Amendment to ADR-002)  
 **Date:** 2026-09-29  
 **Deciders:** Systems Architect & Governance Lead (Chris Fourie), Lead Requirements & Design Analyst (Lisa Verson)  
-**Governing Standard:** SEN381 Master Project Brief §4, §9, §13; Milestone 2 Brief §10  
+**Governing Standard:** SEN381 Master Project Brief Section 4, Section 9, Section 13; Milestone 2 Brief Section 10  
 **Document Reference:** `DOC-ADR-009`  
 
 ---
@@ -22,7 +22,7 @@ This unexpected event directly impacts repository governance:
 ## 2. Decision Drivers & Constraints
 
 * **Operational Continuity:** Development, integration, and review must proceed without administrative deadlocks.
-* **Master Project Brief Alignment (§9):** Peer review remains mandatory; zero unreviewed code may enter `main`.
+* **Master Project Brief Alignment (Section 9):** Peer review remains mandatory; zero unreviewed code may enter `main`.
 * **Traceability & Integrity:** The departure of a team member must be formally recorded in the engineering log rather than hidden.
 * **Workload Rebalancing:** Reallocating database architecture, concurrency controls, and risk management to Chris Fourie.
 
@@ -38,7 +38,7 @@ Halt all branch merges until the academic department assigns a replacement stude
 ### Alternative 2: Allow Solo Unreviewed Merges (Disable Branch Protection)
 Allow direct pushes or unreviewed self-merges to `main`.
 * *Pros:* Maximum speed.
-* *Cons:* **Rejected.** Complete violation of Master Project Brief §9 and NQF Level 8 software configuration management standards; destroys peer review auditability.
+* *Cons:* **Rejected.** Complete violation of Master Project Brief Section 9 and NQF Level 8 software configuration management standards; destroys peer review auditability.
 
 ### Alternative 3: Amend Governance to Single Mandatory Independent Peer Review + Automated CI Gate (Selected)
 Formally amend repository branch protection:
@@ -61,9 +61,9 @@ Formally amend repository branch protection:
 | **Macro-Architecture & Governance** | Chris Fourie | **Chris Fourie** (Retained) |
 | **Technology Stack & Docker Parity** | Chris Fourie | **Chris Fourie** (Retained) |
 | **Backend Codebase & Server** | Chris Fourie | **Chris Fourie** (Retained) |
-| **Data Persistence & 3NF Schema** | Pandora Greyling | **Chris Fourie** (Absorbed — author of SQL DDL & seeds) |
-| **Optimistic Concurrency Control** | Pandora Greyling | **Chris Fourie** (Absorbed — author of OCC logic & tests) |
-| **Project Risk Register** | Pandora Greyling | **Chris Fourie** (Absorbed — updated with `RSK-011`) |
+| **Data Persistence & 3NF Schema** | Pandora Greyling | **Chris Fourie** (Absorbed -- author of SQL DDL & seeds) |
+| **Optimistic Concurrency Control** | Pandora Greyling | **Chris Fourie** (Absorbed -- author of OCC logic & tests) |
+| **Project Risk Register** | Pandora Greyling | **Chris Fourie** (Absorbed -- updated with `RSK-011`) |
 | **Requirements & Acceptance Criteria** | Lisa Verson | **Lisa Verson** (Retained) |
 | **Design Patterns (Observer & Factory)** | Lisa Verson | **Lisa Verson** (Retained) |
 | **API Contracts & Outbox Integration** | Lisa Verson | **Lisa Verson** (Retained) |

@@ -3,14 +3,14 @@
 **Status:** ACCEPTED  
 **Date:** 2026-09-16  
 **Deciders:** Lead Requirements & Design Analyst (Lisa Verson), Systems Architect (Chris Fourie), Quality Engineer (Pandora Greyling)  
-**Governing Standard:** SEN381 Master Project Brief §13, §18.1; Milestone 2 Brief §5.6; Assignment 2 Task 1 Research  
+**Governing Standard:** SEN381 Master Project Brief Section 13, Section 18.1; Milestone 2 Brief Section 5.6; Assignment 2 Task 1 Research  
 **Document Reference:** `DOC-ADR-004`  
 
 ---
 
 ## 1. Context & Problem Statement
 
-CivicConnect's core domain entity is the `ServiceRequest`. When a service request undergoes a lifecycle status transition (e.g., `SUBMITTED` $\to$ `TRIAGED`, `TRIAGED` $\to$ `ASSIGNED`, `IN_PROGRESS` $\to$ `RESOLVED`), multiple secondary actions must occur simultaneously:
+CivicConnect's core domain entity is the `ServiceRequest`. When a service request undergoes a lifecycle status transition (e.g., `SUBMITTED` -> `TRIAGED`, `TRIAGED` -> `ASSIGNED`, `IN_PROGRESS` -> `RESOLVED`), multiple secondary actions must occur simultaneously:
 1. Dispatching citizen feedback via in-app notification and email/SMS (`FR-005`).
 2. Recording an immutable audit record in the database (`NFR-006`, `FR-011`).
 3. Alerting the assigned field technician or department supervisor (`FR-006`, `FR-009`).
@@ -24,7 +24,7 @@ If the core `ServiceRequest` entity or its application service directly instanti
 
 * **Loose Coupling & Modularity (`NFR-008`):** The domain entity `ServiceRequest` must remain completely agnostic of notification mechanisms, delivery protocols, or external services.
 * **Extensibility:** Adding future notification channels (e.g., WhatsApp, push notifications, webhook alerts) must require zero modification to the core state machine.
-* **Performance & Latency (`NFR-001`):** Synchronous execution of notification sinks must not block client CRUD responses (p95 $\le 500\text{ms}$).
+* **Performance & Latency (`NFR-001`):** Synchronous execution of notification sinks must not block client CRUD responses (p95 <= 500ms).
 * **Cost & Cloud Resource Constraints (`NFR-010`):** Operational memory footprint must remain under 200MB RAM to function reliably within free-tier container limits (\$0.00/month).
 
 ---
@@ -67,5 +67,5 @@ The `ServiceRequest` aggregate publishes domain events (e.g., `ServiceRequestSta
 * **Domain Interface:** `IDomainEvent`, `IDomainEventObserver<T>`, `IDomainEventDispatcher`
 * **Concrete Events:** `ServiceRequestCreatedEvent`, `ServiceRequestStatusChangedEvent`, `ServiceRequestAssignedEvent`
 * **Concrete Observers:** `NotificationDispatchObserver`, `AuditLoggingObserver`
-* **Affected Layers:** `Domain Core` (defines event interfaces) $\to$ `Application Layer` (dispatches events) $\to$ `Infrastructure Layer` (handles external side effects).
+* **Affected Layers:** `Domain Core` (defines event interfaces) -> `Application Layer` (dispatches events) -> `Infrastructure Layer` (handles external side effects).
 * **Traced Requirements:** `FR-005` (Citizen Feedback), `FR-010` (State Machine), `NFR-006` (Auditability), `NFR-008` (Modularity).

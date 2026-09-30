@@ -1,12 +1,12 @@
 # Project Engineering Document (PED) v2.0
 ## CivicConnect: Community Service Request Management Platform
-### Milestone 2 — Architecture, Technology & Initial Design Baseline
+### Milestone 2 -- Architecture, Technology & Initial Design Baseline
 
 **Academic Year:** 2026  
-**Module:** Software Engineering 381 (SEN381) — NQF Level 8  
+**Module:** Software Engineering 381 (SEN381) -- NQF Level 8  
 **Baseline Version:** 2.0 (Controlled Architecture & Initial Design State)  
 **Document Identifier:** `DOC-PED-002`  
-**Governing Documents:** SEN381 CivicConnect Master Project Brief (§18, §20.2) & Milestone 2 Brief  
+**Governing Documents:** SEN381 CivicConnect Master Project Brief (Section 18, Section 20.2) & Milestone 2 Brief  
 **Preceding Baseline:** PED v1.0 (`DOC-PED-001`, Approved 2026-09-09)  
 
 ---
@@ -31,13 +31,13 @@
 
 ## Executive Summary: Transition from Milestone 1 to Milestone 2
 
-In Milestone 1, Group E baselined **what** CivicConnect must accomplish (14 Functional Requirements `FR-001`–`FR-014`, 10 Non-Functional Requirements `NFR-001`–`NFR-010`, and the 6-state ticket lifecycle) while deliberately deferring technology commitments via `ADR-003` to prevent premature design lock-in.
+In Milestone 1, Group E baselined **what** CivicConnect must accomplish (14 Functional Requirements `FR-001` - `FR-014`, 10 Non-Functional Requirements `NFR-001` - `NFR-010`, and the 6-state ticket lifecycle) while deliberately deferring technology commitments via `ADR-003` to prevent premature design lock-in.
 
 Milestone 2 answers the central engineering question mandated by the Master Project Brief:
 
 > **Central Driving Question:** *"How should we engineer the solution, and why?"*
 
-Guided by the research evidence generated in Assignment 2 (Tasks 1–5), Milestone 2 establishes:
+Guided by the research evidence generated in Assignment 2 (Tasks 1 - 5), Milestone 2 establishes:
 1. **A Proportional Macro-Architecture:** A Clean / Layered Architecture model with strict dependency inversion, rejecting distributed microservices complexity in favor of maintainability and resource stewardship.
 2. **An Evidence-Based Technology Commitment:** Formally resolving `ADR-003` through an empirical Weighted Decision Matrix (`ADR-008`) selecting TypeScript, Node.js (v20 LTS), Express, React 18, and PostgreSQL 16.
 3. **A Robust Persistence & Concurrency Core:** A strict 3NF relational schema enforcing ACID boundaries and Optimistic Concurrency Control (`ADR-006`) with an immutable audit log.
@@ -74,9 +74,9 @@ Guided by the research evidence generated in Assignment 2 (Tasks 1–5), Milesto
 ## Section 1: Relationship to Master Project Brief & Engineering Principles
 
 ### 1.1 "Apply, Do Not Repeat" Compliance
-In accordance with **SEN381 Master Project Brief §1**, PED v2.0 avoids reproducing textbook definitions of design patterns, normalization normal forms, or architectural styles. Instead, every section applies engineering standards (ISO/IEC/IEEE 29148, ISO/IEC 25010, IEEE 1016) directly to CivicConnect's operational realities, demonstrating why decisions were made, what trade-offs were accepted, and what verifiable evidence exists in the codebase.
+In accordance with **SEN381 Master Project Brief Section 1**, PED v2.0 avoids reproducing textbook definitions of design patterns, normalization normal forms, or architectural styles. Instead, every section applies engineering standards (ISO/IEC/IEEE 29148, ISO/IEC 25010, IEEE 1016) directly to CivicConnect's operational realities, demonstrating why decisions were made, what trade-offs were accepted, and what verifiable evidence exists in the codebase.
 
-### 1.2 "A2 Researches — M2 Commits" Principle
+### 1.2 "A2 Researches -- M2 Commits" Principle
 Assignment 2 explored problem spaces, compared alternatives, and formulated recommendations. PED v2.0 references relevant research findings as supporting justification without duplicating the comparative research text. Where project realities required diverging from initial research drafts, the CivicConnect-specific engineering reasons are formally defended in ADRs.
 
 ---
@@ -113,7 +113,7 @@ A community-focused organization currently manages municipal faults (potholes, w
 
 *(Retained from PED v1.0 Baseline & Validated under ADR-001)*
 
-* **Committed In-Scope Capabilities (Milestones 1–4):**
+* **Committed In-Scope Capabilities (Milestones 1 - 4):**
   * `FR-001` to `FR-014`: Authenticated citizen intake, 6-category taxonomy, tracking reference generation (`REQ-YYYY-NNNN`), role queues, technician dispatch, FSM state enforcement, resolution recording, executive analytics dashboard, SLA performance metrics, and CSV export.
 * **Deliberately Deferred Scope (Justified in `ADR-001`):**
   * Multi-language localized UI (Deferred to Post-M4).
@@ -141,8 +141,8 @@ In Milestone 2, architecture is strictly driven by the subset of requirements th
 
 | ASR Identifier | Driving NFR / FR | Measurable Threshold / Target | Architectural Consequence & Mechanism in Milestone 2 |
 | :--- | :--- | :--- | :--- |
-| **`ASR-001` (Latency & Throughput)** | `NFR-001` | p95 server response $\le 500\text{ms}$ under 50 concurrent active users. | Indexed relational queries; lightweight asynchronous Express route handlers; in-memory caching for taxonomy. |
-| **`ASR-002` (Zero-Cost Hosting)** | `NFR-010` | \$0.00/month operational spend; container memory $\le 512\text{MB}$ RAM. | Selection of lightweight Node.js Alpine runtime (<180MB RAM) in `ADR-008`; rejection of memory-heavy message brokers. |
+| **`ASR-001` (Latency & Throughput)** | `NFR-001` | p95 server response <= 500ms under 50 concurrent active users. | Indexed relational queries; lightweight asynchronous Express route handlers; in-memory caching for taxonomy. |
+| **`ASR-002` (Zero-Cost Hosting)** | `NFR-010` | \$0.00/month operational spend; container memory <= 512MB RAM. | Selection of lightweight Node.js Alpine runtime (<180MB RAM) in `ADR-008`; rejection of memory-heavy message brokers. |
 | **`ASR-003` (Data Integrity & Concurrency)**| `NFR-009`, `FR-009` | Zero lost updates; 100% referential integrity; non-blocking reads. | Strict 3NF PostgreSQL schema with foreign keys and Optimistic Concurrency Control (`version` column) in `ADR-006`. |
 | **`ASR-004` (Lifecycle Auditability)** | `NFR-006`, `FR-010` | 100% immutable capture of actor, timestamp, and old/new state. | Append-only `service_request_audit_logs` table committed in the same ACID transaction as the status update. |
 | **`ASR-005` (POPIA Citizen Privacy)** | `NFR-005`, `FR-008` | Zero unauthorized PII exposure; field-level anonymization. | Database `is_anonymized_display` flag; application service DTO masks citizen contact details for technician role. |
@@ -159,42 +159,42 @@ CivicConnect adopts a **Clean / Layered Architecture** with strict inward depend
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                           PRESENTATION LAYER                            │
-│   • Web Client UI (React 18 / Tailwind CSS — WCAG 2.1 AA Compliant)     │
-│   • REST API Controllers / Route Handlers (JSON Request/Response)       │
-│   • Global Error Handling & Request Logging Middleware                  │
+│   - Web Client UI (React 18 / Tailwind CSS -- WCAG 2.1 AA Compliant)     │
+│   - REST API Controllers / Route Handlers (JSON Request/Response)       │
+│   - Global Error Handling & Request Logging Middleware                  │
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │ Invokes DTOs & Use Cases
-┌────────────────────────────────────▼────────────────────────────────────┐
+┌────────────────────────────────────v────────────────────────────────────┐
 │                        APPLICATION SERVICES LAYER                       │
-│   • Use Cases: CreateRequest, AssignTicket, UpdateStatus, ResolveTicket  │
-│   • Role-Based Route Guards & JWT Claims Authorization Filters          │
-│   • Domain Event Dispatcher Coordinator (Observer Subject — ADR-004)    │
-│   • Transactional Outbox Background Worker (ADR-007)                    │
+│   - Use Cases: CreateRequest, AssignTicket, UpdateStatus, ResolveTicket  │
+│   - Role-Based Route Guards & JWT Claims Authorization Filters          │
+│   - Domain Event Dispatcher Coordinator (Observer Subject -- ADR-004)    │
+│   - Transactional Outbox Background Worker (ADR-007)                    │
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │ Coordinates Entities
-┌────────────────────────────────────▼────────────────────────────────────┐
+┌────────────────────────────────────v────────────────────────────────────┐
 │                            DOMAIN CORE LAYER                            │
-│   • Core Aggregates & Entities: ServiceRequest, User, Category, Audit   │
-│   • Finite State Machine Transition Invariants & Guard Checks           │
-│   • Category Polymorphic Validation (Factory Method — ADR-005)          │
-│   • Domain Event Definitions: ServiceRequestStatusChangedEvent          │
-│   • Repository Interfaces: IServiceRequestRepository, IUserRepository   │
-└────────────────────────────────────▲────────────────────────────────────┘
+│   - Core Aggregates & Entities: ServiceRequest, User, Category, Audit   │
+│   - Finite State Machine Transition Invariants & Guard Checks           │
+│   - Category Polymorphic Validation (Factory Method -- ADR-005)          │
+│   - Domain Event Definitions: ServiceRequestStatusChangedEvent          │
+│   - Repository Interfaces: IServiceRequestRepository, IUserRepository   │
+└────────────────────────────────────^────────────────────────────────────┘
                                      │ Implements Abstractions
 ┌────────────────────────────────────┴────────────────────────────────────┐
 │                       INFRASTRUCTURE / DATA LAYER                       │
-│   • Relational Persistence: PostgreSQL 16 (Strict 3NF Schema — ADR-006)  │
-│   • Repository Implementations & Optimistic Locking Version Verifiers   │
-│   • External Gateways: Email / SMS Dispatchers (Simulated / Free-Tier)  │
-│   • Local Docker Compose Orchestration & Volume Persistence (DEC-005)   │
+│   - Relational Persistence: PostgreSQL 16 (Strict 3NF Schema -- ADR-006)  │
+│   - Repository Implementations & Optimistic Locking Version Verifiers   │
+│   - External Gateways: Email / SMS Dispatchers (Simulated / Free-Tier)  │
+│   - Local Docker Compose Orchestration & Volume Persistence (DEC-005)   │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### 7.2 Proportional Architecture Defence: Why Reject Microservices?
-In accordance with **Milestone 2 Brief §5.3**, a distributed microservices architecture was considered and explicitly rejected:
+In accordance with **Milestone 2 Brief Section 5.3**, a distributed microservices architecture was considered and explicitly rejected:
 * **The Cost of Distribution:** Splitting CivicConnect into 5 separate microservices (Auth Service, Intake Service, Queue Service, Notification Service, Analytics Service) introduces network serialization latency, distributed transactions (Saga complexity), multiple container overheads (>1.5GB RAM), and complex network failure modes.
 * **Team Capacity Constraint:** A 3-person team cannot responsibly build, test, and operate a distributed service mesh in 7 weeks.
-* **Conclusion:** A **Clean Layered Modular Monolith** provides identical logical boundary isolation while operating at $<180\text{MB}$ RAM with zero distributed failure overhead.
+* **Conclusion:** A **Clean Layered Modular Monolith** provides identical logical boundary isolation while operating at $<180MB$ RAM with zero distributed failure overhead.
 
 ---
 
@@ -206,7 +206,7 @@ In `ADR-003`, Group E deliberately deferred technology stack commitments to Mile
 $$\begin{array}{l|c|c|c|c}
 \textbf{Evaluation Criterion} & \textbf{Weight} & \textbf{TypeScript / Node.js} & \textbf{C\# / ASP.NET 8} & \textbf{Python / FastAPI} \\
 \hline
-\text{Free-Tier Quota \& Memory Footprint (\le 512MB)} & 20\% & 9.0\text{ (1.80)} & 6.0\text{ (1.20)} & 7.5\text{ (1.50)} \\
+\text{Free-Tier Quota \& Memory Footprint (<= 512MB)} & 20\% & 9.0\text{ (1.80)} & 6.0\text{ (1.20)} & 7.5\text{ (1.50)} \\
 \text{Architecture \& NFR Fit (Modularity, Typing)} & 25\% & 9.0\text{ (2.25)} & 9.5\text{ (2.38)} & 8.0\text{ (2.00)} \\
 \text{Team Capability \& Velocity (3 Students)} & 20\% & 9.5\text{ (1.90)} & 7.0\text{ (1.40)} & 7.5\text{ (1.50)} \\
 \text{Automated Testing Tooling Maturity} & 15\% & 9.0\text{ (1.35)} & 9.0\text{ (1.35)} & 8.5\text{ (1.28)} \\
@@ -221,7 +221,7 @@ $$\begin{array}{l|c|c|c|c}
 * **Backend Framework:** Express.js structured in Clean Architecture layers.
 * **Database Engine:** PostgreSQL 16 (Alpine container locally; Neon/Supabase cloud staging).
 * **Frontend Client:** React 18 + Vite + Tailwind CSS (WCAG 2.1 AA accessible tokens).
-* **Testing Framework:** Vitest / Jest + Supertest (enforcing $\ge 80\%$ branch coverage).
+* **Testing Framework:** Vitest / Jest + Supertest (enforcing $>= 80\%$ branch coverage).
 * **Containerization:** Docker Compose v3.8 (`DEC-005`).
 
 ---
@@ -269,13 +269,13 @@ erDiagram
 
 ## Section 10: Research-Informed Design Pattern Implementations
 
-### 10.1 Design Problem 1: Decoupled Multi-Channel Notifications (Observer Pattern — `ADR-004`)
+### 10.1 Design Problem 1: Decoupled Multi-Channel Notifications (Observer Pattern -- `ADR-004`)
 * **Context:** A status change must notify requesters (`FR-005`), alert technicians (`FR-006`), log audit records (`NFR-006`), and update SLA timers (`FR-013`).
 * **Research Evidence:** A2 Task 1 compared Observer vs Chain of Responsibility vs Procedural calls.
 * **M2 Decision:** Adopted in-memory **Observer Pattern with Domain Event Dispatcher**.
 * **Trade-Off & Introduced Complexity:** Observers introduce indirect control flow. Mitigated by wrapping observers in error guards and unit testing with mock event subscribers.
 
-### 10.2 Design Problem 2: Polymorphic Request Intake (Factory Method Pattern — `ADR-005`)
+### 10.2 Design Problem 2: Polymorphic Request Intake (Factory Method Pattern -- `ADR-005`)
 * **Context:** Diverse request categories (`FAC_FAULT`, `IT_SUPPORT`, `SECURITY_HAZARD`) require distinct mandatory fields, SLA defaults, and validation logic (`FR-001`, `FR-002`).
 * **Research Evidence:** A2 Task 1 compared Factory Method vs Dynamic Reflection vs Monolithic Switch/Case.
 * **M2 Decision:** Adopted **Factory Method Pattern** with `IServiceRequestFactory` and specialized domain creators.
@@ -287,7 +287,7 @@ erDiagram
 
 ### 11.1 Information Architecture & User Workflows
 CivicConnect separates user journeys based on authenticated role permissions:
-* **Community Requester Journey:** Simple 3-step submission modal (Category $\to$ Details/Photo $\to$ Instant Reference Generation `REQ-2026-XXXX`) followed by a dedicated tracking portal.
+* **Community Requester Journey:** Simple 3-step submission modal (Category -> Details/Photo -> Instant Reference Generation `REQ-2026-XXXX`) followed by a dedicated tracking portal.
 * **Field Technician Journey:** Filtered department queue showing tickets prioritized by SLA deadline, with quick "Claim Ticket", "Add Note", and "Resolve" action drawers.
 * **Supervisor Journey:** Department-wide dispatch board with drag-and-drop technician assignment and queue reassignment controls.
 
@@ -333,10 +333,10 @@ Outbound citizen email and SMS dispatches are decoupled from the user's web requ
 ## Section 14: Requirements Traceability Evolution (RTM v2.0 Summary)
 
 The complete Requirements Traceability Matrix v2.0 (`DOC-REQ-002`) provides unbroken forward and backward traceability across all 14 Functional Requirements and 10 Non-Functional Requirements. Key implementation mappings include:
-* `FR-001` (Submission) $\to$ `CreateServiceRequest.ts` $\to$ `ServiceRequestFactory.ts` $\to$ `V1__initial_schema.sql` $\to$ `requests.test.ts`.
-* `FR-005` (Feedback) $\to$ `DomainEventDispatcher.ts` $\to$ `TransactionalOutboxService.ts` $\to$ `outbox_messages` $\to$ `ObserverPattern.test.ts`.
-* `FR-009` (Assignment) $\to$ `AssignServiceRequest.ts` $\to$ `version` OCC column $\to$ `ServiceRequestConcurrency.test.ts`.
-* `FR-010` (FSM Transition) $\to$ `status_transition_rules` $\to$ `ServiceRequestFSM.test.ts`.
+* `FR-001` (Submission) -> `CreateServiceRequest.ts` -> `ServiceRequestFactory.ts` -> `V1__initial_schema.sql` -> `requests.test.ts`.
+* `FR-005` (Feedback) -> `DomainEventDispatcher.ts` -> `TransactionalOutboxService.ts` -> `outbox_messages` -> `ObserverPattern.test.ts`.
+* `FR-009` (Assignment) -> `AssignServiceRequest.ts` -> `version` OCC column -> `ServiceRequestConcurrency.test.ts`.
+* `FR-010` (FSM Transition) -> `status_transition_rules` -> `ServiceRequestFSM.test.ts`.
 
 ---
 
@@ -378,15 +378,15 @@ Risk Register v2.0 (`DOC-RSK-002`) incorporates 10 project-specific risks evalua
 | Assessment Attribute | Formal Evaluation Record |
 | :--- | :--- |
 | **Project** | **CivicConnect: Community Service Request Management Platform** |
-| **Baseline Type** | **Milestone 2 — Architecture, Technology & Initial Design Baseline** |
+| **Baseline Type** | **Milestone 2 -- Architecture, Technology & Initial Design Baseline** |
 | **Version** | **v2.0 (Controlled Architecture Baseline)** |
 | **Date** | **2026-09-30** |
-| **Scope Reviewed** | **YES** — M1 Scope confirmed unchanged; all 14 FRs and 10 NFRs validated against architecture allocations. |
-| **Architecture & ASRs Checked** | **YES** — Proportional Clean/Layered architecture justified; macro-architecture and component interactions verified against ASRs. |
-| **Data & Persistence Checked** | **YES** — Strict 3NF relational schema, ERD, ACID boundaries, and OCC (`ADR-006`) verified in PostgreSQL 16 migrations. |
-| **Technology Selection Checked** | **YES** — Formally evaluated and committed via Weighted Decision Matrix (`ADR-008`), resolving `ADR-003`. |
-| **Design Decisions Checked** | **YES** — At least two genuine design patterns committed (Observer `ADR-004`, Factory Method `ADR-005`, Outbox `ADR-007`). |
-| **Requirements Traceability Checked** | **YES** — Living RTM v2.0 fully populated across all 12 mandatory columns with active code and schema links. |
+| **Scope Reviewed** | **YES** -- M1 Scope confirmed unchanged; all 14 FRs and 10 NFRs validated against architecture allocations. |
+| **Architecture & ASRs Checked** | **YES** -- Proportional Clean/Layered architecture justified; macro-architecture and component interactions verified against ASRs. |
+| **Data & Persistence Checked** | **YES** -- Strict 3NF relational schema, ERD, ACID boundaries, and OCC (`ADR-006`) verified in PostgreSQL 16 migrations. |
+| **Technology Selection Checked** | **YES** -- Formally evaluated and committed via Weighted Decision Matrix (`ADR-008`), resolving `ADR-003`. |
+| **Design Decisions Checked** | **YES** -- At least two genuine design patterns committed (Observer `ADR-004`, Factory Method `ADR-005`, Outbox `ADR-007`). |
+| **Requirements Traceability Checked** | **YES** -- Living RTM v2.0 fully populated across all 12 mandatory columns with active code and schema links. |
 | **Outcome** | **ACCEPTED** |
 
 *Sign-Off Authority:*  
@@ -400,11 +400,11 @@ Risk Register v2.0 (`DOC-RSK-002`) incorporates 10 project-specific risks evalua
 
 1. Gamma, E., Helm, R., Johnson, R. and Vlissides, J. (1994) *Design Patterns: Elements of Reusable Object-Oriented Software*. Boston, MA: Addison-Wesley.
 2. Fowler, M. (2002) *Patterns of Enterprise Application Architecture*. Boston, MA: Addison-Wesley.
-3. Martin, R.C. (2018) *Clean Architecture: A Craftsman’s Guide to Software Structure and Design*. Boston, MA: Prentice Hall.
-4. Kleppmann, M. (2017) *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*. Sebastopol, CA: O’Reilly Media.
-5. ISO/IEC/IEEE (2018) *ISO/IEC/IEEE 29148:2018 Systems and software engineering — Life cycle processes — Requirements engineering*. Geneva: International Organization for Standardization.
-6. ISO/IEC (2023) *ISO/IEC 25010:2023 Systems and software engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — Product quality model*. Geneva: International Organization for Standardization.
-7. IEEE (2009) *IEEE Std 1016-2009 IEEE Standard for Information Technology — Systems Design — Software Design Descriptions*. New York: IEEE.
+3. Martin, R.C. (2018) *Clean Architecture: A Craftsman's Guide to Software Structure and Design*. Boston, MA: Prentice Hall.
+4. Kleppmann, M. (2017) *Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems*. Sebastopol, CA: O'Reilly Media.
+5. ISO/IEC/IEEE (2018) *ISO/IEC/IEEE 29148:2018 Systems and software engineering -- Life cycle processes -- Requirements engineering*. Geneva: International Organization for Standardization.
+6. ISO/IEC (2023) *ISO/IEC 25010:2023 Systems and software engineering -- Systems and software Quality Requirements and Evaluation (SQuaRE) -- Product quality model*. Geneva: International Organization for Standardization.
+7. IEEE (2009) *IEEE Std 1016-2009 IEEE Standard for Information Technology -- Systems Design -- Software Design Descriptions*. New York: IEEE.
 8. W3C (2018) *Web Content Accessibility Guidelines (WCAG) 2.1*. W3C Recommendation. Available at: https://www.w3.org/TR/WCAG21/ (Accessed: 20 September 2026).
-9. OWASP Foundation (2021) *OWASP Top 10: 2021 — The Ten Most Critical Web Application Security Risks*. Available at: https://owasp.org/Top10/ (Accessed: 20 September 2026).
+9. OWASP Foundation (2021) *OWASP Top 10: 2021 -- The Ten Most Critical Web Application Security Risks*. Available at: https://owasp.org/Top10/ (Accessed: 20 September 2026).
 10. Richardson, C. (2018) *Microservices Patterns: With examples in Java*. Shelter Island, NY: Manning Publications.

@@ -1,7 +1,7 @@
 # CivicConnect: Milestone 2 Baseline Sign-Off & Gate Decision
 
 **Document Reference:** `DOC-GOV-004`  
-**Milestone:** Milestone 2 — Architecture, Technology & Initial Design Baseline  
+**Milestone:** Milestone 2 -- Architecture, Technology & Initial Design Baseline  
 **Governing Standard:** SEN381 Master Project Brief Appendix D & Section 20.2; Milestone 2 Brief Section 6  
 
 ---
@@ -11,18 +11,18 @@
 | Assessment Attribute | Formal Evaluation Record |
 | :--- | :--- |
 | **Project** | **CivicConnect: Community Service Request Management Platform** |
-| **Baseline Type** | **Milestone 2 — Architecture, Technology & Initial Design Baseline** |
+| **Baseline Type** | **Milestone 2 -- Architecture, Technology & Initial Design Baseline** |
 | **Version** | **v2.0 (Controlled Baseline)** |
 | **Date** | **2026-09-30** |
-| **Scope Reviewed** | **YES** — M1 Scope baseline confirmed unchanged; all 14 FRs and 10 NFRs validated against architectural allocations. |
-| **Architecture & ASRs Checked** | **YES** — Proportional Clean/Layered architecture justified; macro-architecture diagrams and component interactions verified against ASRs. |
-| **Data & Persistence Checked** | **YES** — Strict 3NF relational schema, ERD, ACID boundaries, and Optimistic Concurrency Control (`ADR-006`) verified in PostgreSQL 16 migrations. |
-| **Technology Selection Checked** | **YES** — Formally evaluated and committed via Weighted Decision Matrix (`ADR-008`), resolving `ADR-003` under \$0.00 cloud hosting caps. |
-| **Initial Design Decisions Checked** | **YES** — At least two genuine design patterns committed (Observer `ADR-004`, Factory Method `ADR-005`, Outbox `ADR-007`) informed by A2 research. |
-| **Requirements Traceability Checked** | **YES** — Evolved RTM v2.0 fully populated across all 12 mandatory columns with active code, schema, and verification links. |
-| **Risk Review Completed** | **YES** — 11 architectural, technical, and operational risks evaluated in Risk Register v2.0, including team restructuring risk (`RSK-011`). |
-| **Controlled Development Checked** | **YES** — Meaningful domain models, factories, observers, migrations, Docker Compose parity, and unit test suites verified in repository. |
-| **Team Governance & SCM Checked** | **YES** — Restructured to 2-person operation under `ADR-009` following withdrawal of Pandora Greyling (602369) on 2026-09-29. |
+| **Scope Reviewed** | **YES** -- M1 Scope baseline confirmed unchanged; all 14 FRs and 10 NFRs validated against architectural allocations. |
+| **Architecture & ASRs Checked** | **YES** -- Proportional Clean/Layered architecture justified; macro-architecture diagrams and component interactions verified against ASRs. |
+| **Data & Persistence Checked** | **YES** -- Strict 3NF relational schema, ERD, ACID boundaries, and Optimistic Concurrency Control (`ADR-006`) verified in PostgreSQL 16 migrations. |
+| **Technology Selection Checked** | **YES** -- Formally evaluated and committed via Weighted Decision Matrix (`ADR-008`), resolving `ADR-003` under \$0.00 cloud hosting caps. |
+| **Initial Design Decisions Checked** | **YES** -- At least two genuine design patterns committed (Observer `ADR-004`, Factory Method `ADR-005`, Outbox `ADR-007`) informed by A2 research. |
+| **Requirements Traceability Checked** | **YES** -- Evolved RTM v2.0 fully populated across all 12 mandatory columns with active code, schema, and verification links. |
+| **Risk Review Completed** | **YES** -- 11 architectural, technical, and operational risks evaluated in Risk Register v2.0, including team restructuring risk (`RSK-011`). |
+| **Controlled Development Checked** | **YES** -- Meaningful domain models, factories, observers, migrations, Docker Compose parity, and unit test suites verified in repository. |
+| **Team Governance & SCM Checked** | **YES** -- Restructured to 2-person operation under `ADR-009` following withdrawal of Pandora Greyling (602369) on 2026-09-29. |
 | **Outcome** | **ACCEPTED** |
 
 ---
@@ -43,6 +43,6 @@ The architecture and design baseline `PED v2.0` is officially signed off and con
 
 ## 3. Registered Team Signatures
 
-* **Lisa Verson (Lead Requirements & Design Analyst — 602006):** *Signed — 2026-09-30*
-* **Chris Fourie (Systems Architect, Lead Dev & Governance Lead — 602826):** *Signed — 2026-09-30*
+* **Lisa Verson (Lead Requirements & Design Analyst -- 602006):** *Signed -- 2026-09-30*
+* **Chris Fourie (Systems Architect, Lead Dev & Governance Lead -- 602826):** *Signed -- 2026-09-30*
 * *(Note on Record: Pandora Greyling [602369] officially withdrew from institution on 2026-09-29. All responsibilities absorbed under ADR-009).*
