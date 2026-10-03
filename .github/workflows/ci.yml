@@ -1,0 +1,44 @@
+name: CivicConnect CI Verification Gate
+
+on:
+  push:
+    branches: [ main, feat/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-verify:
+    name: Build, Static Analysis, Automated Verification & Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js LTS (v20)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: code/package-lock.json
+
+      - name: Gate 1: Install Dependencies
+        run: |
+          cd code
+          npm ci
+
+      - name: Gate 2: Static Analysis & TypeScript Compilation
+        run: |
+          cd code
+          npm run build
+
+      - name: Gate 3: Automated Verification Suite (Vitest with V8 Coverage)
+        run: |
+          cd code
+          npm run test:coverage
+
+      - name: Gate 4: Security Vulnerability Scan (NPM Audit)
+        run: |
+          cd code
+          # Fails pipeline if any high or critical production vulnerabilities exist
+          npm audit --omit=dev --audit-level=high
