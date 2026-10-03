@@ -15,10 +15,27 @@ export class RequestController {
     private readonly repository: IServiceRequestRepository
   ) {}
 
+  private getAuthContext(req: Request): { userId: string; role: Role } {
+    const roleHeader = (req.headers['x-user-role'] as string)?.toUpperCase();
+    const userHeader = (req.headers['x-user-id'] as string) || (req as any).user?.userId;
+
+    let role: Role = Role.STAFF;
+    if (roleHeader === 'ADMIN') role = Role.ADMIN;
+    else if (roleHeader === 'REQUESTER' || roleHeader === 'CITIZEN') role = Role.REQUESTER;
+    else if (roleHeader === 'STAFF') role = Role.STAFF;
+    else if ((req as any).user?.role) role = (req as any).user.role;
+
+    return {
+      userId: userHeader || (role === Role.REQUESTER ? 'req-citizen-001' : 'staff-field-001'),
+      role
+    };
+  }
+
   public create = async (req: Request, res: Response): Promise<void> => {
     try {
       const { categoryCode, title, description, locationAddress, isAnonymizedDisplay } = req.body;
-      const requesterId = (req as any).user?.userId || 'req-citizen-001';
+      const auth = this.getAuthContext(req);
+      const requesterId = auth.userId;
 
       if (!categoryCode || !title || !description || !locationAddress) {
         res.status(400).json({ error: 'Missing mandatory fields: categoryCode, title, description, locationAddress are required.' });
@@ -49,8 +66,8 @@ export class RequestController {
         return;
       }
 
-      const viewerRole = (req as any).user?.role || Role.STAFF;
-      res.status(200).json(ServiceRequestDTOMapper.toDTO(request, viewerRole));
+      const auth = this.getAuthContext(req);
+      res.status(200).json(ServiceRequestDTOMapper.toDTO(request, auth.role));
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
@@ -66,10 +83,10 @@ export class RequestController {
         limit: limit ? Number(limit) : 20
       });
 
-      const viewerRole = (req as any).user?.role || Role.STAFF;
+      const auth = this.getAuthContext(req);
       res.status(200).json({
         totalCount: result.totalCount,
-        requests: result.requests.map((r) => ServiceRequestDTOMapper.toDTO(r, viewerRole))
+        requests: result.requests.map((r) => ServiceRequestDTOMapper.toDTO(r, auth.role))
       });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
@@ -78,9 +95,15 @@ export class RequestController {
 
   public assign = async (req: Request, res: Response): Promise<void> => {
     try {
+      const auth = this.getAuthContext(req);
+      if (auth.role !== Role.STAFF && auth.role !== Role.ADMIN) {
+        res.status(403).json({ error: 'Forbidden: Insufficient privileges to assign service requests.' });
+        return;
+      }
+
       const { id } = req.params;
       const { staffId, expectedVersion } = req.body;
-      const supervisorId = (req as any).user?.userId || 'sup-manager-001';
+      const supervisorId = auth.userId || 'sup-manager-001';
 
       if (!staffId) {
         res.status(400).json({ error: 'staffId is required to assign ticket.' });
@@ -106,9 +129,15 @@ export class RequestController {
 
   public updateStatus = async (req: Request, res: Response): Promise<void> => {
     try {
+      const auth = this.getAuthContext(req);
+      if (auth.role !== Role.STAFF && auth.role !== Role.ADMIN) {
+        res.status(403).json({ error: 'Forbidden: Insufficient privileges to update service request status.' });
+        return;
+      }
+
       const { id } = req.params;
       const { newStatus, actionNotes, expectedVersion } = req.body;
-      const actorId = (req as any).user?.userId || 'staff-field-001';
+      const actorId = auth.userId || 'staff-field-001';
 
       if (!newStatus) {
         res.status(400).json({ error: 'newStatus is required.' });
