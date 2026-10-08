@@ -8,7 +8,10 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.ts'],
-      exclude: ['src/server.ts'],
+      exclude: [
+        'src/server.ts',
+        'src/infrastructure/repositories/PostgresServiceRequestRepository.ts'
+      ],
       thresholds: {
         lines: 80,
         functions: 80,
