@@ -41,7 +41,7 @@ Replace PostgreSQL with file-based SQLite.
 
 ### Alternative 3: Dual Persistence Strategy via Dependency Inversion (Selected)
 Implement two interchangeable repository adapters conforming to `IServiceRequestRepository`:
-1. `InMemoryServiceRequestRepository.ts`: High-performance in-memory harness used by default in unit, integration, and CI test suites (executes 41 tests in 1.3s).
+1. `InMemoryServiceRequestRepository.ts`: High-performance in-memory harness used by default in unit, integration, and CI test suites (executes 42 tests in 1.76s).
 2. `PostgresServiceRequestRepository.ts`: Production-ready PostgreSQL 16 repository utilizing `pg.Pool`, parameterized SQL queries, active `SELECT 1;` health probes, and optimistic concurrency `WHERE version = $4` validation.
 3. Switchable at runtime via the `USE_POSTGRES=true/false` environment flag in `server.ts`.
 

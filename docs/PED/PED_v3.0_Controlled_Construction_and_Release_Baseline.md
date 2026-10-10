@@ -33,7 +33,7 @@
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1.0** | 2026-09-09 | Chris Fourie, Pandora Greyling, Lisa Verson | Full Team (Two-Reviewer Sign-off) | **APPROVED M1 BASELINE** | Baseline M1: Problem statement, stakeholder analysis, 14 FRs, 10 NFRs, scope boundaries, FSM, RTM v1.0, Risk Register v1.0, ADR-001 to ADR-003. |
 | **2.0** | 2026-09-30 | Chris Fourie, Lisa Verson *(early inputs Pandora)* | Chris Fourie & Lisa Verson (`ADR-009` Ratified) | **CONTROLLED M2 BASELINE** | Formal M2 Baseline: Clean Layered Architecture, Weighted Tech Stack Matrix (`ADR-008`), Relational Model (`ADR-006`), Observer (`ADR-004`), Factory Method (`ADR-005`), Outbox (`ADR-007`), OpenAPI specs, WCAG 2.1 AA UI specs, RTM v2.0, Risk Register v2.0, `ADR-009`. |
-| **3.0** | 2026-10-08 | Chris Fourie | Automated Multi-Gate CI + Self-Audit (`ADR-012`) | **RELEASE CANDIDATE BASELINE** | Formal M3 Release Candidate: Clean Architecture backend implementation, dual persistence (`ADR-010`), staging parity & rollback (`ADR-011`), solo SCM continuity (`ADR-012`), 4-gate CI workflow, 41 automated tests (unit, blackbox EP/BVA, decision tables, API integration, E2E, load benchmark), 85.57% test coverage, 0 high vulnerabilities, RTM v3.0, Defect Register v3.0, Tech Debt Register v1.0, Risk Register v3.0, AI Register v3.0, Release Evidence Summary (`CONDITIONALLY READY`). |
+| **3.0** | 2026-10-08 | Chris Fourie | Automated Multi-Gate CI + Self-Audit (`ADR-012`) | **RELEASE CANDIDATE BASELINE** | Formal M3 Release Candidate: Clean Architecture backend implementation, dual persistence (`ADR-010`), staging parity & rollback (`ADR-011`), solo SCM continuity (`ADR-012`), 4-gate CI workflow, 42 automated tests across 12 files (unit, blackbox EP/BVA, decision tables, API integration, 3 E2E journeys, load benchmark), 93.60% test coverage, 0 high vulnerabilities, RTM v3.0, Defect Register v3.0, Tech Debt Register v1.0, Risk Register v3.0, AI Register v3.0, Release Evidence Summary (`CONDITIONALLY READY`). |
 
 ---
 
@@ -112,7 +112,7 @@ The CI pipeline ([`.github/workflows/ci.yml`](file:///c:/Chris/Studies/SEN/Proje
            │
 [Gate 2: Static Type Analysis]  ──► tsc --noEmit (TypeScript compilation check; 0 errors)
            │
-[Gate 3: Automated Verification]──► vitest run --coverage (41 tests; 85.57% coverage; >=80% gate)
+[Gate 3: Automated Verification]──► vitest run --coverage (42 tests across 12 files; 93.60% coverage; >=80% gate)
            │
 [Gate 4: Security Audit Gate]   ──► npm audit --omit=dev --audit-level=high (0 high/critical CVEs)
 ```
@@ -136,16 +136,17 @@ Testing efforts were prioritized based on **consequence and exposure**:
 
 In accordance with **Assessment Area D (M3 Brief §10)**:
 
-### 7.1 Meaningful Verification Breakdown (41 Total Tests)
-* **Unit / Component Tests (13 cases):** State machine FSM transitions, OCC integer version checking, Factory Method validation, Observer event dispatching, and POPIA contact masking.
-* **Black-Box Functional Tests (20 cases):**
+### 7.1 Meaningful Verification Breakdown (42 Total Tests Across 12 Files)
+* **Unit / Component Tests (13 cases across 5 files):** State machine FSM transitions, OCC integer version checking, Factory Method validation, Observer event dispatching, and POPIA contact masking.
+* **Black-Box Functional Tests (20 cases across 2 files):**
   - *Equivalence Partitioning & Boundary Value Analysis (10 cases):* [`InputBoundaryValidation.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/unit/blackbox/InputBoundaryValidation.test.ts) testing exact limits (title length 2 vs 3, 100 vs 101; phone number formatting).
   - *Decision Table Testing (10 cases):* [`IntakeDecisionTable.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/unit/blackbox/IntakeDecisionTable.test.ts) testing cross-condition combinations of category, mandatory fields, and role permissions.
-* **API / Integration Tests (5 cases):** [`api.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/integration/api.test.ts) verifying REST contracts, HTTP 200 healthcheck, HTTP 201 creation, HTTP 403 RBAC rejection, HTTP 409 version collision, and HTTP 404 not found.
-* **End-to-End System Tests (2 cases):** [`lifecycleJourney.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/e2e/lifecycleJourney.test.ts):
-  - *Journey 1:* Full citizen submission $\rightarrow$ supervisor triage $\rightarrow$ technician assignment $\rightarrow$ work in progress $\rightarrow$ resolution with notes $\rightarrow$ citizen verification.
-  - *Journey 2:* Security & invariant breach journey verifying that unauthorized citizens cannot reassign tickets and illegal state jumps are rejected.
-* **Performance / Load Benchmark (1 case):** [`load.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/performance/load.test.ts) evaluating 50 concurrent intake operations.
+* **API / Integration Tests (5 cases across 1 file):** [`api.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/integration/api.test.ts) verifying REST contracts, HTTP 200 healthcheck, HTTP 201 creation, HTTP 403 RBAC rejection, HTTP 409 version collision, and HTTP 404 not found.
+* **End-to-End System Tests (3 cases across 3 files):**
+  - *Journey 1 (`TC-E2E-LIFE-01`):* [`citizenLifecycle.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/e2e/citizenLifecycle.test.ts) testing complete citizen intake $\rightarrow$ supervisor triage $\rightarrow$ technician assignment $\rightarrow$ work in progress $\rightarrow$ resolution with mandatory action notes $\rightarrow$ POPIA masking verification.
+  - *Journey 2 (`TC-E2E-SEC-01`):* [`securityBoundary.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/e2e/securityBoundary.test.ts) testing privilege escalation rejection (HTTP 403), FSM illegal skip rejection (HTTP 400), optimistic concurrency tampering (HTTP 409), and system invariant preservation.
+  - *Journey 3 (`TC-E2E-RES-01`):* [`operationalResilience.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/e2e/operationalResilience.test.ts) testing automated liveness health probes, $<512\text{MB}$ container memory cap verification, uniform error contracts (404/400), and department queue filtering with pagination.
+* **Performance / Load Benchmark (1 case across 1 file):** [`load.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/performance/load.test.ts) evaluating 50 concurrent intake operations.
 
 ---
 
