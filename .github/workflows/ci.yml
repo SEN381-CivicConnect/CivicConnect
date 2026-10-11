@@ -25,22 +25,22 @@ jobs:
           cache: 'npm'
           cache-dependency-path: code/package-lock.json
 
-      - name: Gate 1: Install Dependencies
+      - name: 'Gate 1: Install Dependencies'
         run: |
           cd code
           npm ci
 
-      - name: Gate 2: Static Analysis & TypeScript Compilation
+      - name: 'Gate 2: Static Analysis & TypeScript Compilation'
         run: |
           cd code
           npm run build
 
-      - name: Gate 3: Automated Verification Suite (Vitest with V8 Coverage)
+      - name: 'Gate 3: Automated Verification Suite (Vitest with V8 Coverage)'
         run: |
           cd code
           npm run test:coverage
 
-      - name: Gate 4: Security Vulnerability Scan (NPM Audit)
+      - name: 'Gate 4: Security Vulnerability Scan (NPM Audit)'
         run: |
           cd code
           # Fails pipeline if any high or critical production vulnerabilities exist
