@@ -1,0 +1,66 @@
+version: '3.8'
+
+# =====================================================================
+# CivicConnect Simulated Staging Environment Specification
+# Standards: SEN381 Milestone 3 Brief §14, DEC-005, FEC-004, ADR-011
+# Isolation: Distinct ports (5001/5433), isolated network & volume
+# Author: Chris Fourie (602826)
+# =====================================================================
+
+services:
+  # 1. Staging Database (PostgreSQL 16)
+  staging-db:
+    image: postgres:16-alpine
+    container_name: civicconnect-staging-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${STAGING_DB_NAME:-civicconnect_staging}
+      POSTGRES_USER: ${STAGING_DB_USER:-staging_admin}
+      POSTGRES_PASSWORD: ${STAGING_DB_PASSWORD:-staging_secret_pass_2026}
+    ports:
+      - "${STAGING_DB_PORT:-5433}:5432"
+    volumes:
+      - staging_pgdata:/var/lib/postgresql/data
+      - ./database/migrations/V1__initial_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./database/seeds/01_baseline_seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${STAGING_DB_USER:-staging_admin} -d ${STAGING_DB_NAME:-civicconnect_staging}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - staging-network
+
+  # 2. Staging Application Release Candidate Container
+  staging-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: civicconnect-staging-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: staging
+      PORT: 5001
+      APP_VERSION: ${APP_VERSION:-v0.3.0-rc1}
+      GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-release-candidate-1}
+      USE_POSTGRES: "true"
+      DB_HOST: staging-db
+      DB_PORT: 5432
+      DB_NAME: ${STAGING_DB_NAME:-civicconnect_staging}
+      DB_USER: ${STAGING_DB_USER:-staging_admin}
+      DB_PASSWORD: ${STAGING_DB_PASSWORD:-staging_secret_pass_2026}
+    ports:
+      - "${STAGING_APP_PORT:-5001}:5001"
+    depends_on:
+      staging-db:
+        condition: service_healthy
+    networks:
+      - staging-network
+
+volumes:
+  staging_pgdata:
+    driver: local
+
+networks:
+  staging-network:
+    driver: bridge

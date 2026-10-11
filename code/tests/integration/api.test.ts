@@ -70,4 +70,58 @@ describe('CivicConnect REST API Integration (OpenAPI 3.0 & NFR-001/NFR-002)', ()
     expect(assignRes2.status).toBe(409);
     expect(assignRes2.body.error).toContain('Concurrency conflict');
   });
+
+  it('PATCH /api/v1/requests/:id/assign should reject non-staff assignment with HTTP 403 Forbidden (NFR-004)', async () => {
+    const createRes = await request(app)
+      .post('/api/v1/requests')
+      .send({
+        categoryCode: 'IT_SUPPORT',
+        title: 'Network printer offline',
+        description: 'Computer lab printer not responding on network',
+        locationAddress: 'Lab 3, Terminal 12'
+      });
+
+    const ticketId = createRes.body.requestId;
+
+    // Attempt assignment as citizen / requester
+    const unauthorizedRes = await request(app)
+      .patch(`/api/v1/requests/${ticketId}/assign`)
+      .set('x-user-role', 'REQUESTER')
+      .send({ staffId: 'staff-tech-01', expectedVersion: 1 });
+
+    expect(unauthorizedRes.status).toBe(403);
+    expect(unauthorizedRes.body.error).toContain('Forbidden');
+  });
+
+  it('GET /api/v1/requests/:id should mask citizen PII for STAFF and unmask for ADMIN (FR-008, NFR-005)', async () => {
+    const createRes = await request(app)
+      .post('/api/v1/requests')
+      .set('x-user-id', 'citizen-jane-doe')
+      .send({
+        categoryCode: 'FAC_FAULT',
+        title: 'Water pipe leaking',
+        description: 'Active water leak near electrical cabinet',
+        locationAddress: 'Building A, Room 101',
+        isAnonymizedDisplay: true
+      });
+
+    const ticketId = createRes.body.requestId;
+
+    // 1. Query as STAFF (default) -> citizen identity should be masked
+    const staffRes = await request(app)
+      .get(`/api/v1/requests/${ticketId}`)
+      .set('x-user-role', 'STAFF');
+
+    expect(staffRes.status).toBe(200);
+    expect(staffRes.body.requester.userId).toBe('[POPIA PROTECTED]');
+    expect(staffRes.body.requester.displayName).toBe('Community Requester (Anonymous)');
+
+    // 2. Query as ADMIN -> citizen identity should be visible
+    const adminRes = await request(app)
+      .get(`/api/v1/requests/${ticketId}`)
+      .set('x-user-role', 'ADMIN');
+
+    expect(adminRes.status).toBe(200);
+    expect(adminRes.body.requester.userId).toBe('citizen-jane-doe');
+  });
 });

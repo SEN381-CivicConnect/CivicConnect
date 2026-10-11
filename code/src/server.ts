@@ -1,13 +1,19 @@
 import { createApp } from './app.js';
 import dotenv from 'dotenv';
+import { IServiceRequestRepository } from './domain/repositories/IServiceRequestRepository.js';
 import { InMemoryServiceRequestRepository } from './infrastructure/repositories/InMemoryServiceRequestRepository.js';
+import { PostgresServiceRequestRepository } from './infrastructure/repositories/PostgresServiceRequestRepository.js';
 import { CreateServiceRequestUseCase } from './application/use-cases/CreateServiceRequest.js';
 import { RequestStatus } from './domain/enums/RequestStatus.js';
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
-const repository = new InMemoryServiceRequestRepository();
+const usePostgres = process.env.USE_POSTGRES === 'true';
+
+const repository: IServiceRequestRepository = usePostgres
+  ? new PostgresServiceRequestRepository()
+  : new InMemoryServiceRequestRepository();
 
 // Pre-seed repository with realistic operational baseline requests
 async function initializeDemoData() {
@@ -53,18 +59,30 @@ async function initializeDemoData() {
   await repository.update(secTicket);
 }
 
-initializeDemoData().then(() => {
+async function startServer() {
+  if (!usePostgres) {
+    await initializeDemoData();
+  } else {
+    console.log('[Database] Operating with PostgreSQL 16 relational persistence adapter (ADR-010).');
+  }
+
   const app = createApp(repository);
 
   app.listen(PORT, () => {
     console.log(`=======================================================`);
     console.log(` CivicConnect Platform Web & API Server (SEN381 NQF 8)`);
     console.log(` Architecture: Clean Layered Monolith`);
+    console.log(` Persistence:  ${usePostgres ? 'PostgreSQL 16 Relational' : 'In-Memory State'}`);
     console.log(` Port: ${PORT} | Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(` Web Portal:   http://localhost:${PORT}/`);
     console.log(` Healthcheck:  http://localhost:${PORT}/health/live`);
     console.log(` REST API:     http://localhost:${PORT}/api/v1/requests`);
     console.log(`=======================================================`);
   });
+}
+
+startServer().catch((err) => {
+  console.error('Fatal Server Boot Error:', err);
+  process.exit(1);
 });
 
