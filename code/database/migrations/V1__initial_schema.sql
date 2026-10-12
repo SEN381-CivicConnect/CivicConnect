@@ -226,6 +226,24 @@ CREATE TABLE notifications (
 
 COMMENT ON TABLE notifications IS 'Automated alerts and feedback records sent upon ticket transitions.';
 
+-- ---------------------------------------------------------------------
+-- 14. TRANSACTIONAL OUTBOX MESSAGES (ADR-007, DEBT-002)
+-- ---------------------------------------------------------------------
+CREATE TABLE outbox_messages (
+    message_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    aggregate_type VARCHAR(50) NOT NULL DEFAULT 'ServiceRequest',
+    aggregate_id UUID NOT NULL,
+    event_type VARCHAR(100) NOT NULL,
+    payload JSONB NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'PROCESSING', 'DISPATCHED', 'FAILED')),
+    retry_count INT NOT NULL DEFAULT 0,
+    error_message TEXT,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dispatched_at TIMESTAMP WITH TIME ZONE
+);
+
+COMMENT ON TABLE outbox_messages IS 'Durable transactional outbox buffer decoupling domain state mutations from external notification gateways (ADR-007).';
+
 -- =====================================================================
 -- PERFORMANCE B-TREE INDEXES (Targeting NFR-001 & NFR-007)
 -- =====================================================================
@@ -250,3 +268,7 @@ CREATE INDEX idx_audit_request_timeline ON service_request_audit_logs (request_i
 
 -- Unread notification badge lookup (FR-005)
 CREATE INDEX idx_notifications_user_unread ON notifications (user_id, is_read) WHERE is_read = FALSE;
+
+-- Transactional outbox pending queue lookup (ADR-007, DEBT-002)
+CREATE INDEX idx_outbox_pending ON outbox_messages (status, created_at) WHERE status = 'PENDING';
+CREATE INDEX idx_outbox_aggregate ON outbox_messages (aggregate_id);
