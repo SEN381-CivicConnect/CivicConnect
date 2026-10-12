@@ -2,13 +2,47 @@ import pg from 'pg';
 import { IServiceRequestRepository, RequestFilterCriteria } from '../../domain/repositories/IServiceRequestRepository.js';
 import { ServiceRequest, ConcurrencyConflictError, ServiceRequestProps } from '../../domain/entities/ServiceRequest.js';
 import { RequestStatus } from '../../domain/enums/RequestStatus.js';
-import { PriorityLevel } from '../../domain/enums/RoleAndPriority.js';
+import { PriorityLevel, SLA_TARGETS } from '../../domain/enums/RoleAndPriority.js';
 
 const { Pool } = pg;
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+// Baseline seeded Jane Requester account (01_baseline_seeds.sql)
+const DEFAULT_REQUESTER_UUID = 'a0000000-0000-0000-0000-000000000004';
+// Baseline seeded John Technician account (01_baseline_seeds.sql)
+const DEFAULT_TECHNICIAN_UUID = 'a0000000-0000-0000-0000-000000000003';
+
+function toValidUuid(val: string | null | undefined, fallback: string | null = null): string | null {
+  if (!val) return fallback;
+  if (UUID_REGEX.test(val)) return val;
+  return fallback;
+}
+
+function parseLocation(locationAddress: string): { building: string; floorRoom: string } {
+  if (!locationAddress) {
+    return { building: 'General Campus', floorRoom: 'General' };
+  }
+  const parts = locationAddress.split(',');
+  if (parts.length >= 2) {
+    return {
+      building: parts[0].trim().substring(0, 100),
+      floorRoom: parts.slice(1).join(',').trim().substring(0, 100) || 'General'
+    };
+  }
+  return {
+    building: locationAddress.trim().substring(0, 100),
+    floorRoom: 'General'
+  };
+}
+
+function calculateSlaDueAt(createdAt: Date, priorityCode: PriorityLevel): Date {
+  const threshold = SLA_TARGETS[priorityCode] || SLA_TARGETS[PriorityLevel.MEDIUM];
+  return new Date(createdAt.getTime() + threshold.resolutionHours * 60 * 60 * 1000);
+}
+
 /**
  * PostgreSQL Implementation of IServiceRequestRepository
- * Standards: ADR-006 (OCC Relational Model), ADR-010 (Dual Persistence Architecture)
+ * Standards: DOC-ARCH-DATA-001 (Strict 3NF Schema), ADR-006 (OCC Relational Model), ADR-010 (Dual Persistence Architecture)
  * Target Database: PostgreSQL 16+
  * Author: Chris Fourie (602826)
  */
@@ -40,43 +74,55 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
   public async save(request: ServiceRequest): Promise<void> {
     const query = `
       INSERT INTO service_requests (
-        request_id, reference_number, requester_id, department_id,
-        category_id, priority_id, title, description, location_address,
-        is_anonymized_display, assigned_staff_id, status_id, version,
-        created_at, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);
+        request_id, tracking_reference, requester_id, category_id,
+        priority_id, current_status_id, assigned_department_id,
+        assigned_technician_id, title, description, location_building,
+        location_floor_room, is_anonymized_display, version,
+        submitted_at, sla_due_at, updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17);
     `;
 
     const statusId = this.mapStatusToId(request.status);
+    const loc = parseLocation(request.locationAddress);
+    const requesterUuid = toValidUuid(request.requesterId, DEFAULT_REQUESTER_UUID)!;
+    const technicianUuid = request.assignedStaffId
+      ? toValidUuid(request.assignedStaffId, DEFAULT_TECHNICIAN_UUID)
+      : null;
+    const slaDueAt = calculateSlaDueAt(request.createdAt, request.priorityCode);
 
     await this.pool.query(query, [
       request.requestId,
       request.referenceNumber,
-      request.requesterId,
-      request.departmentId,
+      requesterUuid,
       request.categoryId,
       request.priorityId,
+      statusId,
+      request.departmentId,
+      technicianUuid,
       request.title,
       request.description,
-      request.locationAddress,
+      loc.building,
+      loc.floorRoom,
       request.isAnonymizedDisplay,
-      request.assignedStaffId,
-      statusId,
       request.version,
       request.createdAt,
+      slaDueAt,
       request.updatedAt
     ]);
   }
 
   public async update(request: ServiceRequest, expectedVersion?: number): Promise<void> {
     const statusId = this.mapStatusToId(request.status);
+    const technicianUuid = request.assignedStaffId
+      ? toValidUuid(request.assignedStaffId, DEFAULT_TECHNICIAN_UUID)
+      : null;
 
     if (expectedVersion !== undefined) {
       // Optimistic Concurrency Control (ADR-006): Ensure database version matches expectedVersion
       const query = `
         UPDATE service_requests
-        SET status_id = $1,
-            assigned_staff_id = $2,
+        SET current_status_id = $1,
+            assigned_technician_id = $2,
             version = version + 1,
             updated_at = NOW()
         WHERE request_id = $3 AND version = $4
@@ -85,7 +131,7 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
 
       const result = await this.pool.query(query, [
         statusId,
-        request.assignedStaffId,
+        technicianUuid,
         request.requestId,
         expectedVersion
       ]);
@@ -102,8 +148,8 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
     } else {
       const query = `
         UPDATE service_requests
-        SET status_id = $1,
-            assigned_staff_id = $2,
+        SET current_status_id = $1,
+            assigned_technician_id = $2,
             version = $3,
             updated_at = $4
         WHERE request_id = $5;
@@ -111,7 +157,7 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
 
       await this.pool.query(query, [
         statusId,
-        request.assignedStaffId,
+        technicianUuid,
         request.version,
         request.updatedAt,
         request.requestId
@@ -125,7 +171,7 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
       FROM service_requests r
       JOIN request_categories c ON r.category_id = c.category_id
       JOIN priorities p ON r.priority_id = p.priority_id
-      JOIN request_statuses s ON r.status_id = s.status_id
+      JOIN request_statuses s ON r.current_status_id = s.status_id
       WHERE r.request_id = $1;
     `;
 
@@ -141,8 +187,8 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
       FROM service_requests r
       JOIN request_categories c ON r.category_id = c.category_id
       JOIN priorities p ON r.priority_id = p.priority_id
-      JOIN request_statuses s ON r.status_id = s.status_id
-      WHERE r.reference_number = $1;
+      JOIN request_statuses s ON r.current_status_id = s.status_id
+      WHERE r.tracking_reference = $1;
     `;
 
     const result = await this.pool.query(query, [referenceNumber]);
@@ -161,16 +207,16 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
       values.push(criteria.status);
     }
     if (criteria.departmentId) {
-      conditions.push(`r.department_id = $${idx++}`);
+      conditions.push(`r.assigned_department_id = $${idx++}`);
       values.push(criteria.departmentId);
     }
     if (criteria.requesterId) {
       conditions.push(`r.requester_id = $${idx++}`);
-      values.push(criteria.requesterId);
+      values.push(toValidUuid(criteria.requesterId, DEFAULT_REQUESTER_UUID));
     }
     if (criteria.assignedStaffId) {
-      conditions.push(`r.assigned_staff_id = $${idx++}`);
-      values.push(criteria.assignedStaffId);
+      conditions.push(`r.assigned_technician_id = $${idx++}`);
+      values.push(toValidUuid(criteria.assignedStaffId, DEFAULT_TECHNICIAN_UUID));
     }
 
     const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
@@ -178,7 +224,7 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
     const countQuery = `
       SELECT COUNT(*)::int AS count
       FROM service_requests r
-      JOIN request_statuses s ON r.status_id = s.status_id
+      JOIN request_statuses s ON r.current_status_id = s.status_id
       ${whereClause};
     `;
     const countRes = await this.pool.query(countQuery, values);
@@ -193,9 +239,9 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
       FROM service_requests r
       JOIN request_categories c ON r.category_id = c.category_id
       JOIN priorities p ON r.priority_id = p.priority_id
-      JOIN request_statuses s ON r.status_id = s.status_id
+      JOIN request_statuses s ON r.current_status_id = s.status_id
       ${whereClause}
-      ORDER BY r.created_at DESC
+      ORDER BY r.submitted_at DESC
       LIMIT $${idx++} OFFSET $${idx++};
     `;
     values.push(limit, offset);
@@ -211,23 +257,27 @@ export class PostgresServiceRequestRepository implements IServiceRequestReposito
   }
 
   private mapRowToEntity(row: any): ServiceRequest {
+    const locationAddress = row.location_floor_room && row.location_floor_room !== 'General'
+      ? `${row.location_building}, ${row.location_floor_room}`
+      : row.location_building;
+
     const props: ServiceRequestProps = {
       requestId: row.request_id,
-      referenceNumber: row.reference_number,
+      referenceNumber: row.tracking_reference,
       requesterId: row.requester_id,
-      departmentId: row.department_id,
+      departmentId: row.assigned_department_id,
       categoryId: row.category_id,
       categoryCode: row.category_code,
       priorityId: row.priority_id,
       priorityCode: row.priority_code as PriorityLevel,
       title: row.title,
       description: row.description,
-      locationAddress: row.location_address,
+      locationAddress,
       isAnonymizedDisplay: row.is_anonymized_display,
-      assignedStaffId: row.assigned_staff_id,
+      assignedStaffId: row.assigned_technician_id,
       status: row.status_code as RequestStatus,
       version: row.version,
-      createdAt: new Date(row.created_at),
+      createdAt: new Date(row.submitted_at),
       updatedAt: new Date(row.updated_at)
     };
 
