@@ -21,6 +21,7 @@ export class RequestController {
 
     let role: Role = Role.STAFF;
     if (roleHeader === 'ADMIN') role = Role.ADMIN;
+    else if (roleHeader === 'SUPERVISOR') role = Role.SUPERVISOR;
     else if (roleHeader === 'REQUESTER' || roleHeader === 'CITIZEN') role = Role.REQUESTER;
     else if (roleHeader === 'STAFF') role = Role.STAFF;
     else if ((req as any).user?.role) role = (req as any).user.role;
@@ -96,7 +97,7 @@ export class RequestController {
   public assign = async (req: Request, res: Response): Promise<void> => {
     try {
       const auth = this.getAuthContext(req);
-      if (auth.role !== Role.STAFF && auth.role !== Role.ADMIN) {
+      if (auth.role !== Role.STAFF && auth.role !== Role.SUPERVISOR && auth.role !== Role.ADMIN) {
         res.status(403).json({ error: 'Forbidden: Insufficient privileges to assign service requests.' });
         return;
       }
@@ -130,7 +131,7 @@ export class RequestController {
   public updateStatus = async (req: Request, res: Response): Promise<void> => {
     try {
       const auth = this.getAuthContext(req);
-      if (auth.role !== Role.STAFF && auth.role !== Role.ADMIN) {
+      if (auth.role !== Role.STAFF && auth.role !== Role.SUPERVISOR && auth.role !== Role.ADMIN) {
         res.status(403).json({ error: 'Forbidden: Insufficient privileges to update service request status.' });
         return;
       }
