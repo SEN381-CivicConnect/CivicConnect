@@ -18,12 +18,13 @@
 | **Project Team Number & Name** | **Group E — CivicConnect** |
 | **Registered Team Members** | • **Chris Fourie** (Student ID: `602826`, Systems Architect & Lead Developer — Active 100%)<br>• *Lisa Verson* (Student ID: `602006`, Co-author M1/M2; ceased participation 08 Oct 2026 per `ADR-012`)<br>• *Pandora Greyling* (Student ID: `602369`, Departed campus 29 Sept 2026 per `ADR-009`) |
 | **GitHub Repository URL** | `https://github.com/SEN381-CivicConnect/CivicConnect.git` |
-| **M3 Release Candidate Identifier** | Tag: `v0.3.0-rc1` \| Active Branch: `feat/m3-auth-rbac` (Commit: `8b2b788`) |
+| **M3 Release Candidate Identifier** | Tag: `v0.3.0-rc1` \| Active Branch: `main` (Commit: `886b602`) |
 | **PED Version** | **v3.0** (`DOC-PED-003`) |
+| **Compulsory Video Presentation** | Recorded Engineering Review & Defence Video (~28 mins, YouTube Unlisted / OneDrive link & archive per Faculty Guidelines) |
 | **Living RTM Location / Link** | [`docs/requirements/Requirements_Traceability_Matrix_RTM_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/requirements/Requirements_Traceability_Matrix_RTM_v3.0.md) |
 | **CI / Test Evidence Location** | Pipeline: [`.github/workflows/ci.yml`](file:///c:/Chris/Studies/SEN/Project/.github/workflows/ci.yml) \| Test Suite: [`code/tests/**`](file:///c:/Chris/Studies/SEN/Project/code/tests) |
 | **Staging Environment Access** | Containerized Staging: [`code/docker-compose.staging.yml`](file:///c:/Chris/Studies/SEN/Project/code/docker-compose.staging.yml) (App: `http://localhost:5001`, DB: port `5433`) |
-| **Date Submitted** | **08 October 2026** |
+| **Date Submitted** | **16 October 2026** (Extended per Faculty Announcement) |
 
 ---
 
@@ -33,7 +34,7 @@
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **1.0** | 2026-09-09 | Chris Fourie, Pandora Greyling, Lisa Verson | Full Team (Two-Reviewer Sign-off) | **APPROVED M1 BASELINE** | Baseline M1: Problem statement, stakeholder analysis, 14 FRs, 10 NFRs, scope boundaries, FSM, RTM v1.0, Risk Register v1.0, ADR-001 to ADR-003. |
 | **2.0** | 2026-09-30 | Chris Fourie, Lisa Verson *(early inputs Pandora)* | Chris Fourie & Lisa Verson (`ADR-009` Ratified) | **CONTROLLED M2 BASELINE** | Formal M2 Baseline: Clean Layered Architecture, Weighted Tech Stack Matrix (`ADR-008`), Relational Model (`ADR-006`), Observer (`ADR-004`), Factory Method (`ADR-005`), Outbox (`ADR-007`), OpenAPI specs, WCAG 2.1 AA UI specs, RTM v2.0, Risk Register v2.0, `ADR-009`. |
-| **3.0** | 2026-10-08 | Chris Fourie | Automated Multi-Gate CI + Self-Audit (`ADR-012`) | **RELEASE CANDIDATE BASELINE** | Formal M3 Release Candidate: Clean Architecture backend implementation, dual persistence (`ADR-010`), staging parity & rollback (`ADR-011`), solo SCM continuity (`ADR-012`), 4-gate CI workflow, 42 automated tests across 12 files (unit, blackbox EP/BVA, decision tables, API integration, 3 E2E journeys, load benchmark), 93.60% test coverage, 0 high vulnerabilities, RTM v3.0, Defect Register v3.0, Tech Debt Register v1.0, Risk Register v3.0, AI Register v3.0, Release Evidence Summary (`CONDITIONALLY READY`). |
+| **3.0** | 2026-10-16 | Chris Fourie | Automated Multi-Gate CI + Self-Audit (`ADR-012`) | **RELEASE CANDIDATE BASELINE** | Formal M3 Release Candidate: Clean Architecture backend implementation, dual persistence (`ADR-010`), staging parity & rollback (`ADR-011`), solo SCM continuity (`ADR-012`), 4-gate CI workflow, 42 automated tests across 12 files (unit, blackbox EP/BVA, decision tables, API integration, 3 E2E journeys, load benchmark), 93.60% test coverage, 0 high vulnerabilities, RTM v3.0, Defect Register v3.0, Tech Debt Register v1.0, Risk Register v3.0, AI Register v3.0, Release Evidence Summary (`CONDITIONALLY READY`). |
 
 ---
 
@@ -191,6 +192,35 @@ The CivicConnect release candidate (`v0.3.0-rc1`) is classified as **`CONDITIONA
 
 ---
 
+## Appendix E: Client Change Request (CR-001) Formal Impact Analysis
+
+In strict accordance with **SEN381 Master Project Brief §14 & Appendix E**, all change requests received after baseline sign-off undergo a structured impact analysis across all engineering dimensions before implementation:
+
+### E.1 Change Request Metadata
+* **Change Request Identifier:** `CR-001`
+* **Title:** Automated Urgent Priority Escalation for Safety Hazards & POPIA Citizen Data Masking Toggle
+* **Originating Stakeholder:** Municipal Client Steering Committee / Lead Academic Assessor
+* **Date Submitted:** 2026-10-01
+* **Evaluation Lead:** Chris Fourie (Systems Architect & Lead Developer)
+* **Change Governance Disposition:** **APPROVED & FULLY IMPLEMENTED** (Ratified under `ADR-009` & `ADR-012`)
+
+### E.2 10-Dimension Impact Analysis Matrix (Master Brief Appendix E Standard)
+
+| # | Impact Dimension | Detailed Engineering Evaluation & Project Evidence |
+| :---: | :--- | :--- |
+| **1** | **Requirements & Scope** | Affects `FR-002` (Taxonomy & Routing) and `FR-008` (Inspection & Masking). Extends acceptance criteria to require automated escalation of `SAFETY_HAZARD` or `MAJOR` severity issues to `CRITICAL`/`HIGH` priority, and mandatory `[POPIA PROTECTED]` masking for technician roles. |
+| **2** | **Architecture & Design** | Fulfills Clean Architecture principles: intake routing encapsulated within `CategoryFactories.ts` (Factory Method pattern) and evaluated via Decision Table logic. Domain boundary remains pristine. |
+| **3** | **UI & Interaction (SO14)** | Extends citizen intake form on `code/public/index.html` with an explicit "Mask My Personal Information" toggle (`isAnonymizedDisplay`). Technician card renders masked citizen phone/address. |
+| **4** | **Data & Persistence** | Fully backward-compatible. Supported by existing `service_requests` table and `is_anonymized_display` boolean column. Zero destructive database schema migration required. |
+| **5** | **API Contracts (SO16)** | Updated `POST /api/v1/requests` payload contract to accept optional `isAnonymizedDisplay` (defaults to `true`). Non-breaking contract expansion. |
+| **6** | **Security & Privacy (POPIA)** | Strengthens compliance with South Africa's POPIA (Act 4 of 2013). Prevents field contractors from accessing citizen phone numbers and private addresses without supervisor authorization. |
+| **7** | **Quality & Verification** | Added 10 automated Decision Table black-box tests in [`code/tests/unit/blackbox/IntakeDecisionTable.test.ts`](file:///c:/Chris/Studies/SEN/Project/code/tests/unit/blackbox/IntakeDecisionTable.test.ts) (`BB-DEC-01` to `BB-DEC-10`) and DTO masking assertions in E2E journeys. All tests pass in CI. |
+| **8** | **Schedule & Resources** | Implementation completed in ~3 hours under solo engineering allocation (`ADR-012`). Zero schedule slippage against Milestone 3 target delivery. |
+| **9** | **Deployment & Staging** | Container environment and secrets unchanged. Verified in local Docker staging (`docker-compose.staging.yml`) on port 5001. |
+| **10**| **Risk & Technical Debt** | Minimal risk of misrouting; covered by automated decision table assertions. Zero technical debt incurred. |
+
+---
+
 ## 11. Living Evidence Appendices & Controlled Project Links
 
 In accordance with **M3 Brief §6**, this document serves as an evidence index pointing to authoritative project assets:
@@ -201,4 +231,8 @@ In accordance with **M3 Brief §6**, this document serves as an evidence index p
 * **AI Usage Register (v3.0):** [`docs/governance/AI_Usage_Register_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/governance/AI_Usage_Register_v3.0.md)
 * **Release Evidence Summary (v1.0):** [`docs/release/Release_Evidence_Summary_v1.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/release/Release_Evidence_Summary_v1.0.md)
 * **Engineering Decision Log & ADRs:** [`docs/decisions/Engineering_Decision_Log.md`](file:///c:/Chris/Studies/SEN/Project/docs/decisions/Engineering_Decision_Log.md)
+* **Staging Deployment & Rollback Operational Guide:** [`docs/architecture/Staging_Deployment_and_Rollback_Guide.md`](file:///c:/Chris/Studies/SEN/Project/docs/architecture/Staging_Deployment_and_Rollback_Guide.md)
+* **Milestone 3 Baseline Sign-Off Gate Record:** [`docs/governance/Baseline_Sign_Off_Gate_M3.md`](file:///c:/Chris/Studies/SEN/Project/docs/governance/Baseline_Sign_Off_Gate_M3.md)
+* **Milestone 3 Individual Defence Guide:** [`docs/presentation/Milestone_3_Individual_Defence_Preparation_Guide.md`](file:///c:/Chris/Studies/SEN/Project/docs/presentation/Milestone_3_Individual_Defence_Preparation_Guide.md)
+* **Milestone 3 Video Presentation Script & Storyboard:** [`docs/presentation/Milestone_3_Video_Presentation_Script_and_Storyboard.md`](file:///c:/Chris/Studies/SEN/Project/docs/presentation/Milestone_3_Video_Presentation_Script_and_Storyboard.md)
 * **Containerized Staging Specification:** [`code/docker-compose.staging.yml`](file:///c:/Chris/Studies/SEN/Project/code/docker-compose.staging.yml)
