@@ -18,7 +18,7 @@
 | **Project Team Number & Name** | **Group E — CivicConnect** |
 | **Registered Team Members** | • **Chris Fourie** (Student ID: `602826`, Systems Architect & Lead Developer — Active 100%)<br>• *Lisa Verson* (Student ID: `602006`, Co-author M1/M2; ceased participation 08 Oct 2026 per `ADR-012`)<br>• *Pandora Greyling* (Student ID: `602369`, Departed campus 29 Sept 2026 per `ADR-009`) |
 | **GitHub Repository URL** | `https://github.com/SEN381-CivicConnect/CivicConnect.git` |
-| **M3 Release Candidate Identifier** | Tag: `v0.3.0-rc1` \| Active Branch: `main` (Commit: `886b602`) |
+| **M3 Release Candidate Identifier** | Tag: `v0.3.0-rc1` \| Active Branch: `main` (Commit: `494c064`) |
 | **PED Version** | **v3.0** (`DOC-PED-003`) |
 | **Compulsory Video Presentation** | Recorded Engineering Review & Defence Video (~28 mins, YouTube Unlisted / OneDrive link & archive per Faculty Guidelines) |
 | **Living RTM Location / Link** | [`docs/requirements/Requirements_Traceability_Matrix_RTM_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/requirements/Requirements_Traceability_Matrix_RTM_v3.0.md) |
