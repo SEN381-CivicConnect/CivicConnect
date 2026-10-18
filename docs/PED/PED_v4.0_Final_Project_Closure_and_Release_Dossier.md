@@ -24,7 +24,7 @@
 | **Project Team Number & Name** | **Group E — CivicConnect** |
 | **Registered Team Members** | • **Chris Fourie** (Student ID: `602826`, Systems Architect & Lead Developer — Active 100%)<br>• *Lisa Verson* (Student ID: `602006`, Co-author M1/M2; ceased participation 08 Oct 2026 per `ADR-012`)<br>• *Pandora Greyling* (Student ID: `602369`, Departed campus 29 Sept 2026 per `ADR-009`) |
 | **GitHub Repository URL** | `https://github.com/SEN381-CivicConnect/CivicConnect.git` |
-| **Final Assessed Release Baseline** | Release Tag: **`v0.4.0-final`**<br>Active Branch: **`main`**<br>Commit Hash: **`f1fcdf9`** |
+| **Final Assessed Release Baseline** | Release Tag: **`v0.4.0-final`**<br>Active Branch: **`main`**<br>Commit Hash: **`97f60b7`** |
 | **PED Version** | **v4.0 Final** (`DOC-PED-004`) |
 | **Living Final RTM Location** | `docs/requirements/Requirements_Traceability_Matrix_RTM_v4.0_Final.md` |
 | **Automated CI / Test Suite** | GitHub Actions Pipeline: `.github/workflows/ci.yml`<br>42 Tests across 12 files in `code/tests/` |
