@@ -17,7 +17,7 @@
 
 ---
 
-## 📌 Required Final Submission Information Block (M4 Brief Section 9 & Section 10)
+## Required Final Submission Information Block (M4 Brief Section 9 & Section 10)
 
 | Submission Field | Authoritative Baseline Data |
 | :--- | :--- |
