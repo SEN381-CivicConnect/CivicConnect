@@ -1,17 +1,17 @@
-# CivicConnect: Milestone 3 Individual Engineering Defence Preparation Guide
+﻿# CivicConnect: Milestone 3 Individual Engineering Defence Preparation Guide
 ## Structured Defence Rehearsal & Model Answers across all 5 Assessment Dimensions
 
 **Academic Year:** 2026  
 **Module:** Software Engineering 381 (SEN381) — NQF Level 8  
 **Project:** CivicConnect (Community Service Request Management Platform)  
-**Governing Standard:** SEN381 Milestone 3 Brief §17, §18, §20  
+**Governing Standard:** SEN381 Milestone 3 Brief Section 17, Section 18, Section 20  
 **Document Identifier:** `DOC-DEFENCE-M3-001`  
 **Milestone:** Milestone 3 (Individual Oral Engineering Defence — 20 Marks)  
 **Team Members:** Chris Fourie (602826) & Lisa Verson (602006)  
 
 ---
 
-## 1. Individual Defence Rubric & Ground Rules (M3 Brief §17 & §20)
+## 1. Individual Defence Rubric & Ground Rules (M3 Brief Section 17 & Section 20)
 
 Every student is examined individually. Being present at the presentation does not guarantee individual marks; marks depend on demonstrated technical understanding and the ability to defend authentic repository evidence:
 

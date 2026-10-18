@@ -1,4 +1,4 @@
-# CivicConnect: Option 3 Master Delivery Pack
+﻿# CivicConnect: Option 3 Master Delivery Pack
 ## Systems, Governance & Forward Engineering Lead
 
 **Module:** Software Engineering 381 (SEN381) — NQF Level 8 (AY 2026)  
@@ -94,7 +94,7 @@ At NQF Level 8, software engineering competence is distinguished from programmin
 * **Milestone Gate Objective:** Establish a controlled, collaborative engineering baseline that anticipates later architecture, construction, verification, deployment, operation, and change without racing ahead into premature implementation.
 
 ### 1.4 Explicit Milestone 1 Non-Negotiable Boundaries (What is NOT in M1)
-Milestone 1 is strictly a requirements, constraints, and baseline milestone. In accordance with Milestone 1 Brief §5, the following deliverables are explicitly excluded from M1 and deferred to later phases:
+Milestone 1 is strictly a requirements, constraints, and baseline milestone. In accordance with Milestone 1 Brief Section 5, the following deliverables are explicitly excluded from M1 and deferred to later phases:
 * ❌ Final technology-stack selection (deferred to M2)
 * ❌ Final software architecture & detailed class designs (deferred to M2)
 * ❌ Detailed database schema / persistence implementation (deferred to M2/M3)
@@ -151,8 +151,8 @@ None of the six concerns above are implemented in Milestone 1. Instead:
 | Decision ID | Title & Summary | Context & Constraints | Alternatives Evaluated | Final Decision | Rationale | Accepted Trade-offs & Risks | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`ADR-001`** | **Scope Baseline & Change Control Process** | Need to prevent scope creep within a 3-person team under fixed academic deadlines. | 1. Open flexible feature backlog.<br>2. Rigid zero-change policy.<br>3. Baselined scope with formal change control. | **Option 3: Controlled Scope Baseline with Appendix E Change Process.** | Balances delivery predictability with necessary agility for legitimate stakeholder adjustments. | Requires formal overhead for any scope addition; minor delay in adopting ad-hoc enhancements. | **ACCEPTED** |
-| **`ADR-002`** | **GitHub Governance & Two-Reviewer PR Policy** | Mandate to ensure collective ownership and prevent unverified code/docs from polluting `main`. | 1. Direct commits to `main`.<br>2. Single reviewer approval.<br>3. Mandatory two-reviewer approval on protected `main`. | **Option 3: Protected `main` with mandatory 2-reviewer peer review.** | Complies with Master Project Brief §9; guarantees all 3 students understand and verify every change entering the baseline. | Increases PR turnaround latency; requires high coordination among all 3 team members. | **ACCEPTED** |
-| **`ADR-003`** | **Deliberate Deferment of Technology Stack Selection** | Avoiding premature technology lock-in in Milestone 1 before complete architectural drivers and quality attributes are analyzed. | 1. Commit to React/Node.js in M1.<br>2. Commit to ASP.NET Core in M1.<br>3. Formally defer stack selection to Milestone 2. | **Option 3: Deliberately defer final stack decision to Milestone 2.** | Respects Milestone 1 boundary (§5); ensures technology selection is driven by evaluated NFRs and weighted trade-offs rather than premature bias. | Requires maintaining technology-neutral domain models in M1; delays scaffolding setup to start of M2. | **ACCEPTED** |
+| **`ADR-002`** | **GitHub Governance & Two-Reviewer PR Policy** | Mandate to ensure collective ownership and prevent unverified code/docs from polluting `main`. | 1. Direct commits to `main`.<br>2. Single reviewer approval.<br>3. Mandatory two-reviewer approval on protected `main`. | **Option 3: Protected `main` with mandatory 2-reviewer peer review.** | Complies with Master Project Brief Section 9; guarantees all 3 students understand and verify every change entering the baseline. | Increases PR turnaround latency; requires high coordination among all 3 team members. | **ACCEPTED** |
+| **`ADR-003`** | **Deliberate Deferment of Technology Stack Selection** | Avoiding premature technology lock-in in Milestone 1 before complete architectural drivers and quality attributes are analyzed. | 1. Commit to React/Node.js in M1.<br>2. Commit to ASP.NET Core in M1.<br>3. Formally defer stack selection to Milestone 2. | **Option 3: Deliberately defer final stack decision to Milestone 2.** | Respects Milestone 1 boundary (Section 5); ensures technology selection is driven by evaluated NFRs and weighted trade-offs rather than premature bias. | Requires maintaining technology-neutral domain models in M1; delays scaffolding setup to start of M2. | **ACCEPTED** |
 ```
 
 ---
@@ -198,7 +198,7 @@ flowchart LR
 | **Baseline Type** | **Milestone 1 — Engineering Foundation & Requirements Baseline** |
 | **Version** | **v1.0 (Controlled Baseline)** |
 | **Date** | **2026-09-03** |
-| **Scope Reviewed** | **YES** — In-scope (14 FRs), deliberate exclusions, and deferred scope verified against Master Project Brief §3. |
+| **Scope Reviewed** | **YES** — In-scope (14 FRs), deliberate exclusions, and deferred scope verified against Master Project Brief Section 3. |
 | **Requirements / Traceability Checked** | **YES** — Bidirectional RTM v1.0 established with stable identifiers and testable Gherkin acceptance criteria. |
 | **Risk Review Completed** | **YES** — 10 project-specific risks evaluated with proactive mitigations; highest priority risk (`RSK-001`) defended. |
 | **Repository / Governance Controls Checked** | **YES** — Protected `main`, branch naming conventions, PR template, and mandatory two-reviewer approval operationalized. |
@@ -249,7 +249,7 @@ The CivicConnect engineering team has completed all required Milestone 1 foundat
 ### High-Scoring Defence Model Answers for Option 3
 
 1. **Assessor: "Why did your team intentionally not make the technology stack decision in M1?"**
-   * **Your Answer:** *"Committing to a tech stack in M1 is an anti-pattern driven by personal familiarity or developer hype rather than engineering evidence. Per Milestone 1 Brief §5, M1 establishes what is being engineered and under what constraints. In ADR-003, we intentionally deferred the stack selection to Milestone 2 so that candidate frameworks (e.g. Node.js/NestJS vs ASP.NET Core) can be rigorously evaluated against our baselined quality attributes (NFR-001 to NFR-010) using a weighted decision matrix."*
+   * **Your Answer:** *"Committing to a tech stack in M1 is an anti-pattern driven by personal familiarity or developer hype rather than engineering evidence. Per Milestone 1 Brief Section 5, M1 establishes what is being engineered and under what constraints. In ADR-003, we intentionally deferred the stack selection to Milestone 2 so that candidate frameworks (e.g. Node.js/NestJS vs ASP.NET Core) can be rigorously evaluated against our baselined quality attributes (NFR-001 to NFR-010) using a weighted decision matrix."*
 
 2. **Assessor: "Why must a substantive change entering main receive two approvals from team members other than the author?"**
    * **Your Answer:** *"In a 3-person team, requiring two independent reviews ensures that 100% of the team inspects and understands every change entering the controlled baseline. It eliminates single points of human failure and prevents rubber-stamping. This is essential for individual accountability because any student can be cross-examined on any artefact during the oral engineering defence."*

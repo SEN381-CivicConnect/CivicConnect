@@ -1,10 +1,10 @@
-# CivicConnect: Milestone 3 Quality, Security & Release Readiness Plan
+﻿# CivicConnect: Milestone 3 Quality, Security & Release Readiness Plan
 ## Controlled Construction, Integration, Quality & Staging Deployment Roadmap (PED v3.0 Planning)
 
 **Academic Year:** 2026  
 **Module:** Software Engineering 381 (SEN381) — NQF Level 8  
 **Project:** CivicConnect (Community Service Request Management Platform)  
-**Governing Documents:** SEN381 Master Project Brief §20.3, §14, §15, §16, §17 & Assignment 3 Brief  
+**Governing Documents:** SEN381 Master Project Brief Section 20.3, Section 14, Section 15, Section 16, Section 17 & Assignment 3 Brief  
 **Document Identifier:** `DOC-PLAN-M3-001`  
 **Status:** WORKING ROADMAP (Pre-Milestone 3 Engineering Alignment)  
 
@@ -71,7 +71,7 @@ flowchart TD
 ## 4. Key Milestone 3 Deliverables & Evidence Targets
 
 ### 4.1 Client Change Request & Controlled Impact Analysis
-* In accordance with Master Project Brief §14 and `Appendix E`, when the lecturer issues the formal Milestone 3 Change Request, the team will not silently hack the code.
+* In accordance with Master Project Brief Section 14 and `Appendix E`, when the lecturer issues the formal Milestone 3 Change Request, the team will not silently hack the code.
 * Lisa Verson will lead the impact analysis evaluating: Requirements affected, Architecture/Design affected, UI/API/Data affected, Security/Privacy impact, Quality/Testing impact, Scope/Schedule impact, Cost impact, and Risk impact.
 * The change must be formally approved by all 3 team members before implementation branches are spawned.
 

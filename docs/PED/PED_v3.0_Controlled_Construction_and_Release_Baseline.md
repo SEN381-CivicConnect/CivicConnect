@@ -1,4 +1,4 @@
-# Project Engineering Document (PED) v3.0
+﻿# Project Engineering Document (PED) v3.0
 ## CivicConnect: Community Service Request Management Platform
 ### Milestone 3 — Controlled Construction, Integration, Quality & Release Readiness Baseline
 
@@ -6,12 +6,12 @@
 **Module:** Software Engineering 381 (SEN381) — NQF Level 8  
 **Baseline Version:** 3.0 (Controlled Construction & Verified Release Candidate State)  
 **Document Identifier:** `DOC-PED-003`  
-**Governing Documents:** SEN381 Master Project Brief v1.1 (§6, §9, §11–§17, §20.3) & SEN381 Milestone 3 Brief (§1–§24)  
+**Governing Documents:** SEN381 Master Project Brief v1.1 (Section 6, Section 9, Section 11–Section 17, Section 20.3) & SEN381 Milestone 3 Brief (Section 1–Section 24)  
 **Preceding Baselines:** PED v1.0 (`DOC-PED-001`, Approved 2026-09-09) & PED v2.0 (`DOC-PED-002`, Controlled 2026-09-30)  
 
 ---
 
-## 📌 Required Submission Information Block (M3 Brief §5.3)
+## 📌 Required Submission Information Block (M3 Brief Section 5.3)
 
 | Submission Field | Authoritative Baseline Data |
 | :--- | :--- |
@@ -40,7 +40,7 @@
 
 ## 1. Milestone 3 Overview: Scope & Release Candidate Baseline
 
-In accordance with **M3 Brief §1 & §6**, Milestone 3 is not a separate disconnected report; it continues the single, evolving project engineering record. 
+In accordance with **M3 Brief Section 1 & Section 6**, Milestone 3 is not a separate disconnected report; it continues the single, evolving project engineering record. 
 
 ### 1.1 Central Engineering Objective
 The central driving question answered by this milestone:
@@ -59,7 +59,7 @@ The release candidate baseline (`v0.3.0-rc1`) covers the agreed core functional 
 
 ## 2. M2 Baseline Conformance & Deviations
 
-In accordance with **Assessment Area A (M3 Brief §7)**:
+In accordance with **Assessment Area A (M3 Brief Section 7)**:
 
 | Planned M2 Baseline Component | Actual M3 Implementation Status | Conformance Verdict & Notes |
 | :--- | :--- | :--- |
@@ -75,7 +75,7 @@ In accordance with **Assessment Area A (M3 Brief §7)**:
 
 ## 3. Controlled Changes & Ratified ADRs
 
-In accordance with **M3 Brief §7 & §14**, changes made during construction were formally controlled rather than silently absorbed:
+In accordance with **M3 Brief Section 7 & Section 14**, changes made during construction were formally controlled rather than silently absorbed:
 
 ### 3.1 Client Change Request: Automated Hazard Escalation & POPIA Masking (`CR-001`)
 * **Context:** Lecturer/client scenario requiring controlled scope management under change.
@@ -96,7 +96,7 @@ In accordance with **M3 Brief §7 & §14**, changes made during construction wer
 
 ## 4. Construction, Configuration & Secrets Management
 
-In accordance with **Assessment Area B (M3 Brief §8)**:
+In accordance with **Assessment Area B (M3 Brief Section 8)**:
 * **Repository Strategy:** Feature-branch workflow (`feat/m3-auth-rbac` targeting `main`). Main branch protected.
 * **Secrets Hygiene:** Passwords, database URLs, and port configurations are strictly externalized into `.env` (with `.env.example` and `.env.staging.example` provided as templates). `.env` is ignored in `.gitignore`. Zero credentials committed to Git.
 * **Container Hardening:** `Dockerfile` utilizes multi-stage builds (builder vs runner) and drops root privileges via `USER node` before running the production service.
@@ -105,7 +105,7 @@ In accordance with **Assessment Area B (M3 Brief §8)**:
 
 ## 5. Continuous Integration (CI) & Automated Quality Gates
 
-In accordance with **Assessment Area C (M3 Brief §9)**:
+In accordance with **Assessment Area C (M3 Brief Section 9)**:
 The CI pipeline ([`.github/workflows/ci.yml`](file:///c:/Chris/Studies/SEN/Project/.github/workflows/ci.yml)) executes automatically on every push to feature branches and pull requests to `main`:
 
 ```
@@ -124,7 +124,7 @@ The CI pipeline ([`.github/workflows/ci.yml`](file:///c:/Chris/Studies/SEN/Proje
 
 ## 6. Risk-Based Quality Strategy Applied
 
-In accordance with **M3 Brief §6 & §10**:
+In accordance with **M3 Brief Section 6 & Section 10**:
 Testing efforts were prioritized based on **consequence and exposure**:
 * **High-Risk Area 1 (State Corruption & Illegal Skips):** State machine transitions guarded with 4 dedicated FSM unit tests (`ServiceRequestFSM.test.ts`) and E2E security journey tests.
 * **High-Risk Area 2 (Ticket Assignment Race Conditions):** Concurrency collisions tested via simulated simultaneous updates asserting HTTP 409 Conflict (`OptimisticConcurrency.test.ts`, `api.test.ts`).
@@ -135,7 +135,7 @@ Testing efforts were prioritized based on **consequence and exposure**:
 
 ## 7. Black-Box, Integration & System Validation
 
-In accordance with **Assessment Area D (M3 Brief §10)**:
+In accordance with **Assessment Area D (M3 Brief Section 10)**:
 
 ### 7.1 Meaningful Verification Breakdown (42 Total Tests Across 12 Files)
 * **Unit / Component Tests (13 cases across 5 files):** State machine FSM transitions, OCC integer version checking, Factory Method validation, Observer event dispatching, and POPIA contact masking.
@@ -153,7 +153,7 @@ In accordance with **Assessment Area D (M3 Brief §10)**:
 
 ## 8. Performance & Reliability Evidence
 
-In accordance with **Assessment Area F (M3 Brief §13)**:
+In accordance with **Assessment Area F (M3 Brief Section 13)**:
 * **Operation Tested:** Core Service Request Intake (`POST /api/v1/requests`). Ticket intake is the most performance-sensitive entrypoint during community emergencies.
 * **Workload:** 50 concurrent requests executed in parallel.
 * **Empirical Results:**
@@ -167,7 +167,7 @@ In accordance with **Assessment Area F (M3 Brief §13)**:
 
 ## 9. Defects & Quality Interpretation
 
-In accordance with **Assessment Area E (M3 Brief §12)**:
+In accordance with **Assessment Area E (M3 Brief Section 12)**:
 During Milestone 3 construction, 4 defects were discovered, formally logged in [`docs/risk/Defect_Register_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/risk/Defect_Register_v3.0.md), and corrected with automated regression tests:
 1. **`DEF-001` (Category Invariant Bypass):** Facility fault tickets accepted without room/building numbers. Resolved via Factory Method pattern (`CategoryFactories.ts`).
 2. **`DEF-002` (Vitest Coverage Threshold Drop):** PostgreSQL adapter lowered statement coverage below 80%. Resolved via scope alignment in `vitest.config.ts` per Manageability Rule.
@@ -178,14 +178,14 @@ During Milestone 3 construction, 4 defects were discovered, formally logged in [
 
 ## 10. Release Readiness & Residual Risk Statement
 
-In accordance with **Assessment Area G (M3 Brief §15 & §16)**:
+In accordance with **Assessment Area G (M3 Brief Section 15 & Section 16)**:
 
 ### 10.1 Release Classification: **`CONDITIONALLY READY`**
 The CivicConnect release candidate (`v0.3.0-rc1`) is classified as **`CONDITIONALLY READY`**. Core business capabilities, FSM integrity, concurrency control, and security authorization are fully implemented and verified. The release is subject to the following transparent conditions:
 * Staging load was evaluated at 50 concurrent users rather than full municipal load.
 * External telecom notifications run on decoupled in-memory observers rather than contracted live third-party SMS/email carriers (`DEBT-003`).
 
-### 10.2 Residual Risk Summary (M3 Brief §16)
+### 10.2 Residual Risk Summary (M3 Brief Section 16)
 1. **Production-Scale Load Uncertainty:** Mitigated by B-Tree database indexes and lightweight Node.js architecture; full soak testing required before public launch.
 2. **Third-Party Carrier Latency:** Mitigated by Transactional Outbox design (`ADR-007`); carrier webhook monitoring required in production.
 3. **Solo SCM Dependency:** Mitigated by ratified `ADR-012`, comprehensive living documentation, and multi-gate CI automation.
@@ -194,7 +194,7 @@ The CivicConnect release candidate (`v0.3.0-rc1`) is classified as **`CONDITIONA
 
 ## Appendix E: Client Change Request (CR-001) Formal Impact Analysis
 
-In strict accordance with **SEN381 Master Project Brief §14 & Appendix E**, all change requests received after baseline sign-off undergo a structured impact analysis across all engineering dimensions before implementation:
+In strict accordance with **SEN381 Master Project Brief Section 14 & Appendix E**, all change requests received after baseline sign-off undergo a structured impact analysis across all engineering dimensions before implementation:
 
 ### E.1 Change Request Metadata
 * **Change Request Identifier:** `CR-001`
@@ -223,7 +223,7 @@ In strict accordance with **SEN381 Master Project Brief §14 & Appendix E**, all
 
 ## 11. Living Evidence Appendices & Controlled Project Links
 
-In accordance with **M3 Brief §6**, this document serves as an evidence index pointing to authoritative project assets:
+In accordance with **M3 Brief Section 6**, this document serves as an evidence index pointing to authoritative project assets:
 * **Requirements Traceability Matrix (RTM v3.0):** [`docs/requirements/Requirements_Traceability_Matrix_RTM_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/requirements/Requirements_Traceability_Matrix_RTM_v3.0.md)
 * **Project Risk Register (v3.0):** [`docs/risk/Project_Risk_Register_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/risk/Project_Risk_Register_v3.0.md)
 * **Defect Register (v3.0):** [`docs/risk/Defect_Register_v3.0.md`](file:///c:/Chris/Studies/SEN/Project/docs/risk/Defect_Register_v3.0.md)

@@ -1,4 +1,4 @@
-# CivicConnect: Scope Baseline Statement & Boundary Control
+﻿# CivicConnect: Scope Baseline Statement & Boundary Control
 
 **Document Reference:** `DOC-REQ-003`  
 **Milestone:** Milestone 1 — Engineering Foundation & Requirements Baseline  
@@ -8,7 +8,7 @@
 
 ## 1. Scope Baseline Purpose & Principle
 
-In accordance with **SEN381 Master Project Brief §4 and §14**, uncontrolled scope creep is one of the primary drivers of software project failure. Establishing an explicit, baselined scope boundary ensures that engineering effort is strictly focused on delivering a high-quality, fully tested, and defensible platform rather than an unfinished feature set.
+In accordance with **SEN381 Master Project Brief Section 4 and Section 14**, uncontrolled scope creep is one of the primary drivers of software project failure. Establishing an explicit, baselined scope boundary ensures that engineering effort is strictly focused on delivering a high-quality, fully tested, and defensible platform rather than an unfinished feature set.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -92,7 +92,7 @@ To protect schedule, cost, and security integrity, the following features are no
 
 ## 5. Scope Boundary Defence & Change Management Protocol
 
-Any proposed modification to this baselined scope must strictly follow the **SEN381 Change Management Standard (§14)**:
+Any proposed modification to this baselined scope must strictly follow the **SEN381 Change Management Standard (Section 14)**:
 1. Formal submission of a **Change Request Form** (Appendix E).
 2. Comprehensive **Impact Analysis** evaluating requirements, architecture, security, testing, schedule, and cost.
 3. Unanimous 3-member team review and formal lecturer authorization prior to baseline amendment.

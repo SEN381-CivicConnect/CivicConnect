@@ -1,9 +1,9 @@
-# CivicConnect: Requirements Traceability Matrix (RTM) v1.0
+﻿# CivicConnect: Requirements Traceability Matrix (RTM) v1.0
 
 **Document Reference:** `DOC-REQ-001`  
 **Milestone:** Milestone 1 — Engineering Foundation & Requirements Baseline  
 **Baseline Version:** 1.0 (Controlled)  
-**Governing Standard:** SEN381 Master Project Brief §11 & §11.1  
+**Governing Standard:** SEN381 Master Project Brief Section 11 & Section 11.1  
 
 ---
 

@@ -1,4 +1,4 @@
-# CivicConnect: Milestone 3 Compulsory Video Presentation Script & Demonstration Storyboard
+﻿# CivicConnect: Milestone 3 Compulsory Video Presentation Script & Demonstration Storyboard
 ## Professional Team Engineering Review Meeting (25–35 Minutes)
 
 **Academic Year:** 2026  
@@ -6,9 +6,9 @@
 **Project:** CivicConnect (Community Service Request Management Platform)  
 **Deliverable:** Compulsory Recorded Video Presentation & Evidence Review  
 **Governing Documents:**  
-* `SEN381_M3_Compulsory_Video_Presentation_Guidelines_V1.pdf` (§1–§9)  
-* `SEN381_Project_Milestone_3.pdf` (§4, §6–§20)  
-* `SEN381 Master Project Brief v1.1` (§8, §9, §15, §19)  
+* `SEN381_M3_Compulsory_Video_Presentation_Guidelines_V1.pdf` (Section 1–Section 9)  
+* `SEN381_Project_Milestone_3.pdf` (Section 4, Section 6–Section 20)  
+* `SEN381 Master Project Brief v1.1` (Section 8, Section 9, Section 15, Section 19)  
 **Author & Lead Engineer:** Chris Fourie (Student ID: `602826`, Systems Architect & Sole Lead Developer)  
 **Ratified Governance Protocol:** `ADR-012` (Solo SCM Governance following team attrition)  
 **Release Candidate Baseline:** `v0.3.0-rc1` (Commit `886b602` on `main`)  
@@ -18,7 +18,7 @@
 
 ## 1. Recording Setup & Non-Negotiable Compliance Checklist
 
-Per **Video Presentation Guidelines §1 & §8**, the following conditions are strictly enforced:
+Per **Video Presentation Guidelines Section 1 & Section 8**, the following conditions are strictly enforced:
 * [x] **Video Platform:** Solo Microsoft Teams or Zoom meeting with screen recording, or OBS Studio.
 * [x] **Camera & Face Visibility:** Full face clearly visible throughout in webcam frame; student full name and student number stated/displayed.
 * [x] **Audio Quality:** Clear microphone audio without background distortion.
@@ -132,7 +132,7 @@ Per **Video Presentation Guidelines §1 & §8**, the following conditions are st
 > - **Gate 3:** Our automated verification suite in Vitest collecting V8 code coverage, enforcing our $\ge 80\%$ threshold.
 > - **Gate 4:** Security vulnerability audit via `npm audit --omit=dev --audit-level=high`.
 >
-> In accordance with M3 Brief §9, any failure at any gate hard-blocks merge progression. Let us inspect the workflow and execute the test suite live."*
+> In accordance with M3 Brief Section 9, any failure at any gate hard-blocks merge progression. Let us inspect the workflow and execute the test suite live."*
 
 #### 🔴 LIVE DEMO ACTION 3 (GitHub Actions & Terminal):
 1. **Alt-Tab to GitHub in Browser:**
@@ -198,7 +198,7 @@ Per **Video Presentation Guidelines §1 & §8**, the following conditions are st
 * **Rubric Link:** **Area F: Staging Deployment & Operational Readiness (3 Marks)**
 
 #### Spoken Script:
-> *"Moving to Stage 6 and Rubric Area F: In accordance with M3 Brief §14, the release candidate must be demonstrated in an environment separate from development. 
+> *"Moving to Stage 6 and Rubric Area F: In accordance with M3 Brief Section 14, the release candidate must be demonstrated in an environment separate from development. 
 >
 > We deployed a containerized simulated staging environment using Docker Compose on isolated ports: port `5001` for our Node.js 20 Alpine application container, and port `5433` for our isolated PostgreSQL 16 database container.
 >
@@ -287,7 +287,7 @@ Per **Video Presentation Guidelines §1 & §8**, the following conditions are st
    - **Process Memory Footprint:** `~42MB RSS` (well within the 512MB free-tier hosting cap).
 
 #### Return to Spoken Script (Crucial for Area F Marks):
-> *"Crucially, in accordance with M3 Brief §13, we must state what this test **does and does not prove**:
+> *"Crucially, in accordance with M3 Brief Section 13, we must state what this test **does and does not prove**:
 > - **What it proves:** It proves that Node.js asynchronous event handling, our Express routing pipeline, and Clean Architecture validation handle peak intake bursts without memory leaks or race conditions.
 > - **What it does NOT prove:** It does **not** prove behavior under true municipal scale with tens of thousands of continuous mobile users on cellular networks, WAN packet loss, or multi-gigabyte database lock contention. That limitation is explicitly accepted and scheduled for cloud soak testing in Milestone 4."*
 

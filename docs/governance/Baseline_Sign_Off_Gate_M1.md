@@ -1,4 +1,4 @@
-# CivicConnect: Milestone 1 Baseline Sign-Off & Gate Decision
+﻿# CivicConnect: Milestone 1 Baseline Sign-Off & Gate Decision
 
 **Document Reference:** `DOC-GOV-003`  
 **Governing Standard:** SEN381 Master Project Brief Appendix D  
@@ -13,7 +13,7 @@
 | **Baseline Type** | **Milestone 1 — Engineering Foundation & Requirements Baseline** |
 | **Version** | **v1.0 (Controlled Baseline)** |
 | **Date** | **2026-09-03** |
-| **Scope Reviewed** | **YES** — In-scope (14 FRs), deliberate exclusions, and deferred scope verified against Master Project Brief §3. |
+| **Scope Reviewed** | **YES** — In-scope (14 FRs), deliberate exclusions, and deferred scope verified against Master Project Brief Section 3. |
 | **Requirements / Traceability Checked** | **YES** — Bidirectional RTM v1.0 established with stable identifiers and testable Gherkin acceptance criteria. |
 | **Risk Review Completed** | **YES** — 10 project-specific risks evaluated with proactive mitigations; highest priority risk (`RSK-001`) defended. |
 | **Repository / Governance Controls Checked** | **YES** — Protected `main`, branch naming conventions, PR template, and mandatory two-reviewer approval operationalized. |

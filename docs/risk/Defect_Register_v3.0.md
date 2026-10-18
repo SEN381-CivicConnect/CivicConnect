@@ -1,17 +1,17 @@
-# CivicConnect: Defect Register (v3.0)
+﻿# CivicConnect: Defect Register (v3.0)
 ## Formal Engineering Defect Tracking, Root Cause Analysis & Regression Evidence
 
 **Document Reference:** `DOC-DEF-003`  
 **Milestone:** Milestone 3 — Controlled Construction, Integration, Quality & Release Readiness  
 **Baseline Version:** 3.0 (Controlled Construction State)  
-**Governing Standard:** SEN381 Master Project Brief §12 & §15; SEN381 Milestone 3 Brief §4 & §12  
+**Governing Standard:** SEN381 Master Project Brief Section 12 & Section 15; SEN381 Milestone 3 Brief Section 4 & Section 12  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
 
 ## 1. Defect Classification & Quality Control Protocol
 
-In accordance with **SEN381 NQF Level 8 standards** and **M3 Brief §12**, defects discovered during construction and automated verification are not silently patched. Each finding is formally logged, assigned a severity level, traced to its root cause, linked to its corrective commit, and guarded against recurrence using an automated regression test.
+In accordance with **SEN381 NQF Level 8 standards** and **M3 Brief Section 12**, defects discovered during construction and automated verification are not silently patched. Each finding is formally logged, assigned a severity level, traced to its root cause, linked to its corrective commit, and guarded against recurrence using an automated regression test.
 
 ### 1.1 Defect Severity Taxonomy
 * **Severity 1 (Critical):** Data corruption, concurrency breach, security/authorization bypass, or complete system crash. Blocks release.

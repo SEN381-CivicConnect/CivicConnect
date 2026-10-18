@@ -1,9 +1,9 @@
-# ADR-010: Dual Persistence Architecture (In-Memory Harness for CI & PostgreSQL 16 for Staging)
+﻿# ADR-010: Dual Persistence Architecture (In-Memory Harness for CI & PostgreSQL 16 for Staging)
 
 **Status:** ACCEPTED  
 **Date:** 2026-10-02  
 **Deciders:** Systems Architect & Governance Lead (Chris Fourie), Lead Requirements & Quality Analyst (Lisa Verson)  
-**Governing Standard:** SEN381 Milestone 3 Brief §7 (Area A: Baseline Conformance), §9 (Area C: CI Gates), ADR-006, ADR-008  
+**Governing Standard:** SEN381 Milestone 3 Brief Section 7 (Area A: Baseline Conformance), Section 9 (Area C: CI Gates), ADR-006, ADR-008  
 **Document Reference:** `DOC-ADR-010`  
 
 ---
@@ -12,7 +12,7 @@
 
 In Milestone 2, Group E committed to PostgreSQL 16 as the persistent relational database (`ADR-006`, `ADR-008`). During initial Milestone 3 construction and CI pipeline automation, the team faced an engineering trade-off:
 1. Running a live PostgreSQL container inside GitHub Actions CI runners adds ~45–60 seconds of container spin-up and healthcheck latency per pull request, risking GitHub Actions free-tier minute exhaustion.
-2. Conversely, relying solely on an in-memory repository mock fails to demonstrate runtime persistence engineering, real SQL queries, connection pooling, and live healthchecks mandated by **Milestone 3 Brief §7 (Area A)**.
+2. Conversely, relying solely on an in-memory repository mock fails to demonstrate runtime persistence engineering, real SQL queries, connection pooling, and live healthchecks mandated by **Milestone 3 Brief Section 7 (Area A)**.
 
 The team must establish an architectural mechanism that guarantees blazing-fast local and CI test execution while providing an authentic PostgreSQL repository adapter for staging and release evaluation.
 

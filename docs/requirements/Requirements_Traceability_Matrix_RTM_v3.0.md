@@ -1,17 +1,17 @@
-# CivicConnect: Requirements Traceability Matrix (RTM) v3.0
+﻿# CivicConnect: Requirements Traceability Matrix (RTM) v3.0
 ## Living Bidirectional Traceability Matrix: Stakeholder Need to Verified Release Evidence
 
 **Document Reference:** `DOC-REQ-003`  
 **Milestone:** Milestone 3 — Controlled Construction, Integration, Quality & Release Readiness  
 **Baseline Version:** 3.0 (Controlled Construction & Verification State)  
-**Governing Standard:** SEN381 Master Project Brief §11 & §11.1; SEN381 Milestone 3 Brief §4, §6 & §12  
+**Governing Standard:** SEN381 Master Project Brief Section 11 & Section 11.1; SEN381 Milestone 3 Brief Section 4, Section 6 & Section 12  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
 
 ## 1. Traceability Architecture & Progression from Milestone 2
 
-In Milestone 2, the RTM mapped requirements to architectural layers, database entities, and GoF design patterns. In **Milestone 3**, per the explicit mandate of **SEN381 Milestone 3 Brief §12**, the living matrix evolves into the full **8-Stage Verification Traceability Chain**:
+In Milestone 2, the RTM mapped requirements to architectural layers, database entities, and GoF design patterns. In **Milestone 3**, per the explicit mandate of **SEN381 Milestone 3 Brief Section 12**, the living matrix evolves into the full **8-Stage Verification Traceability Chain**:
 
 $$\text{Stakeholder Need} \longrightarrow \text{Requirement} \longrightarrow \text{Acceptance Criteria} \longrightarrow \text{Implementation / Component} \longrightarrow \text{Test Case(s)} \longrightarrow \text{Expected Result} \longrightarrow \text{Execution Evidence} \longrightarrow \text{Defect / Status}$$
 

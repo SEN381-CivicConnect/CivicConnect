@@ -1,16 +1,16 @@
-# ADR-011: Simulated Staging Environment Parity, Secret Isolation & Rollback Strategy
+﻿# ADR-011: Simulated Staging Environment Parity, Secret Isolation & Rollback Strategy
 
 **Status:** ACCEPTED  
 **Date:** 2026-10-02  
 **Deciders:** Systems Architect & Governance Lead (Chris Fourie), Lead Requirements & Quality Analyst (Lisa Verson)  
-**Governing Standard:** SEN381 Milestone 3 Brief §14 (Staging / Test Deployment), DEC-005, ADR-008  
+**Governing Standard:** SEN381 Milestone 3 Brief Section 14 (Staging / Test Deployment), DEC-005, ADR-008  
 **Document Reference:** `DOC-ADR-011`  
 
 ---
 
 ## 1. Context & Problem Statement
 
-Per **SEN381 Milestone 3 Brief §14**, student teams must demonstrate the release candidate in an environment separate from normal development, isolate secrets, inject release candidate identification, and establish a verifiable rollback procedure.
+Per **SEN381 Milestone 3 Brief Section 14**, student teams must demonstrate the release candidate in an environment separate from normal development, isolate secrets, inject release candidate identification, and establish a verifiable rollback procedure.
 
 The brief explicitly clarifies:
 > *"Real cloud staging is optional in M3. A credible simulated staging environment is fully acceptable. Using paid cloud services, multiple servers, containers or other advanced infrastructure does not automatically earn additional marks. Marks are awarded for engineering evidence, configuration control, understanding and interpretation."*

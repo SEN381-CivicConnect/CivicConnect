@@ -1,10 +1,10 @@
-# CivicConnect: Project Risk Register (v3.0)
+﻿# CivicConnect: Project Risk Register (v3.0)
 ## Quantitative Uncertainty, Team Transition & Quality Risk Register (Milestone 3 Baseline)
 
 **Document Reference:** `DOC-RSK-003`  
 **Milestone:** Milestone 3 — Controlled Construction, Integration, Quality & Release Readiness  
 **Baseline Version:** 3.0 (Controlled Construction State)  
-**Governing Standard:** SEN381 Master Project Brief §12; SEN381 Milestone 3 Brief §4 & §12  
+**Governing Standard:** SEN381 Master Project Brief Section 12; SEN381 Milestone 3 Brief Section 4 & Section 12  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---

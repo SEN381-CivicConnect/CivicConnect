@@ -1,17 +1,17 @@
-# CivicConnect: Release Evidence Summary & Residual Risk Statement (v1.0)
+﻿# CivicConnect: Release Evidence Summary & Residual Risk Statement (v1.0)
 ## Formal Pre-Release Quality Evaluation, Gate Verification & Residual Risk Baseline
 
 **Document Reference:** `DOC-REL-001`  
 **Milestone:** Milestone 3 — Controlled Construction, Integration, Quality & Release Readiness  
 **Release Candidate Build:** `v0.3.0-rc1` (Target Git Tag on `main`)  
-**Governing Standard:** SEN381 Master Project Brief §15, §16, §17; SEN381 Milestone 3 Brief §4, §15, §16  
+**Governing Standard:** SEN381 Master Project Brief Section 15, Section 16, Section 17; SEN381 Milestone 3 Brief Section 4, Section 15, Section 16  
 **Lead Evaluator:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
 
-## 1. Release Evidence Summary Table (M3 Brief §15)
+## 1. Release Evidence Summary Table (M3 Brief Section 15)
 
-In accordance with **SEN381 Milestone 3 Brief §15**, separate pieces of verification evidence are synthesized below into a coherent engineering argument evaluating release readiness:
+In accordance with **SEN381 Milestone 3 Brief Section 15**, separate pieces of verification evidence are synthesized below into a coherent engineering argument evaluating release readiness:
 
 | Evidence Area | Verification Result | Engineering Interpretation | Concern / Gate Action |
 | :--- | :---: | :--- | :--- |
@@ -33,7 +33,7 @@ In accordance with **SEN381 Milestone 3 Brief §15**, separate pieces of verific
 ### Official Classification: **`CONDITIONALLY READY`**
 
 #### Justification for Classification:
-In accordance with **SEN381 Milestone 3 Brief §15**, calling a student-capacity system "100% production ready" without qualifications represents poor engineering judgement. While CivicConnect has passed all automated quality gates, verified core business capabilities, and enforced data integrity, it is classified as **`CONDITIONALLY READY`** based on the following explicit engineering conditions:
+In accordance with **SEN381 Milestone 3 Brief Section 15**, calling a student-capacity system "100% production ready" without qualifications represents poor engineering judgement. While CivicConnect has passed all automated quality gates, verified core business capabilities, and enforced data integrity, it is classified as **`CONDITIONALLY READY`** based on the following explicit engineering conditions:
 
 1. **Condition 1 (Staging vs. Municipal Scale):** The performance benchmark demonstrated that the system handles 50 concurrent users at $p95 = 142\text{ms}$. However, this does not certify behavior under true municipal scale (thousands of continuous concurrent connections or gigabyte-scale database tables).
 2. **Condition 2 (External Notification Gateways):** The notification dispatcher currently routes to in-memory observers and audit logs (`DEBT-003`). Live production deployment requires binding to commercial telecommunications gateways (Twilio / SendGrid) with circuit-breaker fault handling.
@@ -41,9 +41,9 @@ In accordance with **SEN381 Milestone 3 Brief §15**, calling a student-capacity
 
 ---
 
-## 3. Residual Risk Statement (M3 Brief §16)
+## 3. Residual Risk Statement (M3 Brief Section 16)
 
-In accordance with **M3 Brief §16**, testing does not prove the absence of defects. The remaining uncertainties are documented below with their active mitigations and post-milestone next actions:
+In accordance with **M3 Brief Section 16**, testing does not prove the absence of defects. The remaining uncertainties are documented below with their active mitigations and post-milestone next actions:
 
 | Residual Risk | Why It Remains | Current Mitigation Applied | Next Action / Owner |
 | :--- | :--- | :--- | :--- |

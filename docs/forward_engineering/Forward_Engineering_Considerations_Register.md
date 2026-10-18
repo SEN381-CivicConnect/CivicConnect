@@ -1,9 +1,9 @@
-# CivicConnect: Forward Engineering Considerations Register
+﻿# CivicConnect: Forward Engineering Considerations Register
 
 **Document Reference:** `DOC-FWD-001`  
 **Milestone:** Milestone 1 — Engineering Foundation & Requirements Baseline  
 **Baseline Version:** 1.0 (Controlled)  
-**Governing Standard:** SEN381 Milestone 1 Brief §4 & Master Project Brief §1  
+**Governing Standard:** SEN381 Milestone 1 Brief Section 4 & Master Project Brief Section 1  
 
 ---
 

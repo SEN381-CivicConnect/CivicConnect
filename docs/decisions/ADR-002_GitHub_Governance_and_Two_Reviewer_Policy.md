@@ -1,9 +1,9 @@
-# ADR-002: GitHub Governance, Protected Main, and Two-Reviewer Approval Policy
+﻿# ADR-002: GitHub Governance, Protected Main, and Two-Reviewer Approval Policy
 
 **Status:** ACCEPTED  
 **Date:** 2026-09-03  
 **Deciders:** Lead Requirements Analyst (Student 1), Quality & Risk Engineer (Student 2), Systems Architect & Governance Lead (Student 3)  
-**Governing Standard:** SEN381 Master Project Brief §8, §9, §9.1  
+**Governing Standard:** SEN381 Master Project Brief Section 8, Section 9, Section 9.1  
 
 ---
 
@@ -15,7 +15,7 @@ The SEN381 Master Project Brief explicitly mandates that the repository is an *e
 ---
 
 ## 2. Decision Drivers & Constraints
-* **Master Project Brief §9 Requirement:** Direct commits to `main` are prohibited; pull requests entering `main` must receive a minimum of **two approvals** from team members other than the author.
+* **Master Project Brief Section 9 Requirement:** Direct commits to `main` are prohibited; pull requests entering `main` must receive a minimum of **two approvals** from team members other than the author.
 * **Collective Codebase Ownership:** All 3 team members must understand and defend the entire system during individual oral defence examinations.
 * **Quality Assurance Gate:** Every PR must be verified against baselined acceptance criteria, security guidelines, and test standards prior to integration.
 
@@ -31,7 +31,7 @@ Allow all 3 students to push commits directly to `main` without pull requests or
 ### Alternative 2: Single-Reviewer PR Model
 Require 1 peer approval before merging a PR into `main`.
 * *Pros:* Faster PR turnaround than 2-reviewer model.
-* *Cons:* Violates Master Project Brief §9 (which mandates two non-author approvals for a 3-person team); leaves the 3rd student blind to merged changes.
+* *Cons:* Violates Master Project Brief Section 9 (which mandates two non-author approvals for a 3-person team); leaves the 3rd student blind to merged changes.
 
 ### Alternative 3: Protected Main with Mandatory Two-Reviewer PR Approval (Selected)
 Enforce repository branch protection on `main`. Every change must originate on a feature/doc branch, use the structured PR template (`.github/pull_request_template.md`), and obtain formal sign-offs from both remaining team members.

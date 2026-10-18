@@ -1,4 +1,4 @@
-# CivicConnect: Milestone 4 Individual Engineering Defence Preparation Guide
+﻿# CivicConnect: Milestone 4 Individual Engineering Defence Preparation Guide
 ## Comprehensive Viva Cross-Examination Rehearsal Across All 11 Assessor Questioning Dimensions
 
 **Academic Year:** 2026  
@@ -6,8 +6,8 @@
 **Project:** CivicConnect (Community Service Request Management Platform)  
 **Deliverable:** Milestone 4 Final Capstone Viva Defence (20 / 25 Marks)  
 **Governing Documents:**  
-* `SEN381 FINAL.pdf` (§12, §14, Expected Assessor Questions §1–§11)  
-* `SEN381 Master Project Brief v1.1` (§8, §19, §20.4, §21, §22)  
+* `SEN381 FINAL.pdf` (Section 12, Section 14, Expected Assessor Questions Section 1–Section 11)  
+* `SEN381 Master Project Brief v1.1` (Section 8, Section 19, Section 20.4, Section 21, Section 22)  
 **Author & Lead Engineer:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
@@ -33,7 +33,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 ### Area 1: Final Product & Overall Outcome
 **Q1: "What is the exact commit/tag/release being demonstrated, and how do we know it is the same version described in PED v4.0?"**
 * **Model Answer:**
-  1. *Live Evidence:* Open Git terminal and execute `git log -n 1` and `git status`. Open `PED_v4.0_Final.md` Section 1. Show commit hash `c2d7def` and release tag `v0.4.0-final` on branch `main`.
+  1. *Live Evidence:* Open Git terminal and execute `git log -n 1` and `git status`. Open `PED_v4.0_Final.md` Section 1. Show commit hash `f1fcdf9` and release tag `v0.4.0-final` on branch `main`.
   2. *Engineering Concern:* Software baseline drift and configuration desynchronization where documentation describes code that was never deployed or tested.
   3. *Control:* `ADR-012` and our Git release baseline protocol. The commit hash is stamped in `PED_v4.0_Final.md`, `package.json`, and returned live by the `/health/live` probe.
   4. *Trade-off:* Requires re-verifying documentation on every release candidate tag rather than treating docs as static drafts.
@@ -41,7 +41,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 
 **Q2: "What changed between the M3 release candidate and this final version?"**
 * **Model Answer:**
-  1. *Live Evidence:* Git diff `git log 494c064..c2d7def --stat`.
+  1. *Live Evidence:* Git diff `git log 494c064..f1fcdf9 --stat`.
   2. *Engineering Concern:* Scope bloat and instability caused by introducing new unverified features during project closure.
   3. *Control:* Adherence to the M4 Principle (*Finalise, Consolidate & Conclude*). Zero new architectural components were added. Work was strictly restricted to consolidating registers, calculating the 98.2% scope completion baseline, compiling the final release dossier, and preparing defence evidence.
   4. *Trade-off:* Resisted the temptation to code new experimental features (such as WhatsApp webhooks or machine learning classification).
@@ -52,7 +52,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 ### Area 2: M1 Scope Baseline $\rightarrow$ Final Delivery
 **Q3: "Choose one item placed in scope in M1. Was it fully implemented, partially implemented, not implemented, or changed? Show the evidence."**
 * **Model Answer:**
-  1. *Live Evidence:* Open `PED_v4.0_Final.md` §2 row `FR-009` and `code/src/domain/entities/ServiceRequest.ts`.
+  1. *Live Evidence:* Open `PED_v4.0_Final.md` Section 2 row `FR-009` and `code/src/domain/entities/ServiceRequest.ts`.
   2. *Engineering Concern:* Concurrent ticket assignment race conditions causing lost updates when multiple coordinators assign technicians simultaneously.
   3. *Control:* `FR-009` was **IMPLEMENTED**. Governed by `ADR-006` (Optimistic Concurrency Control). Implemented via an integer `version` property that increments on each assignment.
   4. *Trade-off:* Rejected database row locking (`SELECT FOR UPDATE`) to avoid connection pool exhaustion under high read traffic. Accepted requiring API consumers to handle HTTP 409 Conflict.
@@ -60,7 +60,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 
 **Q4: "Show one item that was deliberately deferred or out of scope. Why should that not be treated as project failure?"**
 * **Model Answer:**
-  1. *Live Evidence:* Open `Project/docs/requirements/Scope_Baseline_Statement.md` §3 and §4.
+  1. *Live Evidence:* Open `Project/docs/requirements/Scope_Baseline_Statement.md` Section 3 and Section 4.
   2. *Engineering Concern:* Premature feature commitment leading to budget overrun, third-party network flakiness, and project failure.
   3. *Control:* In Milestone 1, we explicitly deferred Multi-Channel Ingestion (SMS/WhatsApp webhooks) and Out-of-Scoped Financial Billing.
   4. *Trade-off:* Requesters cannot report faults via WhatsApp; they must use our web portal.
@@ -106,7 +106,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 ### Area 6: Quality, Limitations, Risk & Technical Debt
 **Q8: "If this product had to be used by real users tomorrow, what would concern you most and why?"**
 * **Model Answer:**
-  1. *Live Evidence:* Open `Project/docs/release/Release_Evidence_Summary_v1.0.md` §3 (Residual Risk Statement).
+  1. *Live Evidence:* Open `Project/docs/release/Release_Evidence_Summary_v1.0.md` Section 3 (Residual Risk Statement).
   2. *Engineering Concern:* Municipal burst traffic soak under severe storm conditions, and third-party telecom carrier latency.
   3. *Control:* We benchmarked 50 concurrent requests at $p95 = 142\text{ms}$ (`NFR-001`). However, real-world municipal storm events generate thousands of simultaneous photo uploads.
   4. *Trade-off:* Under academic $0.00 cost constraints, we could not provision multi-region managed Kubernetes clusters or distributed Redis caching.
@@ -119,7 +119,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 * **Model Answer:**
   1. *Live Evidence:* Open `Project/docs/PED/PED_v4.0_Final_Project_Closure_and_Release_Dossier.md` Document Control table.
   2. *Engineering Concern:* The *Amnesia Anti-Pattern*—teams discarding earlier milestone reports and writing an isolated final essay, destroying traceability.
-  3. *Control:* Strict adherence to Brief Section 6 (*One Project, One Evolving Engineering Record*). PED v4.0 retains all M1 problem definitions, M2 architecture baselines, and M3 construction findings. It adds the M1 Scope Baseline Reconciliation (§2), Quantified Scope Completion (§3), and Final Deployment & Reflection chapters (§6, §12).
+  3. *Control:* Strict adherence to Brief Section 6 (*One Project, One Evolving Engineering Record*). PED v4.0 retains all M1 problem definitions, M2 architecture baselines, and M3 construction findings. It adds the M1 Scope Baseline Reconciliation (Section 2), Quantified Scope Completion (Section 3), and Final Deployment & Reflection chapters (Section 6, Section 12).
   4. *Trade-off:* Managing a single large, comprehensive dossier rather than fragmenting into smaller informal documents.
   5. *Outcome:* Unbroken engineering provenance from Day 1 to Day 49.
 
@@ -139,7 +139,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 ### Area 9: Unseen Change / Failure Reasoning
 **Q11: "If a stakeholder requested adding real-time GPS tracking of field technician vans today, what existing artefacts would you examine before responding?"**
 * **Model Answer:**
-  1. *Live Evidence:* Open `Project/docs/requirements/Scope_Baseline_Statement.md` §4 and `Master Project Brief Appendix E`.
+  1. *Live Evidence:* Open `Project/docs/requirements/Scope_Baseline_Statement.md` Section 4 and `Master Project Brief Appendix E`.
   2. *Engineering Concern:* Rushed, ad-hoc scope creep compromising security, schedule, and architectural boundaries.
   3. *Control:* I would execute the formal **Appendix E Change Impact Analysis**:
      - *Scope Baseline:* GPS telematics is explicitly listed in Section 4 as Out-of-Scope.
@@ -154,7 +154,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 ### Area 10: Final Project Conclusion
 **Q12: "In one evidence-based conclusion, what did this project ultimately achieve and what remains unfinished?"**
 * **Model Answer:**
-  1. *Live Evidence:* Open `PED_v4.0_Final.md` §12.
+  1. *Live Evidence:* Open `PED_v4.0_Final.md` Section 12.
   2. *Engineering Concern:* Reaching an honest, evidence-based conclusion rather than presenting marketing spin.
   3. *Control:* CivicConnect successfully delivered **98.2% of its approved functional scope** and **100% of its non-functional requirements**. It proved that enterprise software engineering principles—Clean Architecture, design patterns, automated CI quality gates, and relational data integrity—can deliver an operational platform capable of handling fault intake, triage, concurrency control, and POPIA privacy under strict resource constraints.
   4. *Trade-off:* Streaming CSV data export and binding live commercial telecom gateways remain unfinished and deferred to post-release maintenance.
@@ -165,7 +165,7 @@ $$\text{[1. Live Artefact Evidence]} \longrightarrow \text{[2. Engineering Conce
 ### Area 11: Quantified Scope Completion & Go-Live Decision
 **Q13: "What is your final Scope Completion Percentage, and how did you calculate it?"**
 * **Model Answer:**
-  1. *Live Evidence:* Open `PED_v4.0_Final.md` §3 and `SEN381 FINAL.pdf` Page 8.
+  1. *Live Evidence:* Open `PED_v4.0_Final.md` Section 3 and `SEN381 FINAL.pdf` Page 8.
   2. *Engineering Concern:* Arbitrary, unverified completion claims inflated by trivial items.
   3. *Control:* Calculated strictly using the formula:
      $$\text{Scope Completion \%} = \left(\frac{\sum \text{Final Acceptance Criterion Values}}{\text{Total Approved Criteria}}\right) \times 100$$

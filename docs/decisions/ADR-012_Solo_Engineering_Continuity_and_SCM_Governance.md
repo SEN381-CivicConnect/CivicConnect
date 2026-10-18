@@ -1,9 +1,9 @@
-# ADR-012: Solo Engineering Continuity & Emergency SCM Governance Protocol Following Total Team Attrition
+﻿# ADR-012: Solo Engineering Continuity & Emergency SCM Governance Protocol Following Total Team Attrition
 
 **Status:** ACCEPTED (Emergency Governance Amendment to ADR-002 and ADR-009)  
 **Date:** 2026-10-08  
 **Decider:** Systems Architect & Sole Lead Developer (Chris Fourie, Student ID: 602826)  
-**Governing Standard:** SEN381 Master Project Brief §4, §8, §9, §13, §23; Milestone 3 Brief Area B (§8)  
+**Governing Standard:** SEN381 Master Project Brief Section 4, Section 8, Section 9, Section 13, Section 23; Milestone 3 Brief Area B (Section 8)  
 **Document Reference:** `DOC-ADR-012`  
 
 ---
@@ -16,8 +16,8 @@ On 08 October 2026 (Week 6, Day 3), approximately six days prior to the Mileston
 
 This event leaves **Chris Fourie (Student ID: 602826)** operating as a **solo engineer**:
 * **The Governance Deadlock:** Under `ADR-002` (requiring two reviewers) and `ADR-009` (requiring one peer review), a solo developer cannot merge Pull Requests into protected `main` without violating branch protection or creating self-approved rubber stamps.
-* **The Academic Integrity Constraint:** Master Project Brief §9 and §23 strictly prohibit unreviewed direct commits to `main` and forbid phantom accounts or fraudulent contributions. Assessors evaluate how an engineer handles real-world socio-technical disruptions.
-* **The Capacity Reality:** Chris Fourie must absorb 100% of remaining engineering, verification, and documentation deliverables while adhering to the **Milestone 3 Manageability Rule (§1, §3)**.
+* **The Academic Integrity Constraint:** Master Project Brief Section 9 and Section 23 strictly prohibit unreviewed direct commits to `main` and forbid phantom accounts or fraudulent contributions. Assessors evaluate how an engineer handles real-world socio-technical disruptions.
+* **The Capacity Reality:** Chris Fourie must absorb 100% of remaining engineering, verification, and documentation deliverables while adhering to the **Milestone 3 Manageability Rule (Section 1, Section 3)**.
 
 ---
 
@@ -40,7 +40,7 @@ Halt all development and petition the faculty for milestone postponement or reas
 ### Alternative 2: Disable Branch Protection & Push Directly to `main`
 Remove GitHub branch protection rules and push all remaining code directly to `main`.
 * *Pros:* Maximum speed and zero administrative friction.
-* *Cons:* **Rejected.** Direct violation of Master Project Brief §9 (*"Direct development on main: Not permitted for substantive controlled changes"*). Destroys Software Configuration Management (SCM) auditability and violates professional engineering ethics.
+* *Cons:* **Rejected.** Direct violation of Master Project Brief Section 9 (*"Direct development on main: Not permitted for substantive controlled changes"*). Destroys Software Configuration Management (SCM) auditability and violates professional engineering ethics.
 
 ### Alternative 3: Solo Governance Protocol via Automated CI Gates + Formal Self-Audit Signoff (Selected)
 Amend repository governance to a formal solo-engineering protocol:
@@ -70,7 +70,7 @@ Amend repository governance to a formal solo-engineering protocol:
      - [x] Relevant living registers updated (`RTM`, `Risk`, `Debt`, `ADR`).
 3. **Workload Absorption Contract:**
    - Chris Fourie absorbs all remaining responsibilities: E2E Lifecycle Journey tests, Living RTM v3.0, Defect Register v3.0, Technical Debt Register, AI Usage Register v3.0, and PED v3.0 consolidation.
-   - Deliverables are constrained strictly to the agreed MVP core scope (Citizen Fault Reporting Lifecycle) in accordance with the Manageability Rule (§1, §3).
+   - Deliverables are constrained strictly to the agreed MVP core scope (Citizen Fault Reporting Lifecycle) in accordance with the Manageability Rule (Section 1, Section 3).
 
 ### 4.1 Re-Integration Grace Protocol
 Should team partner Lisa Verson re-engage and resume project participation prior to the final Milestone 3 submission deadline, repository governance gracefully transitions back to collaborative mode under `ADR-009`, supporting co-authored PRs and reciprocal peer reviews without administrative overhead.

@@ -1,17 +1,17 @@
-# CivicConnect: Requirements Traceability Matrix (RTM) v4.0 Final
+﻿# CivicConnect: Requirements Traceability Matrix (RTM) v4.0 Final
 ## Closed Bidirectional Lifecycle Traceability Chain: Stakeholder Need to Final Engineering Outcome
 
 **Document Reference:** `DOC-REQ-004`  
 **Milestone:** Milestone 4 / Final Project — Finalise, Consolidate & Conclude  
 **Baseline Version:** 4.0 Final (Project Closure State)  
-**Governing Standard:** SEN381 Master Project Brief §11 & §11.1; SEN381 Final Project Brief §3, §8 & §9  
+**Governing Standard:** SEN381 Master Project Brief Section 11 & Section 11.1; SEN381 Final Project Brief Section 3, Section 8 & Section 9  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
 
 ## 1. Traceability Architecture & Final Milestone 4 Chain Closure
 
-In accordance with **SEN381 Final Project Brief §9**, the RTM remains the backbone of engineering integrity. It is not replaced with a disconnected document; it concludes the unbroken **8-Stage Traceability Chain**:
+In accordance with **SEN381 Final Project Brief Section 9**, the RTM remains the backbone of engineering integrity. It is not replaced with a disconnected document; it concludes the unbroken **8-Stage Traceability Chain**:
 
 $$\text{Stakeholder Need} \longrightarrow \text{Requirement} \longrightarrow \text{Acceptance Criteria} \longrightarrow \text{Engineering Decision / Design} \longrightarrow \text{Final Implementation} \longrightarrow \text{Final Test / Evidence} \longrightarrow \text{Defect / Status} \longrightarrow \text{Final Outcome}$$
 

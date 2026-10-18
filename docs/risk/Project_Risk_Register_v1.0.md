@@ -1,9 +1,9 @@
-# CivicConnect: Project Risk Register v1.0
+﻿# CivicConnect: Project Risk Register v1.0
 
 **Document Reference:** `DOC-RSK-001`  
 **Milestone:** Milestone 1 — Engineering Foundation & Requirements Baseline  
 **Baseline Version:** 1.0 (Controlled)  
-**Governing Standard:** SEN381 Master Project Brief §12  
+**Governing Standard:** SEN381 Master Project Brief Section 12  
 
 ---
 

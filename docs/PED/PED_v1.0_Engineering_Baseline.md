@@ -1,4 +1,4 @@
-# Project Engineering Document (PED) v1.0
+﻿# Project Engineering Document (PED) v1.0
 ## CivicConnect: Community Service Request Management Platform
 ### Milestone 1 — Engineering Foundation & Requirements Baseline
 
@@ -265,7 +265,7 @@ graph TD
 ## Section 7: Forward Engineering Considerations
 
 ### 7.1 The 6 Strategic Lifecycle Concerns
-In accordance with M1 Brief §4, the team has analyzed 6 high-consequence lifecycle concerns that must be anticipated now without racing ahead of the lifecycle:
+In accordance with M1 Brief Section 4, the team has analyzed 6 high-consequence lifecycle concerns that must be anticipated now without racing ahead of the lifecycle:
 
 1. **`FEC-001` (Security & RBAC Architecture):** Conceptual authorization boundaries modeled early to prevent monolithic data access models that leak PII.
 2. **`FEC-002` (Automated Testing & Testability Architecture):** Formulating acceptance criteria in Gherkin syntax now to enable automated unit/integration suites in M3.
@@ -284,7 +284,7 @@ None of the above concerns are prematurely implemented in Milestone 1. The team 
 | Decision ID | Subject | Final Decision & Outcome | Justification & Lifecycle Consequence |
 | :--- | :--- | :--- | :--- |
 | **`ADR-001`** | Scope Baseline & Change Governance | **ACCEPTED:** Locked 14 FR baseline with Appendix E formal change impact process. | Protects team velocity, ensures high test coverage, and prevents scope creep (`RSK-001`). |
-| **`ADR-002`** | GitHub Governance & Peer Review | **ACCEPTED:** Protected `main` branch requiring 2 independent peer approvals per PR. | Enforces collective ownership, eliminates rubber-stamping, and satisfies Master Project Brief §9. |
+| **`ADR-002`** | GitHub Governance & Peer Review | **ACCEPTED:** Protected `main` branch requiring 2 independent peer approvals per PR. | Enforces collective ownership, eliminates rubber-stamping, and satisfies Master Project Brief Section 9. |
 | **`ADR-003`** | Technology Stack Deferment | **ACCEPTED (Deferred):** Postpone stack lock-in to Milestone 2. | Prevents premature technical bias and ensures stack selection is driven by evaluated NFRs and weighted matrices. |
 
 ---

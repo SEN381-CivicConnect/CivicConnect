@@ -1,10 +1,10 @@
-# CivicConnect: Staging Deployment & Rollback Operational Guide
+﻿# CivicConnect: Staging Deployment & Rollback Operational Guide
 ## Controlled Release Candidate Verification & Disaster Recovery Strategy
 
 **Academic Year:** 2026  
 **Module:** Software Engineering 381 (SEN381) — NQF Level 8  
 **Project:** CivicConnect (Community Service Request Management Platform)  
-**Governing Standard:** SEN381 Milestone 3 Brief §14 & §15  
+**Governing Standard:** SEN381 Milestone 3 Brief Section 14 & Section 15  
 **Document Identifier:** `DOC-GUIDE-STAGE-001`  
 **Governing ADRs:** `ADR-008` (Tech Stack), `ADR-011` (Staging Parity & Rollback Strategy)  
 **Author:** Chris Fourie (602826) — Systems Architect & Governance Lead  
@@ -13,7 +13,7 @@
 
 ## 1. Staging Environment Architecture & Isolation Model
 
-In strict compliance with **SEN381 Milestone 3 Brief §14**, CivicConnect provides a demonstrable simulated staging environment isolated from local development.
+In strict compliance with **SEN381 Milestone 3 Brief Section 14**, CivicConnect provides a demonstrable simulated staging environment isolated from local development.
 
 ```mermaid
 flowchart LR
@@ -97,7 +97,7 @@ http://localhost:5001/
 
 ## 3. Rollback & Disaster Recovery Protocol
 
-Per M3 Brief §14 (*"Prepare a simple rollback/recovery approach: what version/artefact would you restore and what data/configuration concern must be considered?"*):
+Per M3 Brief Section 14 (*"Prepare a simple rollback/recovery approach: what version/artefact would you restore and what data/configuration concern must be considered?"*):
 
 ### 3.1 Scenario A: Application Release Candidate Regression (Rollback Code Only)
 If release candidate `v0.3.0-rc1` introduces an unexpected runtime defect:

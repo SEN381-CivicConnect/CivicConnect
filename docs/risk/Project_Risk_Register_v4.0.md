@@ -1,10 +1,10 @@
-# CivicConnect: Project Risk Register (v4.0 Final)
+﻿# CivicConnect: Project Risk Register (v4.0 Final)
 ## Quantitative Uncertainty, Lifecycle Evolution & Final Project Risk Closure Baseline
 
 **Document Reference:** `DOC-RSK-004`  
 **Milestone:** Milestone 4 / Final Project — Finalise, Consolidate & Conclude  
 **Baseline Version:** 4.0 Final (Project Closure State)  
-**Governing Standard:** SEN381 Master Project Brief §12; SEN381 Final Project Brief §3 & §7  
+**Governing Standard:** SEN381 Master Project Brief Section 12; SEN381 Final Project Brief Section 3 & Section 7  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---

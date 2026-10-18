@@ -1,8 +1,8 @@
-# CivicConnect: Database Architecture & Persistence Plan (v1.0)
+﻿# CivicConnect: Database Architecture & Persistence Plan (v1.0)
 **Document Reference:** `DOC-ARCH-DATA-001`  
 **Milestone:** Milestone 2 — Architecture, Design & Engineering Decisions  
 **Module:** SEN381 (Software Engineering 381) — NQF Level 8  
-**Governing Documents:** SEN381 Master Project Brief (§3, §13, §16, §18.1), PED v1.0 (§5, §7), SO8 Data-Driven Architecture  
+**Governing Documents:** SEN381 Master Project Brief (Section 3, Section 13, Section 16, Section 18.1), PED v1.0 (Section 5, Section 7), SO8 Data-Driven Architecture  
 **Status:** WORKING ENGINEERING BASELINE (Under Review)
 
 ---
@@ -13,9 +13,9 @@ This persistence plan consolidates and operationalizes all functional, non-funct
 
 | Document / Artefact Source | Governed Section / Concern | Direct Impact on Database & Persistence Architecture |
 | :--- | :--- | :--- |
-| **SEN381 Master Project Brief** | §3 Minimum Capabilities | Persistence must support: Requester ticket submission, category routing, live status queries, role queues, technician assignment, mandatory resolution logging, executive summary reporting, and auditability. |
-| **Master Project Brief** | §4 Constraints & §18.1 Stack Selection | \$0.00/month cloud hosting constraint (PostgreSQL on Neon/Supabase or Azure SQL/Render free tier) + 100% local Docker Compose parity. No commercial paid licenses. |
-| **Master Project Brief** | §13 ADR Standard & §16 Security | Architecture Decision Records for persistence choices; security-by-design, least-privilege database user roles, and protection of PII. |
+| **SEN381 Master Project Brief** | Section 3 Minimum Capabilities | Persistence must support: Requester ticket submission, category routing, live status queries, role queues, technician assignment, mandatory resolution logging, executive summary reporting, and auditability. |
+| **Master Project Brief** | Section 4 Constraints & Section 18.1 Stack Selection | \$0.00/month cloud hosting constraint (PostgreSQL on Neon/Supabase or Azure SQL/Render free tier) + 100% local Docker Compose parity. No commercial paid licenses. |
+| **Master Project Brief** | Section 13 ADR Standard & Section 16 Security | Architecture Decision Records for persistence choices; security-by-design, least-privilege database user roles, and protection of PII. |
 | **PED v1.0 (DOC-PED-001)** | Section 4 (Scope Baseline) | 14 Functional Requirements (`FR-001` to `FR-014`). In-scope ticket lifecycle, tracking reference generation (`REQ-YYYY-NNNN`), role partitioning. Out-of-scope: billing, GPS telematics. |
 | **PED v1.0 (DOC-PED-001)** | Section 5.1 & RTM v1.0 | Explicit data fields: title, description, category, priority, location, attachments, assigned department, technician, resolution details, and feedback logs. |
 | **PED v1.0 (DOC-PED-001)** | Section 5.2 (NFRs) | `NFR-001` (CRUD latency <= 500ms), `NFR-004` (RBAC), `NFR-005` (POPIA encryption/anonymization), `NFR-006` (Immutable audit logging), `NFR-007` (Scalability: 20,000 requests, 100,000 audit records), `NFR-009` (ACID fault tolerance), `NFR-010` (Zero-cost hosting). |

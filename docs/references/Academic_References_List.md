@@ -1,5 +1,5 @@
 ﻿# CivicConnect: Academic Reference List & Standards Citations
-**Governing Document Reference:** SEN381 Master Project Brief §10 & §24, Milestone 1 Brief §9.1 & §10  
+**Governing Document Reference:** SEN381 Master Project Brief Section 10 & Section 24, Milestone 1 Brief Section 9.1 & Section 10  
 **Referencing Standard:** Harvard Referencing Style  
 **Author / Maintainer:** Chris Fourie (Systems Architect & Governance Lead)  
 **Baseline State:** Controlled  

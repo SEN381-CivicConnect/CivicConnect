@@ -1,10 +1,10 @@
-# CivicConnect: Technical Debt Register (v1.0)
+﻿# CivicConnect: Technical Debt Register (v1.0)
 ## Formal Engineering Register of Deliberate Compromises, Architectural Trade-Offs & Repayment Plan
 
 **Document Reference:** `DOC-ARCH-003`  
 **Milestone:** Milestone 3 — Controlled Construction, Integration, Quality & Release Readiness  
 **Baseline Version:** 1.0 (Controlled Construction State)  
-**Governing Standard:** SEN381 Master Project Brief §13 & §14; SEN381 Milestone 3 Brief §4 & §12  
+**Governing Standard:** SEN381 Master Project Brief Section 13 & Section 14; SEN381 Milestone 3 Brief Section 4 & Section 12  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
@@ -24,7 +24,7 @@ Every accepted debt item must be explicitly documented, assigned a severity, qua
 | **`DEBT-001`** | **Architecture / Data** | `InMemoryServiceRequestRepository.ts`<br>`ADR-010` | **Dual-Persistence Switch:** Utilizing an in-memory repository as the default runtime for fast, deterministic unit and integration testing, while reserving PostgreSQL 16 for containerized staging. | Eliminates database container spin-up overhead in CI; enables complete 42-test suite execution in under 2.5 seconds on GitHub Actions runners without flaky timeouts. | In-memory data store does not enforce strict relational foreign key constraints or SQL index lock contention at runtime. | Retain dual-mode architecture; execute full database-backed regression smoke suite against staging PostgreSQL instance prior to M4 production sign-off. |
 | **`DEBT-002`** | **Integration / Infrastructure** | `DomainEventDispatcher.ts`<br>`ADR-004` | **In-Memory Observer Dispatching:** Event notifications (e.g. audit logging and ticket alerts) are dispatched synchronously within the Node.js process memory rather than through a distributed message broker (RabbitMQ/Kafka). | Strictly enforces `NFR-010` (zero-cost constraint, <180MB RAM footprint). Avoids container OOM crashes on free-tier 512MB hosting environments. | In-flight events cannot survive an abrupt operating system kill or power loss before the audit observer finishes writing. | Table `outbox_messages` DDL verified and established in `V1__initial_schema.sql` (ADR-007); activate asynchronous outbox worker poll loop during Milestone 4 operational hardening. |
 | **`DEBT-003`** | **External Gateway** | `NotificationDispatchObserver.ts` | **Mock Notification Sinks:** Notification dispatch outputs structured log payloads rather than invoking paid third-party SMS/Email telecom APIs (Twilio / SendGrid). | Prevents external billing costs, removes external network flake during automated testing, and avoids committing API credentials. | Third-party telecommunication latency, rate limiting, and carrier delivery failure scenarios are unexercised in automated test runs. | Bind production adapter implementing `INotificationGateway` interface to live sandbox webhook endpoints during Milestone 4 staging verification. |
-| **`DEBT-004`** | **Deployment / Infrastructure** | `docker-compose.staging.yml`<br>`ADR-011` | **Single-Host Containerized Staging:** Simulated staging environment runs on a single Docker host with containerized PostgreSQL and Express rather than multi-node Kubernetes cluster. | Fully complies with M3 Manageability Rule (M3 Brief §14); zero cloud billing overhead; 100% reproducible on local assessor machines. | Does not simulate cross-node network partitions, multi-region database latency, or automated horizontal pod auto-scaling. | Accepted permanent trade-off for academic milestone; production scaling strategy documented in PED v4.0 Operations chapter. |
+| **`DEBT-004`** | **Deployment / Infrastructure** | `docker-compose.staging.yml`<br>`ADR-011` | **Single-Host Containerized Staging:** Simulated staging environment runs on a single Docker host with containerized PostgreSQL and Express rather than multi-node Kubernetes cluster. | Fully complies with M3 Manageability Rule (M3 Brief Section 14); zero cloud billing overhead; 100% reproducible on local assessor machines. | Does not simulate cross-node network partitions, multi-region database latency, or automated horizontal pod auto-scaling. | Accepted permanent trade-off for academic milestone; production scaling strategy documented in PED v4.0 Operations chapter. |
 
 ---
 

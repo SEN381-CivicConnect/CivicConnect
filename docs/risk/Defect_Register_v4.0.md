@@ -1,17 +1,17 @@
-# CivicConnect: Defect Register (v4.0 Final)
+﻿# CivicConnect: Defect Register (v4.0 Final)
 ## Formal Engineering Defect Closure, Root Cause Analysis & Regression Verification
 
 **Document Reference:** `DOC-DEF-004`  
 **Milestone:** Milestone 4 / Final Project — Finalise, Consolidate & Conclude  
 **Baseline Version:** 4.0 Final (Project Closure State)  
-**Governing Standard:** SEN381 Master Project Brief §12 & §15; SEN381 Final Project Brief §3 & §7  
+**Governing Standard:** SEN381 Master Project Brief Section 12 & Section 15; SEN381 Final Project Brief Section 3 & Section 7  
 **Owner:** Chris Fourie (Student ID: `602826`, Systems Architect & Lead Developer)  
 
 ---
 
 ## 1. Final Defect Closure Protocol & NQF Level 8 Quality Principle
 
-In accordance with **SEN381 Final Project Brief §7**, Milestone 4 requires the formal closure and accounting of all defects identified throughout the engineering lifecycle. Software engineering competence dictates that defects discovered during construction, integration, and verification are never silently hidden or erased. Each finding is formally logged, assigned an objective severity level, analyzed for root causes, remediated through controlled implementation, and permanently guarded against regression via automated CI test cases.
+In accordance with **SEN381 Final Project Brief Section 7**, Milestone 4 requires the formal closure and accounting of all defects identified throughout the engineering lifecycle. Software engineering competence dictates that defects discovered during construction, integration, and verification are never silently hidden or erased. Each finding is formally logged, assigned an objective severity level, analyzed for root causes, remediated through controlled implementation, and permanently guarded against regression via automated CI test cases.
 
 ### 1.1 Defect Severity Taxonomy & Disposition Rules
 * **Severity 1 (Critical):** Data corruption, concurrency race condition, security/authorization bypass, or unhandled system crash. Blocks production go-live.
