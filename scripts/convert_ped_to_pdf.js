@@ -44,12 +44,6 @@ function mdToHtml(md) {
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
     // Inline code
     text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-    // Math indicators
-    text = text.replace(/\\rightarrow/g, '→').replace(/\\longrightarrow/g, '⟶');
-    text = text.replace(/\\ge/g, '≥').replace(/\\le/g, '≤');
-    text = text.replace(/\\text\{([^}]+)\}/g, '$1');
-    text = text.replace(/\\_/g, '_');
-    text = text.replace(/\$(.*?)\$/g, '<span class="math">$1</span>');
     return text;
   }
 
@@ -80,6 +74,21 @@ function mdToHtml(md) {
       if (inList) { html.push('</ul>'); inList = false; }
       if (inTable) { html.push('</tbody></table>'); inTable = false; }
       html.push('<hr class="section-divider" />');
+      continue;
+    }
+
+    // Images: ![alt](url)
+    const imgMatch = line.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imgMatch) {
+      if (inList) { html.push('</ul>'); inList = false; }
+      if (inTable) { html.push('</tbody></table>'); inTable = false; }
+      const alt = imgMatch[1];
+      let src = imgMatch[2];
+      if (!src.startsWith('http') && !src.startsWith('file:///')) {
+        const absPath = path.resolve('C:\\Chris\\Studies\\SEN\\Project', src);
+        src = 'file:///' + absPath.replace(/\\/g, '/');
+      }
+      html.push(`<div class="doc-img-container"><img src="${src}" alt="${alt}" class="doc-img" /><p class="doc-img-caption"><em>${alt}</em></p></div>`);
       continue;
     }
 
@@ -203,11 +212,6 @@ const fullHtml = `<!DOCTYPE html>
   @page {
     size: A4 portrait;
     margin: 15mm 12mm 15mm 12mm;
-    @bottom-right {
-      content: "Page " counter(page);
-      font-size: 8pt;
-      color: #64748b;
-    }
   }
   * { box-sizing: border-box; }
   body {
@@ -314,8 +318,8 @@ const fullHtml = `<!DOCTYPE html>
     color: #0f172a;
     border: 1px solid #cbd5e1;
     font-family: "Consolas", "Courier New", monospace;
-    font-size: 7pt;
-    line-height: 1.3;
+    font-size: 7.5pt;
+    line-height: 1.35;
     padding: 6pt 8pt;
     border-radius: 2px;
     overflow-x: hidden;
@@ -342,6 +346,23 @@ const fullHtml = `<!DOCTYPE html>
     height: 1px;
     background: #94a3b8;
     margin: 10pt 0;
+  }
+  .doc-img-container {
+    text-align: center;
+    margin: 12pt 0;
+    page-break-inside: avoid;
+  }
+  .doc-img {
+    max-width: 98%;
+    height: auto;
+    border: 1px solid #94a3b8;
+    border-radius: 4px;
+  }
+  .doc-img-caption {
+    font-size: 8pt;
+    color: #475569;
+    margin-top: 4pt;
+    margin-bottom: 6pt;
   }
   ul, ol {
     margin-top: 3pt;

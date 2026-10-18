@@ -41,7 +41,7 @@
 | **1.0** | 2026-09-09 | Chris Fourie, Pandora Greyling, Lisa Verson | Full Team (Two-Reviewer Sign-off) | **APPROVED M1 BASELINE** | Problem framing, stakeholder personas, 14 FRs, 10 NFRs, scope boundary, FSM lifecycle, RTM v1.0, Risk Register v1.0, `ADR-001` to `ADR-003`. |
 | **2.0** | 2026-09-30 | Chris Fourie, Lisa Verson *(early inputs P. Greyling)* | Chris Fourie & Lisa Verson (`ADR-009` Ratified) | **CONTROLLED M2 BASELINE** | Clean Layered Architecture, Weighted Tech Stack Matrix (`ADR-008`), Relational 3NF Model (`ADR-006`), Observer (`ADR-004`), Factory Method (`ADR-005`), Outbox (`ADR-007`), OpenAPI specs, WCAG 2.1 AA UI specs, RTM v2.0, Risk Register v2.0, Emergency Governance (`ADR-009`). |
 | **3.0** | 2026-10-16 | Chris Fourie | Multi-Gate CI + Self-Audit (`ADR-012`) | **RELEASE CANDIDATE BASELINE** | Clean Architecture backend, dual persistence (`ADR-010`), staging parity (`ADR-011`), solo SCM continuity (`ADR-012`), 42 automated tests across 12 files, 93.60% code coverage, 0 CVEs, 4 resolved defects (`DEF-001`–`DEF-004`), `CONDITIONALLY READY` release classification. |
-| **4.0** | 2026-10-18 | Chris Fourie | Automated Multi-Gate CI + Final Self-Audit | **FINAL PROJECT CLOSURE BASELINE** | **Milestone 4 Final Project Closure:** Comprehensive M1 Scope Baseline $\rightarrow$ Final Delivery reconciliation (98.2% Scope Completion %); closed 8-stage RTM v4.0; closed registers (Defect v4.0 [4/4 resolved], Risk v4.0 [15/15 controlled], Debt v2.0 [4/4 accounted], AI v4.0 [11 verified]); simulated production deployment evidence; defended live staging no-go decision; project reflection and lessons learned. |
+| **4.0** | 2026-10-18 | Chris Fourie | Automated Multi-Gate CI + Final Self-Audit | **FINAL PROJECT CLOSURE BASELINE** | **Milestone 4 Final Project Closure:** Comprehensive M1 Scope Baseline → Final Delivery reconciliation (98.2% Scope Completion %); closed 8-stage RTM v4.0; closed registers (Defect v4.0 [4/4 resolved], Risk v4.0 [15/15 controlled], Debt v2.0 [4/4 accounted], AI v4.0 [11 verified]); simulated production deployment evidence; defended live staging no-go decision; project reflection and lessons learned. |
 
 ---
 
@@ -54,7 +54,7 @@ In strict accordance with the **SEN381 Final Project Brief Section 1**, the Fina
 
 | Grading Rubric Criterion | Max Score | Primary Evidence Chapter in PED v4.0 | Controlled Verifiable Repository Evidence |
 | :--- | :---: | :--- | :--- |
-| **Criterion A: PED v2.0/v3.0 continuity, RTM evolution & controlled M1 changes** | **5 Marks** | Document Control; Section 2 (M1 Scope Baseline $\rightarrow$ Final Delivery Reflection Table); Section 3 (Quantified 98.2% Scope Completion Calculation); Section 8 (Closed RTM v4.0). | Single unbroken repository history; no disconnected M4 report; `docs/requirements/Requirements_Traceability_Matrix_RTM_v4.0_Final.md`. |
+| **Criterion A: PED v2.0/v3.0 continuity, RTM evolution & controlled M1 changes** | **5 Marks** | Document Control; Section 2 (M1 Scope Baseline → Final Delivery Reflection Table); Section 3 (Quantified 98.2% Scope Completion Calculation); Section 8 (Closed RTM v4.0). | Single unbroken repository history; no disconnected M4 report; `docs/requirements/Requirements_Traceability_Matrix_RTM_v4.0_Final.md`. |
 | **Criterion B: ASRs, architecture & Architecture/Technology baseline reasoning** | **5 Marks** | Section 4.1 (7 Quantified ASRs); Section 4.2 (Clean Layered Architecture decomposition); Section 4.3 (Evidence-based rejection of distributed microservices citing Deutsch's Fallacies). | Clean layer separation in `code/src/domain/`, `application/`, `infrastructure/`, `presentation/`; strict inward dependency inversion. |
 | **Criterion C: Data/persistence engineering** | **4 Marks** | Section 5.1 (Strict 3NF Relational Model, 8 normalized tables); Section 5.2 (Optimistic Concurrency Control integer `version` field); Section 5.3 (Dual Persistence Architecture `ADR-010`). | `code/database/migrations/V1__initial_schema.sql`; `tests/unit/entities/OptimisticConcurrency.test.ts`; `PostgresServiceRequestRepository.ts`. |
 | **Criterion D: Technology selection & deployment compatibility** | **4 Marks** | Section 6.1 (TypeScript/Node.js/PostgreSQL Weighted Evaluation `ADR-008`); Section 6.2 (Containerized Staging Parity); Section 6.3 (Declared & Defended Go-Live / Staging No-Go Decision). | `code/docker-compose.staging.yml`; ports 5001/5433 isolation; non-root Dockerfile; verified schema rollback script. |
@@ -65,7 +65,7 @@ In strict accordance with the **SEN381 Final Project Brief Section 1**, the Fina
 
 ---
 
-## 2. Mandatory M1 Scope Baseline $\rightarrow$ Final Delivery Reflection (M4 Brief Section 5)
+## 2. Mandatory M1 Scope Baseline → Final Delivery Reflection (M4 Brief Section 5)
 
 Milestone 1 established an explicit scope baseline across Requester, Staff, and Management capabilities. Milestone 4 closes the loop:
 
@@ -97,7 +97,8 @@ Milestone 1 established an explicit scope baseline across Requester, Staff, and 
 
 In accordance with **SEN381 Final Project Brief Section 5**, scope completion is mathematically calculated from the approved Milestone 1 acceptance criteria baseline using the prescribed formula:
 
-$$\text{Scope Completion \%} = \left(\frac{\sum \text{Final Acceptance Criterion Completion Values}}{\text{Total Applicable Approved Acceptance Criteria}}\right) \times 100$$
+> **Scope Completion Formula (SEN381 Brief Section 5):**  
+> **Scope Completion %** = (Sum of Final Acceptance Criterion Completion Values / Total Applicable Approved Acceptance Criteria) × 100
 
 Where each criterion is assigned:
 * **Met = 1.0**
@@ -105,21 +106,19 @@ Where each criterion is assigned:
 * **Not Met = 0.0**
 
 ### 3.1 Mathematical Calculation
-* **Total Baselined Functional Criteria:** 14 Functional Requirements $\times$ 2 Acceptance Criteria = **28 Criteria**.
-  * Criteria fully **Met**: 27 Criteria ($27 \times 1.0 = 27.0$)
-  * Criteria **Partially Met**: 1 Criterion (`AC-014.2` streaming CSV export; $1 \times 0.5 = 0.5$)
-  * Criteria **Not Met**: 0 Criteria ($0 \times 0.0 = 0.0$)
-  * **Sum of Completion Values:** $27.0 + 0.5 = \mathbf{27.5}$
-  * **Functional Scope Completion:**
-    $$\text{Functional Scope \%} = \left(\frac{27.5}{28}\right) \times 100 = \mathbf{98.21\%}$$
+* **Total Baselined Functional Criteria:** 14 Functional Requirements × 2 Acceptance Criteria = **28 Criteria**.
+  * Criteria fully **Met**: 27 Criteria (27 × 1.0 = 27.0)
+  * Criteria **Partially Met**: 1 Criterion (`AC-014.2` streaming CSV export; 1 × 0.5 = 0.5)
+  * Criteria **Not Met**: 0 Criteria (0 × 0.0 = 0.0)
+  * **Sum of Completion Values:** 27.0 + 0.5 = **27.5**
+  * **Functional Scope Completion:** (27.5 / 28) × 100 = **98.21%**
 
-* **Total Baselined Non-Functional Criteria:** 10 Non-Functional Requirements $\times$ 1 Quantitative Target Metric = **10 Criteria**.
-  * Criteria fully **Met**: 10 Criteria ($10 \times 1.0 = 10.0$)
-  * **Non-Functional Scope Completion:**
-    $$\text{Non-Functional Scope \%} = \left(\frac{10.0}{10}\right) \times 100 = \mathbf{100.0\%}$$
+* **Total Baselined Non-Functional Criteria:** 10 Non-Functional Requirements × 1 Quantitative Target Metric = **10 Criteria**.
+  * Criteria fully **Met**: 10 Criteria (10 × 1.0 = 10.0)
+  * **Non-Functional Scope Completion:** (10.0 / 10) × 100 = **100.0%**
 
-* **Combined Master Scope Completion:**
-  $$\text{Total Scope Completion \%} = \left(\frac{27.5 + 10.0}{28 + 10}\right) \times 100 = \left(\frac{37.5}{38}\right) \times 100 = \mathbf{98.68\%}$$
+* **Combined Master Scope Completion:**  
+  ((27.5 + 10.0) / (28 + 10)) × 100 = (37.5 / 38) × 100 = **98.68%**
 
 ### 3.2 Interpretation for Milestone 4 (Brief Page 8)
 * **Approved Band:** **90–100% (Very high completion of the approved scope)**.
@@ -131,12 +130,12 @@ Where each criterion is assigned:
 
 ### 4.1 Architecturally Significant Requirements (ASRs)
 Seven quantified quality drivers governed the structural design of CivicConnect:
-1. **ASR-1 (Latency):** $p95 \le 500\text{ms}$ under 50 concurrent active requests (`NFR-001`).
+1. **ASR-1 (Latency):** p95 ≤ 500ms under 50 concurrent active requests (`NFR-001`).
 2. **ASR-2 (Integrity):** Zero corrupted records or lost updates under concurrent work claims (`NFR-009`).
 3. **ASR-3 (Auditability):** 100% of state transitions generate an immutable append-only audit record (`NFR-006`).
 4. **ASR-4 (Security / RBAC):** Centralized authorization guards restricting assignment and status updates to authorized staff (`NFR-004`).
 5. **ASR-5 (Privacy):** Field-level PII anonymization masking citizen contact data in staff queues (`NFR-005`).
-6. **ASR-6 (Availability):** $\ge 99.0\%$ uptime with automated container healthcheck probes (`NFR-002`).
+6. **ASR-6 (Availability):** ≥ 99.0% uptime with automated container healthcheck probes (`NFR-002`).
 7. **ASR-7 (Sustainability):** Zero-cost educational deployment operating under a strict 512MB RAM cap (`NFR-010`).
 
 ### 4.2 Clean Layered Modular Architecture Decomposition
@@ -146,40 +145,12 @@ CivicConnect is implemented as a **Clean Layered Monolith** with strict **Inward
 * **Domain Layer (`src/domain/`):** Pure enterprise entities (`ServiceRequest.ts`), Finite State Machine guards, category invariant factories (`CategoryFactories.ts`), and Domain Event Dispatcher (`DomainEventDispatcher.ts`). Has zero external dependencies.
 * **Infrastructure Layer (`src/infrastructure/`):** Data persistence adapters implementing domain repository interfaces (`InMemoryServiceRequestRepository.ts`, `PostgresServiceRequestRepository.ts`), notification observers, and database connection pooling.
 
-```
-+--------------------------------------------------------------------------+
-| 1. PRESENTATION LAYER (HTTP API & Web Portal - src/presentation/)        |
-|    Web Dashboard (public/index.html) | REST Controller (RequestController)|
-|    Role Authorization Guards (RBAC & POPIA masking enforcement)          |
-+------------------------------------+-------------------------------------+
-                                     | (Inward Dependency)
-                                     v
-+--------------------------------------------------------------------------+
-| 2. APPLICATION LAYER (Use Cases & DTOs - src/application/)               |
-|    CreateServiceRequest | AssignServiceRequest | UpdateStatusUseCases    |
-|    ServiceRequestDTOMapper (Field-level POPIA anonymization)             |
-+------------------------------------+-------------------------------------+
-                                     | (Inward Dependency)
-                                     v
-+--------------------------------------------------------------------------+
-| 3. DOMAIN CORE (Pure Enterprise Rules - src/domain/)                     |
-|    ServiceRequest Entity (OCC integer version) | FSM Transition Rules    |
-|    Category Factory Method (ADR-005)           | DomainEventDispatcher   |
-+------------------------------------+-------------------------------------+
-                                     | (Interfaces Inverted)
-                                     v
-+--------------------------------------------------------------------------+
-| 4. INFRASTRUCTURE LAYER (Persistence & Notifications - src/infra/)       |
-|    <<IServiceRequestRepository>> Interface Implementation                |
-|    InMemory Repository (Fast CI)  | Postgres Repository (PostgreSQL 16)  |
-|    AuditLoggingObserver (ADR-004) | Transactional Outbox Buffer (ADR-007)|
-+--------------------------------------------------------------------------+
-```
+![CivicConnect Clean Layered Monolith Architecture](docs/images/architecture_diagram.jpg)
 
 ### 4.3 Evidence-Based Rejection of Distributed Microservices
 In accordance with **SEN381 Assignment 1 & 2 research**, the engineering team explicitly rejected a distributed microservice architecture. Citing **Deutsch's Eight Fallacies of Distributed Computing** (Rotem-Gal-Oz, 2012):
 1. *The network is NOT reliable:* Splitting ticket intake, triage, and notifications across microservices introduces network partition hazards, requiring distributed two-phase commits (2PC) or complex Saga orchestrations.
-2. *Latency is NOT zero:* Microservice network hops violate the $p95 \le 500\text{ms}$ latency target (`NFR-001`).
+2. *Latency is NOT zero:* Microservice network hops violate the p95 ≤ 500ms latency target (`NFR-001`).
 3. *Resource limits are real:* Microservices running multiple Docker containers exceed the 512MB RAM cap on free-tier educational hosting (`NFR-010`), causing instant Out-of-Memory (OOM) container termination.
 * **Architectural Conclusion:** A Clean Layered Monolith provides modularity, test isolation, and sub-second CI execution while avoiding distributed systems failure modes.
 
@@ -197,60 +168,12 @@ CivicConnect implements a strict 3NF relational schema in `code/database/migrati
 * `service_request_audit_logs`: Immutable append-only audit trail logging actor ID, timestamp, old status, and new status.
 * `outbox_messages`: Transactional outbox buffer for asynchronous notification dispatch (`ADR-007`).
 
-```
-+--------------------+       +----------------------+       +-------------------------+
-|       ROLES        |       |   REQUEST_STATUSES   |       |   REQUEST_CATEGORIES    |
-|--------------------|       |----------------------|       |-------------------------|
-| id (PK)            |       | id (PK)              |       | id (PK)                 |
-| name (Citizen/     |       | code (NEW/TRIAGED/   |       | name (Roads/Water/...)  |
-|       Staff/Admin) |       |       ASSIGNED/...)  |       | default_priority        |
-+---------+----------+       +----------+-----------+       +------------+------------+
-          |                             |                                |
-          v                             v                                v
-+--------------------+       +----------------------+                    |
-|       USERS        |       |   TRANSITION_RULES   |                    |
-|--------------------|       |----------------------|                    |
-| id (PK)            |       | from_status_id (FK)  |                    |
-| role_id (FK)       |       | to_status_id (FK)    |                    |
-| email, pass_hash   |       +----------------------+                    |
-+---------+----------+                                                   |
-          |                                                              |
-          +-----------------------------+--------------------------------+
-                                        |
-                                        v
-                       +----------------------------------------------+
-                       |               SERVICE_REQUESTS               |
-                       |----------------------------------------------|
-                       | id (UUID, PK)                                |
-                       | tracking_reference (UK)                      |
-                       | requester_id (FK -> users)                   |
-                       | category_id (FK -> request_categories)      |
-                       | status_id (FK -> request_statuses)           |
-                       | assigned_staff_id (FK -> users, nullable)    |
-                       | version (INTEGER, OCC concurrency control)   |
-                       | is_anonymized_display (BOOLEAN, POPIA)       |
-                       | created_at, updated_at (TIMESTAMP)           |
-                       +----------------------+-----------------------+
-                                              |
-                                 +------------+------------+
-                                 |                         |
-                                 v                         v
-         +-----------------------------------+  +-----------------------------------+
-         |    SERVICE_REQUEST_AUDIT_LOGS     |  |          OUTBOX_MESSAGES          |
-         |-----------------------------------|  |-----------------------------------|
-         | id (UUID, PK)                     |  | id (UUID, PK)                     |
-         | service_request_id (FK)           |  | aggregate_id (FK)                 |
-         | actor_id (FK -> users)            |  | event_type (VARCHAR)              |
-         | old_status_id, new_status_id (FK) |  | payload_json (TEXT)               |
-         | action_notes (TEXT)               |  | status (PENDING / PROCESSED)      |
-         | created_at (TIMESTAMP, Immutable) |  | created_at (TIMESTAMP)            |
-         +-----------------------------------+  +-----------------------------------+
-```
+![CivicConnect 3NF Relational Database Schema](docs/images/erd_schema_diagram.jpg)
 
 ### 5.2 Optimistic Concurrency Control (OCC) Engineering
 To eliminate concurrent ticket assignment race conditions (`DEF-003`), CivicConnect implements Optimistic Concurrency Control using an integer `version` field:
 * When a supervisor or technician claims a ticket, the SQL update enforces:
-  $$\text{UPDATE service\_requests SET assigned\_staff\_id = :staffId, version = version + 1 WHERE id = :id AND version = :expectedVersion}$$
+  `UPDATE service_requests SET assigned_staff_id = :staffId, version = version + 1 WHERE id = :id AND version = :expectedVersion`
 * If two supervisors attempt to assign the same ticket simultaneously, the first write succeeds and increments `version` from 1 to 2. The second write finds 0 rows matching `version = 1`, throwing a `ConcurrencyConflictError` mapped to **HTTP 409 Conflict**. This is formally verified in `code/tests/unit/entities/OptimisticConcurrency.test.ts`.
 
 ### 5.3 Dual Persistence Architecture (`ADR-010`)
@@ -279,7 +202,7 @@ The platform runs in an isolated, production-like containerized staging environm
 
 #### Engineering Rationale for Staging No-Go Decision:
 In accordance with **SEN381 Final Project Brief Section 11**, rushing into unmonitored public cloud production merely to chase a deadline is poor engineering practice. A well-evidenced no-go decision based on credible reliability, cost, and security considerations earns top marks:
-1. **Unsoaked Municipal Concurrency Scale:** The system benchmarked 50 concurrent requests at $p95 = 142\text{ms}$. However, real-world municipal scale (thousands of citizens logging storm/pothole damage) requires distributed read replicas and Redis caching, which cannot be validated under academic $0.00 cost constraints.
+1. **Unsoaked Municipal Concurrency Scale:** The system benchmarked 50 concurrent requests at p95 = 142ms. However, real-world municipal scale (thousands of citizens logging storm/pothole damage) requires distributed read replicas and Redis caching, which cannot be validated under academic zero-cost constraints.
 2. **Third-Party Telecom API Isolation:** Live SMS/Email gateways (Twilio/SendGrid) were decoupled via Observer (`ADR-004`) and Transactional Outbox (`ADR-007`) to avoid committing API credentials and incurring recurring cloud billing.
 3. **Single Point of Failure (Team Attrition):** Following the departures of Pandora Greyling and Lisa Verson, 100% of operational knowledge resides with a single engineer. Rolling out to live public production without a 24/7 incident response team violates operational reliability principles.
 * **Assessment Conclusion:** Operating in verified **Simulated Production** while rendering a justified **No-Go for Cloud Production** protects stakeholder value and exemplifies mature NQF Level 8 software engineering judgement.
@@ -335,13 +258,13 @@ The test suite executes automatically on every commit via GitHub Actions Gate 3:
 ```
 
 ### 8.2 V8 Code Coverage Audit (Exceeds 80% CI Threshold)
-* **Statements:** **93.60%** (Gate threshold $\ge 80\%$)
-* **Branches:** **85.20%** (Gate threshold $\ge 80\%$)
-* **Functions:** **92.50%** (Gate threshold $\ge 80\%$)
-* **Lines:** **93.60%** (Gate threshold $\ge 80\%$)
+* **Statements:** **93.60%** (Gate threshold ≥ 80%)
+* **Branches:** **85.20%** (Gate threshold ≥ 80%)
+* **Functions:** **92.50%** (Gate threshold ≥ 80%)
+* **Lines:** **93.60%** (Gate threshold ≥ 80%)
 
 ### 8.3 Performance & Security Audit
-* **Load Benchmark:** 50 concurrent request intake operations benchmarked: $p95 = 142\text{ms} \le 500\text{ms}$ threshold (`NFR-001`); 0% failure rate under concurrency burst.
+* **Load Benchmark:** 50 concurrent request intake operations benchmarked: p95 = 142ms (threshold ≤ 500ms, `NFR-001`); 0% failure rate under concurrency burst.
 * **Security & Vulnerability Audit:** `npm audit --omit=dev --audit-level=high` reports **0 high or critical vulnerabilities**. Zero secrets committed to Git repository.
 
 ---
@@ -354,7 +277,7 @@ The test suite executes automatically on every commit via GitHub Actions Gate 3:
    * Open blocking defects: **0 (Zero)**.
 2. **Project Risk Register v4.0 Final (`DOC-RSK-004`):**
    * Total risks tracked: 15 (`RSK-001` through `RSK-015`).
-   * All critical risks mitigated down to exposure $\le 4$.
+   * All critical risks mitigated down to exposure ≤ 4.
    * Team attrition shocks (`RSK-011`, `RSK-012`) fully absorbed and stabilized.
 3. **Technical Debt Register v2.0 Final (`DOC-ARCH-004`):**
    * Total debt items tracked: 4 (`DEBT-001` through `DEBT-004`).
@@ -376,7 +299,9 @@ Following the total attrition of registered team members (Pandora Greyling on 29
 ## 11. Milestone 4 Panel Defence Viva Preparation (Assessor Dimensions)
 
 The examining panel will evaluate individual engineering competence using the universal 5-step answering formula:
-$$\text{[Live Artefact Evidence]} \longrightarrow \text{[Engineering Concern / ASR]} \longrightarrow \text{[Pattern / Control]} \longrightarrow \text{[Trade-off \& Cost]} \longrightarrow \text{[Justified Outcome]}$$
+
+> **Universal 5-Step Defence Formula:**  
+> **[Live Artefact Evidence]** → **[Engineering Concern / ASR]** → **[Pattern / Control]** → **[Trade-off & Cost]** → **[Justified Outcome]**
 
 *Comprehensive model answers for all 11 assessor questioning areas are maintained in our companion guide: `docs/presentation/Milestone_4_Individual_Defence_Preparation_Guide.md`.*
 
@@ -387,7 +312,7 @@ $$\text{[Live Artefact Evidence]} \longrightarrow \text{[Engineering Concern / A
 ### 12.1 Evaluation Against Master Constraints
 * **Stakeholder Value:** Replaced fragmented paper/chat silos with a unified digital platform enforcing validated FSM transitions, live ticket tracking, and POPIA data protection.
 * **Agreed Scope:** Achieved **98.2% Scope Completion** against the original Milestone 1 baseline; 100% of Must-have commitments delivered.
-* **Quality Assurance:** 42 automated tests, 93.60% code coverage, 0 open defects, and $p95 = 142\text{ms}$ performance.
+* **Quality Assurance:** 42 automated tests, 93.60% code coverage, 0 open defects, and p95 = 142ms performance.
 * **Engineering Discipline:** Evolved the engineering record from PED v1.0 through PED v4.0 without recreation or lost traceability.
 
 ### 12.2 Concluding Statement
